@@ -117,6 +117,7 @@ public class ChatListener implements Listener {
                                 dateOfMuteEnds = SettingsFile.DateFormat(Long.parseLong(rs.getString("DATE_OF_MUTE_ENDS")));
                             }
                         }
+                        mySQL.disconnect();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -167,6 +168,7 @@ public class ChatListener implements Listener {
                                 dateOfMuteEnds = SettingsFile.DateFormat(Long.parseLong(rs.getString("DATE_OF_MUTE_ENDS")));
                             }
                         }
+                        mySQL.disconnect();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }

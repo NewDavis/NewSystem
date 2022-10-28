@@ -339,6 +339,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                     }
+                    mySQL.disconnect();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -370,6 +371,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 while (rs.next()) {
                     i++;
                 }
+                mySQL.disconnect();
                 return i;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -388,9 +390,12 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
             try {
                 ResultSet rs = mySQL.executeQuery("SELECT IP FROM " + SQLTables.IP.getTableName() + " WHERE UUID='" + p.getUniqueId().toString() + "'");
 
+                String ip = "";
                 if (rs.next()) {
-                    return rs.getString("IP");
+                    ip = rs.getString("IP");
                 }
+                mySQL.disconnect();
+                return ip;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -466,6 +471,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 while(rs.next()) {
                                     uuids.add(rs.getString("UUID"));
                                 }
+                                mySQL.disconnect();
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -549,6 +555,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 while(rs.next()) {
                                     uuids.add(rs.getString("UUID"));
                                 }
+                                mySQL.disconnect();
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -638,6 +645,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             while(rs.next()) {
                                 uuids.add(rs.getString("UUID"));
                             }
+                            mySQL.disconnect();
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -717,6 +725,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             while(rs.next()) {
                                 uuids.add(rs.getString("UUID"));
                             }
+                            mySQL.disconnect();
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -808,6 +817,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 while(rs.next()) {
                                     uuids.add(rs.getString("UUID"));
                                 }
+                                mySQL.disconnect();
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -901,6 +911,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 while(rs.next()) {
                                     uuids.add(rs.getString("UUID"));
                                 }
+                                mySQL.disconnect();
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -999,6 +1010,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         while(rs.next()) {
                             uuids.add(rs.getString("UUID"));
                         }
+                        mySQL.disconnect();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -1082,6 +1094,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         while(rs.next()) {
                             uuids.add(rs.getString("UUID"));
                         }
+                        mySQL.disconnect();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -1147,6 +1160,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = NewSystem.getName(bannedOfPlayer);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 }catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1236,6 +1250,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = NewSystem.getName(bannedOfPlayer);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 }catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1306,9 +1321,12 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 try {
                     ResultSet rs = mySQL.executeQuery("SELECT DURATE FROM " + SQLTables.BANIP.getTableName() + " WHERE (IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
 
+                    boolean permanent = false;
                     if(rs.next()) {
-                        return rs.getString("DURATE").equalsIgnoreCase("Permanent");
+                        permanent = rs.getString("DURATE").equalsIgnoreCase("Permanent");
                     }
+                    mySQL.disconnect();
+                    return permanent;
                 }catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

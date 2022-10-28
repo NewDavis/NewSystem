@@ -499,6 +499,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                         prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                     }
                                 }
+                                mySQL.disconnect();
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -552,6 +553,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                             prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -614,6 +616,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                         prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                     }
                                 }
+                                mySQL.disconnect();
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -665,6 +668,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                             prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -707,6 +711,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                 while(rs.next()) {
                     addedPlayers.add(rs.getString("UUID"));
                 }
+                mySQL.disconnect();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -727,6 +732,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                 while(rs.next()) {
                     addedRoles.add(rs.getString("ROLE"));
                 }
+                mySQL.disconnect();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -750,6 +756,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                     mySQL.executeUpdate("INSERT INTO " + SQLTables.MAINTENANCE.getTableName() + " (STATUS) VALUES ('" + 0 + "')");
                     status = false;
                 }
+                mySQL.disconnect();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

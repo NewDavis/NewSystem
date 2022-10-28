@@ -44,6 +44,7 @@ public class CurrencyAPI {
                 } else {
                     mySQL.executeUpdate("INSERT INTO " + SQLTables.CURRENCY.getTableName() + " (UUID,AMOUNT) VALUES ('" + p.getUniqueId().toString() + "','" + currency + "')");
                 }
+                mySQL.disconnect();
             } else {
                 if (SavingsFile.isPathSet("Currency." + p.getUniqueId())) {
                     currency = SavingsFile.getDoublePath("Currency." + p.getUniqueId());

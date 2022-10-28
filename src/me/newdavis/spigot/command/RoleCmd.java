@@ -468,6 +468,7 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
                         latestRole = rs.getString("LAST_ROLE");
                         temporaryRole = rs.getString("TEMPORARY_ROLE");
                     }
+                    mySQL.disconnect();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -537,6 +538,7 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
                         player.put(uuid, roleEnd);
                     }
                 }
+                mySQL.disconnect();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

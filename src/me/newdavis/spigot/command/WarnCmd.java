@@ -85,6 +85,7 @@ public class WarnCmd implements CommandExecutor {
                     while (rs.next()) {
                         i++;
                     }
+                    mySQL.disconnect();
                     return i;
                 } catch (SQLException e) {
                     throw new RuntimeException(e);

@@ -315,6 +315,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                     }
+                    mySQL.disconnect();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -346,6 +347,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                 while (rs.next()) {
                     i++;
                 }
+                mySQL.disconnect();
                 return i;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -648,6 +650,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = NewSystem.getName(bannedOfPlayer);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 }catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -737,6 +740,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = NewSystem.getName(bannedOfPlayer);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 }catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -807,9 +811,12 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                 try {
                     ResultSet rs = mySQL.executeQuery("SELECT DURATE FROM " + SQLTables.BAN.getTableName() + " WHERE (UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
 
+                    boolean permanent = false;
                     if(rs.next()) {
-                        return rs.getString("DURATE").equalsIgnoreCase("Permanent");
+                        permanent = rs.getString("DURATE").equalsIgnoreCase("Permanent");
                     }
+                    mySQL.disconnect();
+                    return permanent;
                 }catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

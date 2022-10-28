@@ -88,6 +88,7 @@ public class StatsCmd implements CommandExecutor {
                             kills = rs.getInt("KILLS");
                             deaths = rs.getInt("DEATHS");
                         }
+                        mySQL.disconnect();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -134,6 +135,7 @@ public class StatsCmd implements CommandExecutor {
                             kills = rs.getInt("KILLS");
                             deaths = rs.getInt("DEATHS");
                         }
+                        mySQL.disconnect();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }

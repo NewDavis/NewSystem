@@ -59,6 +59,7 @@ public class MySQL {
         try {
             PreparedStatement ps = mySQL.getConnection().prepareStatement(sql);
             ps.executeUpdate();
+            disconnect();
             return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);

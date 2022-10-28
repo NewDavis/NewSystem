@@ -150,6 +150,7 @@ public class HistoryCmd implements CommandExecutor {
                                             warnedOfPrefix = NewSystem.getName(warnOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -217,6 +218,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -312,6 +314,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -393,6 +396,7 @@ public class HistoryCmd implements CommandExecutor {
                                             kickedOfPrefix = NewSystem.getName(kickedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -451,6 +455,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = NewSystem.getName(bannedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -525,6 +530,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = NewSystem.getName(mutedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -634,6 +640,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -732,6 +739,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -824,6 +832,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = NewSystem.getName(bannedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -900,6 +909,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = NewSystem.getName(mutedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -994,6 +1004,7 @@ public class HistoryCmd implements CommandExecutor {
                                             warnedOfPrefix = NewSystem.getName(warnOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1057,6 +1068,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1144,6 +1156,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1217,6 +1230,7 @@ public class HistoryCmd implements CommandExecutor {
                                             kickedOfPrefix = NewSystem.getName(kickedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1272,6 +1286,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = NewSystem.getName(bannedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1338,6 +1353,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = NewSystem.getName(mutedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1438,6 +1454,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1528,6 +1545,7 @@ public class HistoryCmd implements CommandExecutor {
                                             }
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1612,6 +1630,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = NewSystem.getName(bannedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -1680,6 +1699,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = NewSystem.getName(mutedOf);
                                         }
                                     }
+                                    mySQL.disconnect();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }

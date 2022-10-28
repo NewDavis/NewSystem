@@ -74,6 +74,7 @@ public class OtherListeners implements Listener {
                             alreadySet = true;
                         }
                     }
+                    mySQL.disconnect();
                     if(!alreadySet) {
                         mySQL.executeUpdate("INSERT INTO " + SQLTables.IP.getTableName() + " (IP,UUID) VALUES ('" + ip + "','" + p.getUniqueId() + "')");
                     }
@@ -194,6 +195,7 @@ public class OtherListeners implements Listener {
                                 dateOfBanEnds = SettingsFile.DateFormat(Long.parseLong(rs.getString("DATE_OF_BAN_ENDS")));
                             }
                         }
+                        mySQL.disconnect();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -242,6 +244,7 @@ public class OtherListeners implements Listener {
                                 dateOfBanEnds = SettingsFile.DateFormat(Long.parseLong(rs.getString("DATE_OF_BAN_ENDS")));
                             }
                         }
+                        mySQL.disconnect();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -367,6 +370,7 @@ public class OtherListeners implements Listener {
                     if (rs.next()) {
                         deaths += rs.getInt("DEATHS");
                     }
+                    mySQL.disconnect();
 
                     mySQL.executeUpdate("UPDATE " + SQLTables.STATS.getTableName() + " SET DEATHS='" + deaths + "' WHERE UUID='" + p.getUniqueId().toString() + "'");
                 }else{
@@ -397,6 +401,7 @@ public class OtherListeners implements Listener {
                         if (rs.next()) {
                             killsK += rs.getInt("KILLS");
                         }
+                        mySQL.disconnect();
 
                         mySQL.executeUpdate("UPDATE " + SQLTables.STATS.getTableName() + " SET KILLS='" + killsK + "' WHERE UUID='" + killer.getUniqueId().toString() + "'");
                     }else{
