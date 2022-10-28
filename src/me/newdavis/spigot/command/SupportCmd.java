@@ -251,7 +251,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                     SavingsFile.setPath("Support." + t.getUniqueId() + ".Status", statusEdit);
                     SavingsFile.setPath("Support." + t.getUniqueId() + ".Supporter", p.getUniqueId().toString());
 
-                    for(String msg : msgP) {
+                    for(String msg : msgPChangeStatus) {
                         if(t.isOnline()) {
                             t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", statusEdit));
                         }
@@ -300,7 +300,8 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
 
     public static void closeSupport(Player p, OfflinePlayer t) {
         if(hasPlayerCreateSupportTicket(t)) {
-            supporters.remove(p);
+            Player supporter = Bukkit.getPlayer(UUID.fromString(SavingsFile.getStringPath("Support." + t.getUniqueId() + ".Supporter")));
+            supporters.remove(supporter);
 
             List<String> supportTickets = SavingsFile.getStringListPath("Support.Supports");
             supportTickets.remove(t.getUniqueId().toString());
@@ -382,41 +383,9 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
 
     public static void deleteSupport(OfflinePlayer supportTicketOf) {
         String uuidSupporter = SavingsFile.getStringPath("Support." + supportTicketOf.getUniqueId() + ".Supporter");
-        OfflinePlayer supporter = null;
-        if (!uuidSupporter.equals("")) {
-            if (supporter.isOnline()) {
-                return;
-            }
-        }
+        Player supporter = Bukkit.getPlayer(UUID.fromString(uuidSupporter));
 
-        List<String> supportTickets = SavingsFile.getStringListPath("Support.Supports");
-        supportTickets.remove(supportTicketOf.getUniqueId().toString());
-        SavingsFile.setPath("Support.Supports", supportTickets);
-        SavingsFile.setPath("Support." + supportTicketOf.getUniqueId(), null);
-
-        for (String msg : msgPChangeStatus) {
-            if (supportTicketOf.isOnline()) {
-                supportTicketOf.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", statusClosed));
-            }
-        }
-
-        for (Player all : Bukkit.getOnlinePlayers()) {
-            for (String msg : msgSClosed) {
-                if (NewSystem.hasPermission(all, perm)) {
-                    String supportTicketOfPrefix = NewSystem.getName(supportTicketOf);
-                    String supportTicketSupPrefix;
-                    if (supporter != null) {
-                        supportTicketSupPrefix = NewSystem.getName(supporter);
-                    } else {
-                        supportTicketSupPrefix = noSupporter;
-                    }
-                    all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                            .replace("{SupportTicketOf}", supportTicketOfPrefix)
-                            .replace("{Supporter}", supportTicketSupPrefix)
-                            .replace("{Status}", statusClosed));
-                }
-            }
-        }
+        closeSupport(supporter, supportTicketOf);
     }
 
     public static void QuitEvent(Player p) {
@@ -430,7 +399,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                 }
             }
 
-            if(uuidSupportTicketOf != "") {
+            if(!uuidSupportTicketOf.equalsIgnoreCase("")) {
                 OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(uuidSupportTicketOf));
                 deleteSupport(t);
             }

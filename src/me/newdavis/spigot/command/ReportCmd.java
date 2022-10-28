@@ -433,7 +433,7 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
             SavingsFile.setPath("Report.Reports", reports);
             SavingsFile.setPath("Report." + reportOf.getUniqueId(), null);
 
-            for (String msg : msgReportClosed) {
+            for (String msg : msgPStatusChanged) {
                 if (reportOf.isOnline()) {
                     reportOf.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", statusClosed));
                 }
