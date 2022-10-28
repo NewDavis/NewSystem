@@ -1485,6 +1485,8 @@ public class CommandFile {
             }
         }
 
+        aliases.put("CustomCommands", new String[]{""});
+
         return aliases;
     }
 

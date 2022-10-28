@@ -105,7 +105,7 @@ public class ChatListener implements Listener {
 
                 if(mySQLEnabled) {
                     try {
-                        ResultSet rs = mySQL.executeQuery("SELECT * FROM " + SQLTables.MUTEIP + " WHERE (IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
+                        ResultSet rs = mySQL.executeQuery("SELECT * FROM " + SQLTables.MUTEIP.getTableName() + " WHERE (IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
 
                         if(rs.next()) {
                             reason = rs.getString("REASON");
@@ -155,7 +155,7 @@ public class ChatListener implements Listener {
 
                 if(mySQLEnabled) {
                     try {
-                        ResultSet rs = mySQL.executeQuery("SELECT * FROM " + SQLTables.MUTE + " WHERE (UUID='" + p.getUniqueId() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
+                        ResultSet rs = mySQL.executeQuery("SELECT * FROM " + SQLTables.MUTE.getTableName() + " WHERE (UUID='" + p.getUniqueId() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
 
                         if(rs.next()) {
                             reason = rs.getString("REASON");

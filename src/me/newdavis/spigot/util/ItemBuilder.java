@@ -25,7 +25,6 @@ import java.util.*;
 public class ItemBuilder {
 
     public static HashMap<String, Material> serverMaterials = new HashMap<>();
-    public static HashMap<String, Inventory> serverInventories = new HashMap<>();
 
     private ItemStack item;
     private ItemMeta meta;
@@ -186,31 +185,6 @@ public class ItemBuilder {
             throw new RuntimeException(e);
         }
     }
-
-    /*private static Class<?> inventoryTypeEnum;
-    static {
-        try {
-            itemStackClass = Class.forName("org.bukkit.event.inventory.InventoryType");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void setServerInventories() {
-        Class<?> clazz = inventoryTypeEnum;
-        for(Object inventoryType : clazz.getEnumConstants()) {
-            if(inventoryType.toString().equalsIgnoreCase("ANVIL") || inventoryType.toString().equalsIgnoreCase("ENCHANTING") || inventoryType.toString().equalsIgnoreCase("WORKBENCH")) {
-                try {
-                    Class<?> bukkitClazz = Class.forName("org.bukkit");
-                    Method createInventory = bukkitClazz.getMethod("createInventory", InventoryHolder.class, InventoryType.class, String.class);
-                    createInventory.invoke(null, null, inventoryType, "");
-                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-                         IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }*/
 
     public static void setServerMaterials() {
         Class<?> clazz = materialClass;

@@ -87,7 +87,7 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
             int punishmentCount = MuteCmd.getPlayerPunishmentCount(t)-1;
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.MUTED_PLAYERS.getTableName() + " WHERE UUID='" + t.getUniqueId() + "'");
-                mySQL.executeUpdate("UPDATE " + SQLTables.BAN.getTableName() + " SET UUID_UNMUTE_OF='" + p.getUniqueId().toString() + "' WHERE " +
+                mySQL.executeUpdate("UPDATE " + SQLTables.MUTE.getTableName() + " SET UUID_UNMUTE_OF='" + p.getUniqueId().toString() + "' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else{
                 List<String> mutedPlayers = MuteCmd.mutedPlayers;
@@ -118,7 +118,7 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
             int punishmentCount = MuteCmd.getPlayerPunishmentCount(t) - 1;
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.MUTED_PLAYERS.getTableName() + " WHERE UUID='" + t.getUniqueId() + "'");
-                mySQL.executeUpdate("UPDATE " + SQLTables.BAN.getTableName() + " SET UUID_UNMUTE_OF='Console' WHERE " +
+                mySQL.executeUpdate("UPDATE " + SQLTables.MUTE.getTableName() + " SET UUID_UNMUTE_OF='Console' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> mutedPlayers = MuteCmd.mutedPlayers;
@@ -151,7 +151,7 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
                 MuteIPCmd.mutedIPs.remove(ip);
                 if(mySQLEnabled) {
                     mySQL.executeUpdate("DELETE FROM " + SQLTables.MUTED_IPS.getTableName() + " WHERE IP='" + ip + "'");
-                    mySQL.executeUpdate("UPDATE " + SQLTables.BANIP.getTableName() + " SET UUID_UNMUTE_OF='" + p.getUniqueId().toString() + "' WHERE " +
+                    mySQL.executeUpdate("UPDATE " + SQLTables.MUTEIP.getTableName() + " SET UUID_UNMUTE_OF='" + p.getUniqueId().toString() + "' WHERE " +
                             "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
                 }else {
                     List<String> mutedIPs = MuteIPCmd.mutedIPs;
@@ -186,7 +186,7 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
             MuteIPCmd.mutedIPs.remove(ip);
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.MUTED_IPS.getTableName() + " WHERE IP='" + ip + "'");
-                mySQL.executeUpdate("UPDATE " + SQLTables.BANIP.getTableName() + " SET UUID_UNMUTE_OF='Console' WHERE " +
+                mySQL.executeUpdate("UPDATE " + SQLTables.MUTEIP.getTableName() + " SET UUID_UNMUTE_OF='Console' WHERE " +
                         "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> mutedIPs = MuteIPCmd.mutedIPs;

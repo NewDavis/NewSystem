@@ -209,12 +209,10 @@ public class GeneratorCmd implements CommandExecutor, TabCompleter {
                     }else if(args[0].equalsIgnoreCase("setDrop") || args[0].equalsIgnoreCase("sd")) {
                         Material material = Material.AIR;
                         for(String mat : ItemBuilder.serverMaterials.keySet()) {
-                            if(mat.contains(args[2]) || ItemBuilder.getMaterial(mat).name().equalsIgnoreCase(args[2])) {
+                            if(ItemBuilder.getNameOfMaterial(ItemBuilder.getMaterial(mat)).equalsIgnoreCase(args[2])) {
                                 material = ItemBuilder.getMaterial(mat);
-                                Bukkit.broadcastMessage("§aMaterial found! §7Mat: " + mat);
                             }
                         }
-                        if(material == Material.AIR) Bukkit.broadcastMessage("§cMaterial not found!");
 
                         if(material != Material.AIR) {
                             GeneratorAPI.setDrop(generator, new ItemStack(material));
@@ -385,8 +383,10 @@ public class GeneratorCmd implements CommandExecutor, TabCompleter {
                     }
                 }else if(args[0].equalsIgnoreCase("setDrop") || args[0].equalsIgnoreCase("sd")) {
                     Material material = Material.AIR;
+                    Bukkit.broadcastMessage(ItemBuilder.getNameOfMaterial(ItemBuilder.getMaterial(args[2])));
                     for(String mat : ItemBuilder.serverMaterials.keySet()) {
-                        if(mat.contains(args[2]) || ItemBuilder.getMaterial(mat).name().equalsIgnoreCase(args[2])) {
+                        Bukkit.broadcastMessage(mat);
+                        if(ItemBuilder.getNameOfMaterial(ItemBuilder.getMaterial(mat)).equalsIgnoreCase(args[2])) {
                             material = ItemBuilder.getMaterial(mat);
                         }
                     }
