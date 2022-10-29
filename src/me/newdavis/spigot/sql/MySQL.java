@@ -327,7 +327,6 @@ public class MySQL {
             while (rs.next()) {
                 stringList.add(rs.getString(1));
             }
-            disconnect();
         }catch (SQLException e) {
             e.printStackTrace();
         }

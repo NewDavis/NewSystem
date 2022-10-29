@@ -1,5 +1,7 @@
 package me.newdavis.spigot.listener;
 
+import me.newdavis.spigot.command.VanishCmd;
+import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.ListenerFile;
 import me.newdavis.spigot.file.SavingsFile;
@@ -36,6 +38,10 @@ public class JoinListener implements Listener {
         boolean join = false;
         if(SavingsFile.isPathSet("JoinListener." + p.getUniqueId())) {
             join = SavingsFile.getBooleanPath("JoinListener." + p.getUniqueId());
+        }
+
+        if(CommandFile.getBooleanPath("Command.Vanish.Enabled") && VanishCmd.playerIsVanished(p)) {
+            return;
         }
 
         if(join) {

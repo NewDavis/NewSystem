@@ -300,8 +300,10 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
 
     public static void closeSupport(Player p, OfflinePlayer t) {
         if(hasPlayerCreateSupportTicket(t)) {
-            Player supporter = Bukkit.getPlayer(UUID.fromString(SavingsFile.getStringPath("Support." + t.getUniqueId() + ".Supporter")));
-            supporters.remove(supporter);
+            if(!SavingsFile.getStringPath("Support." + t.getUniqueId() + ".Supporter").equalsIgnoreCase("")) {
+                Player supporter = Bukkit.getPlayer(UUID.fromString(SavingsFile.getStringPath("Support." + t.getUniqueId() + ".Supporter")));
+                supporters.remove(supporter);
+            }
 
             List<String> supportTickets = SavingsFile.getStringListPath("Support.Supports");
             supportTickets.remove(t.getUniqueId().toString());
@@ -315,8 +317,10 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
             }
 
             String prefix = NewSystem.getName(t);
-            for(String key : msgSupportClosed) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", prefix));
+            if(p != null) {
+                for (String key : msgSupportClosed) {
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", prefix));
+                }
             }
 
             for (Player all : Bukkit.getOnlinePlayers()) {
@@ -325,14 +329,16 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                         String supportOf = NewSystem.getName(t);
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{SupportTicketOf}", supportOf)
-                                .replace("{Supporter}", NewSystem.getName(p))
+                                .replace("{Supporter}", (p == null ? SettingsFile.getConsolePrefix() : NewSystem.getName(p)))
                                 .replace("{Status}", statusClosed));
                     }
                 }
             }
         }else{
-            for(String value : msgTicketDoNotExist) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+            if(p != null) {
+                for (String value : msgTicketDoNotExist) {
+                    p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+                }
             }
         }
     }
@@ -382,8 +388,11 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
     }
 
     public static void deleteSupport(OfflinePlayer supportTicketOf) {
-        String uuidSupporter = SavingsFile.getStringPath("Support." + supportTicketOf.getUniqueId() + ".Supporter");
-        Player supporter = Bukkit.getPlayer(UUID.fromString(uuidSupporter));
+        Player supporter = null;
+        if(!SavingsFile.getStringPath("Support." + supportTicketOf.getUniqueId() + ".Supporter").equalsIgnoreCase("")) {
+            String uuidSupporter = SavingsFile.getStringPath("Support." + supportTicketOf.getUniqueId() + ".Supporter");
+            supporter = Bukkit.getPlayer(UUID.fromString(uuidSupporter));
+        }
 
         closeSupport(supporter, supportTicketOf);
     }
