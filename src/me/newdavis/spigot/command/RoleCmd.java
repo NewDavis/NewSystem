@@ -98,19 +98,19 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
                         if (NewSystem.hasPermission(p, rolePerm.replace("{Role}", role))) {
                             if (p == t) {
                                 for (String msg : messageP) {
-                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                                 }
 
                                 NewPermManager.setPlayerRole(p, role);
                             } else {
                                 for (String msg : message) {
-                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                                 }
 
                                 if(t.isOnline()) {
                                     Player tOnline = t.getPlayer();
                                     for (String msg : messageP) {
-                                        tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                                        tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                                     }
                                 }
 
@@ -225,12 +225,12 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
                 if (!roleExist(role).equalsIgnoreCase("")) {
                     role = roleExist(role);
                     for (String msg : message) {
-                        sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                        sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                     }
                     if (t.isOnline()) {
                         Player tOnline = t.getPlayer();
                         for (String msg : messageP) {
-                            tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                            tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                         }
                     }
                     NewPermManager.setPlayerRole(t, role);
@@ -351,13 +351,13 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
             for (String msg : messageTTemporary) {
                 if (t.isOnline()) {
                     Player tOnline = t.getPlayer();
-                    tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                    tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                 }
             }
 
             if (!p.getUniqueId().toString().equalsIgnoreCase(t.getUniqueId().toString())) {
                 for (String msg : messagePTemporary) {
-                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                 }
             }
 
@@ -415,12 +415,12 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
             for (String msg : messageTTemporary) {
                 if (t.isOnline()) {
                     Player tOnline = t.getPlayer();
-                    tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                    tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
                 }
             }
 
             for (String msg : messagePTemporary) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Durate}", time + " " + wort).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(role)).replace("{Role}", role));
             }
             NewPermManager.setPlayerRole(t, role);
 
@@ -489,7 +489,7 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
                 for (String msg : messageTemporaryExpired) {
                     if (t.isOnline()) {
                         Player tOnline = t.getPlayer();
-                        tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(tOnline)).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(latestRole)).replace("{Role}", latestRole).replace("{Latest-Role-Suffix}", NewPermManager.getRoleSuffix(temporaryRole)).replace("{Latest-Role}", temporaryRole));
+                        tOnline.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(tOnline, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Role-Suffix}", NewPermManager.getRoleSuffix(latestRole)).replace("{Role}", latestRole).replace("{Latest-Role-Suffix}", NewPermManager.getRoleSuffix(temporaryRole)).replace("{Latest-Role}", temporaryRole));
 
                         //Update Placeholder
                         if(t.isOnline()) {

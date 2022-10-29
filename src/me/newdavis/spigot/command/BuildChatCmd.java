@@ -42,8 +42,8 @@ public class BuildChatCmd implements CommandExecutor {
                         if (NewSystem.hasPermission(all, perm)) {
                             for(String key : format) {
                                 all.sendMessage((colorCodes ?
-                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Message}", ChatColor.translateAlternateColorCodes('&', String.join(" ", args))) :
-                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Message}", String.join(" ", args))));
+                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", ChatColor.translateAlternateColorCodes('&', String.join(" ", args))) :
+                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", String.join(" ", args))));
                             }
                         }
                     }

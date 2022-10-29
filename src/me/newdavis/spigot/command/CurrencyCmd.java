@@ -113,7 +113,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                         if(p != t) {
                             if(SavingsFile.isPathSet("Currency." + t.getUniqueId())) {
                                 for(String msg : msgShowMoney) {
-                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(CurrencyAPI.getCurrencyOfPlayer(t))).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(CurrencyAPI.getCurrencyOfPlayer(t))).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             }else{
                                 for(String value : usage) {
@@ -147,7 +147,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                                     }
                                 }
                                 for(String msg : msgReset) {
-                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             }else{
                                 for(String value : usage) {
@@ -195,7 +195,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                                         }
                                     }
                                     for(String msg : msgAdd) {
-                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
+                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
                                     }
                                 } else {
                                     p.sendMessage(SettingsFile.getNoPerm());
@@ -222,7 +222,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                                         }
                                     }
                                     for(String msg : msgRemove) {
-                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
+                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
                                     }
                                 } else {
                                     p.sendMessage(SettingsFile.getNoPerm());
@@ -249,7 +249,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                                         }
                                     }
                                     for(String msg : msgSet) {
-                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
+                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
                                     }
                                 } else {
                                     p.sendMessage(SettingsFile.getNoPerm());
@@ -276,7 +276,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                                         }
                                     }
                                     for(String msg : msgMultiply) {
-                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Faktor}", CurrencyAPI.getCurrencyString(amount)));
+                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Faktor}", CurrencyAPI.getCurrencyString(amount)));
                                     }
                                 } else {
                                     p.sendMessage(SettingsFile.getNoPerm());
@@ -303,7 +303,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                                         }
                                     }
                                     for(String msg : msgDivide) {
-                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Dividend}", CurrencyAPI.getCurrencyString(amount)));
+                                        p.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Dividend}", CurrencyAPI.getCurrencyString(amount)));
                                     }
                                 } else {
                                     p.sendMessage(SettingsFile.getNoPerm());
@@ -347,7 +347,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                     OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
                     if (SavingsFile.isPathSet("Currency." + t.getUniqueId())) {
                         for (String msg : msgShowMoney) {
-                            sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(CurrencyAPI.getCurrencyOfPlayer(t))).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(CurrencyAPI.getCurrencyOfPlayer(t))).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                     } else {
                         for (String value : usageWP) {
@@ -368,7 +368,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                         }
                     }
                     for (String msg : msgReset) {
-                        sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                 } else {
                     for (String value : usageWP) {
@@ -390,7 +390,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                         for (String msg : msgAdd) {
-                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
+                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
                         }
                     } else if (args[1].equalsIgnoreCase("remove")) {
                         CurrencyAPI.removeCurrencyOfPlayer(t, amount);
@@ -403,7 +403,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                         for (String msg : msgRemove) {
-                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
+                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
                         }
                     } else if (args[1].equalsIgnoreCase("set")) {
                         CurrencyAPI.setCurrencyOfPlayer(t, amount);
@@ -416,7 +416,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                         for (String msg : msgSet) {
-                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
+                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)));
                         }
                     } else if (args[1].equalsIgnoreCase("multiply")) {
                         CurrencyAPI.multipleCurrencyOfPlayer(t, amount);
@@ -429,7 +429,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                         for (String msg : msgMultiply) {
-                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Faktor}", CurrencyAPI.getCurrencyString(amount)));
+                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Faktor}", CurrencyAPI.getCurrencyString(amount)));
                         }
                     } else if (args[1].equalsIgnoreCase("divide")) {
                         CurrencyAPI.divideCurrencyOfPlayer(t, amount);
@@ -442,7 +442,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                             }
                         }
                         for (String msg : msgDivide) {
-                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Dividend}", CurrencyAPI.getCurrencyString(amount)));
+                            sender.sendMessage(msg.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Dividend}", CurrencyAPI.getCurrencyString(amount)));
                         }
                     }
                 } else {
@@ -469,13 +469,13 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                         OfflinePlayer t = topList.get(i);
                         String amount = CurrencyAPI.getCurrencyOfPlayerString(t);
                         if (i == 0) {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", first).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", first).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else if (i == 1) {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", second).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", second).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else if (i == 2) {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", third).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", third).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }
                     }else{
                         if (i == 0) {
@@ -505,13 +505,13 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                         OfflinePlayer t = topList.get(i);
                         String amount = CurrencyAPI.getCurrencyOfPlayerString(t);
                         if (i == 0) {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", first).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", first).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else if (i == 1) {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", second).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", second).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else if (i == 2) {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", third).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", third).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }
                     }else{
                         if (i == 0) {

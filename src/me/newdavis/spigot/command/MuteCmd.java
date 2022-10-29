@@ -386,15 +386,15 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                     }
 
                     for(String key : msgMutedPermanent) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         if (NewSystem.hasPermission(all, perm)) {
                             for (String msg : messageListPermanent) {
                                 all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Player}", NewSystem.getName(t))
-                                        .replace("{Muted-Of}", NewSystem.getName(p))
+                                        .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
+                                        .replace("{Muted-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Mute}", dateOfMute));
                             }
@@ -448,14 +448,14 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
             }
 
             for (String key : msgMutedPermanent) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             for (Player all : Bukkit.getOnlinePlayers()) {
                 if (NewSystem.hasPermission(all, perm)) {
                     for (String msg : messageListPermanent) {
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t))
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                                 .replace("{Muted-Of}", SettingsFile.getConsolePrefix())
                                 .replace("{Reason}", reason)
                                 .replace("{Date-Of-Mute}", dateOfMute));
@@ -506,15 +506,15 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                     }
 
                     for(String key : msgMutedTemporary) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Durate}", durate));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Durate}", durate));
                     }
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         if (NewSystem.hasPermission(all, perm)) {
                             for (String msg : messageListTemporary) {
                                 all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Player}", NewSystem.getName(t))
-                                        .replace("{Muted-Of}", NewSystem.getName(p))
+                                        .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
+                                        .replace("{Muted-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Durate}", durate)
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Mute}", dateOfMute)
@@ -572,14 +572,14 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
             }
 
             for (String key : msgMutedTemporary) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Durate}", durate));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Durate}", durate));
             }
 
             for (Player all : Bukkit.getOnlinePlayers()) {
                 if (NewSystem.hasPermission(all, perm)) {
                     for (String msg : messageListTemporary) {
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t))
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                                 .replace("{Muted-Of}", SettingsFile.getConsolePrefix())
                                 .replace("{Durate}", durate)
                                 .replace("{Reason}", reason)
@@ -634,7 +634,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                                             mutedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer mutedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOf = NewSystem.getName(mutedOfPlayer);
+                                            mutedOf = NewSystem.getName(mutedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -654,7 +654,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
 
                                 if (SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".MutedOf").equalsIgnoreCase("Console")) {
                                     OfflinePlayer muteOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".MutedOf")));
-                                    mutedOf = NewSystem.getName(muteOfPlayer);
+                                    mutedOf = NewSystem.getName(muteOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 } else {
                                     mutedOf = SettingsFile.getConsolePrefix();
                                 }
@@ -667,7 +667,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                                         .replace("{Durate}", durate)
                                         .replace("{Date-Of-Mute}", dateOfMute)
                                         .replace("{Date-Of-Mute-Ends}", dateOfMuteEnds);
-                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Muted-Player}", NewSystem.getName(t)));
+                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Muted-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                                 text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMessage).create()));
                                 p.spigot().sendMessage(text);
                             } else {
@@ -675,7 +675,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                                         .replace("{Muted-Of}", mutedOf)
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Mute}", dateOfMute);
-                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Muted-Player}", NewSystem.getName(t)));
+                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Muted-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                                 text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMessage).create()));
                                 p.spigot().sendMessage(text);
                             }
@@ -721,7 +721,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                                             mutedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer mutedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOf = NewSystem.getName(mutedOfPlayer);
+                                            mutedOf = NewSystem.getName(mutedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -741,7 +741,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
 
                                 if (SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".MutedOf").equalsIgnoreCase("Console")) {
                                     OfflinePlayer muteOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".MutedOf")));
-                                    mutedOf = NewSystem.getName(muteOfPlayer);
+                                    mutedOf = NewSystem.getName(muteOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 } else {
                                     mutedOf = SettingsFile.getConsolePrefix();
                                 }
@@ -749,7 +749,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
 
                             if (!isMutePermanent(t)) {
                                 String message = consoleMessagePermanent.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Muted-Player}", NewSystem.getName(t))
+                                        .replace("{Muted-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Muted-Of}", mutedOf)
                                         .replace("{Reason}", reason)
                                         .replace("{Durate}", durate)
@@ -758,7 +758,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
                                 p.sendMessage(message);
                             } else {
                                 String message = consoleMessageTemporary.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Muted-Player}", NewSystem.getName(t))
+                                        .replace("{Muted-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Muted-Of}", mutedOf)
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Mute}", dateOfMute);

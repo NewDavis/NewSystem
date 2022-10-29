@@ -46,19 +46,19 @@ public class JoinListener implements Listener {
 
         if(join) {
             for(String msg : joinMsg) {
-                Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
             }
         }else{
             if(ListenerFile.getBooleanPath("Listener.Join.FirstJoin.Enabled")) {
                 int joinCount = getJoinCount();
 
                 for(String msg : firstJoinMsg) {
-                    Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Count}", String.valueOf(joinCount)));
+                    Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Count}", String.valueOf(joinCount)));
                 }
                 SavingsFile.setPath("JoinListener." + p.getUniqueId(), true);
             }else{
                 for(String msg : joinMsg) {
-                    Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
             }
         }

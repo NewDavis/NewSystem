@@ -120,7 +120,7 @@ public class HistoryCmd implements CommandExecutor {
     }
 
     public static void sendHistory(Player p, OfflinePlayer t) {
-        String prefix = NewSystem.getName(t);
+        String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
         int punishmentsBan = BanCmd.getPlayerPunishmentCount(t) - 1;
         int punishmentsMute = MuteCmd.getPlayerPunishmentCount(t) - 1;
         int punishmentsKick = KickCmd.getPlayerPunishmentCount(t) - 1;
@@ -147,7 +147,7 @@ public class HistoryCmd implements CommandExecutor {
                                             warnedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer warnOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_WARN_OF")));
-                                            warnedOfPrefix = NewSystem.getName(warnOf);
+                                            warnedOfPrefix = NewSystem.getName(warnOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -159,7 +159,7 @@ public class HistoryCmd implements CommandExecutor {
                                     warnedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer warnOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Warn." + t.getUniqueId() + "." + (i + 1) + ".WarnOf")));
-                                    warnedOfPrefix = NewSystem.getName(warnOf);
+                                    warnedOfPrefix = NewSystem.getName(warnOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                                 reason = SavingsFile.getStringPath("Punishment.Warn." + t.getUniqueId() + "." + (i + 1) + ".Reason");
                                 dateOfWarn = SettingsFile.DateFormat(SavingsFile.getLongPath("Punishment.Warn." + t.getUniqueId() + "." + (i + 1) + ".Date-Of-Warn"));
@@ -206,7 +206,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
 
                                         if (rs.getString("UUID_UNBAN_OF") != null) {
@@ -214,7 +214,7 @@ public class HistoryCmd implements CommandExecutor {
                                                 unbanOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNBAN_OF")));
-                                                unbanOf = NewSystem.getName(bannedOf);
+                                                unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -235,14 +235,14 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                                 if (SavingsFile.isPathSet("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".UnbanOf")) {
                                     if (SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".UnbanOf").equalsIgnoreCase("Console")) {
                                         unbanOf = SettingsFile.getConsolePrefix();
                                     } else {
                                         OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".UnbanOf")));
-                                        unbanOf = NewSystem.getName(bannedOf);
+                                        unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
                             }
@@ -303,14 +303,14 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(bannedOf);
+                                            mutedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                         if (rs.getString("UUID_UNMUTE_OF") != null) {
                                             if (rs.getString("UUID_UNMUTE_OF").equalsIgnoreCase("Console")) {
                                                 unMuteOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNMUTE_OF")));
-                                                unMuteOf = NewSystem.getName(bannedOf);
+                                                unMuteOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -333,7 +333,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + (i + 1) + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
 
                                 if (SavingsFile.isPathSet("Punishment.Mute." + t.getUniqueId() + "." + (i + 1) + ".UnMuteOf")) {
@@ -341,7 +341,7 @@ public class HistoryCmd implements CommandExecutor {
                                         unMuteOf = SettingsFile.getConsolePrefix();
                                     } else {
                                         OfflinePlayer unMutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + (i + 1) + ".UnMuteOf")));
-                                        unMuteOf = NewSystem.getName(unMutedOf);
+                                        unMuteOf = NewSystem.getName(unMutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
                             }
@@ -393,7 +393,7 @@ public class HistoryCmd implements CommandExecutor {
                                             kickedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer kickedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_KICK_OF")));
-                                            kickedOfPrefix = NewSystem.getName(kickedOf);
+                                            kickedOfPrefix = NewSystem.getName(kickedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -407,7 +407,7 @@ public class HistoryCmd implements CommandExecutor {
                                     kickedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer kickedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Kick." + t.getUniqueId() + "." + (i + 1) + ".KickOf")));
-                                    kickedOfPrefix = NewSystem.getName(kickedOf);
+                                    kickedOfPrefix = NewSystem.getName(kickedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -452,7 +452,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -472,7 +472,7 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -527,7 +527,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(mutedOf);
+                                            mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -547,7 +547,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -628,7 +628,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
 
                                         if (rs.getString("UUID_UNBAN_OF") != null) {
@@ -636,7 +636,7 @@ public class HistoryCmd implements CommandExecutor {
                                                 unbanOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNBAN_OF")));
-                                                unbanOf = NewSystem.getName(bannedOf);
+                                                unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -660,7 +660,7 @@ public class HistoryCmd implements CommandExecutor {
                                         unbanOf = SettingsFile.getConsolePrefix();
                                     }else {
                                         OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + (i + 1) + ".UnbanOf")));
-                                        unbanOf = NewSystem.getName(bannedOf);
+                                        unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
 
@@ -668,7 +668,7 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + (i + 1) + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -728,14 +728,14 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(bannedOf);
+                                            mutedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                         if (rs.getString("UUID_UNMUTE_OF") != null) {
                                             if (rs.getString("UUID_UNMUTE_OF").equalsIgnoreCase("Console")) {
                                                 unMuteOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNMUTE_OF")));
-                                                unMuteOf = NewSystem.getName(bannedOf);
+                                                unMuteOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -759,7 +759,7 @@ public class HistoryCmd implements CommandExecutor {
                                         unMuteOf = SettingsFile.getConsolePrefix();
                                     } else {
                                         OfflinePlayer unMutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + (i + 1) + ".UnMuteOf")));
-                                        unMuteOf = NewSystem.getName(unMutedOf);
+                                        unMuteOf = NewSystem.getName(unMutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
 
@@ -767,7 +767,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + (i + 1) + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -829,7 +829,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -851,7 +851,7 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -906,7 +906,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(mutedOf);
+                                            mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -928,7 +928,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -974,7 +974,7 @@ public class HistoryCmd implements CommandExecutor {
     }
 
     public static void sendHistory(CommandSender p, OfflinePlayer t) {
-        String prefix = NewSystem.getName(t);
+        String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
         int punishmentsBan = BanCmd.getPlayerPunishmentCount(t) - 1;
         int punishmentsMute = MuteCmd.getPlayerPunishmentCount(t) - 1;
         int punishmentsKick = KickCmd.getPlayerPunishmentCount(t) - 1;
@@ -1001,7 +1001,7 @@ public class HistoryCmd implements CommandExecutor {
                                             warnedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer warnOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_WARN_OF")));
-                                            warnedOfPrefix = NewSystem.getName(warnOf);
+                                            warnedOfPrefix = NewSystem.getName(warnOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1013,7 +1013,7 @@ public class HistoryCmd implements CommandExecutor {
                                     warnedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer warnOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Warn." + t.getUniqueId() + "." + (i + 1) + ".WarnOf")));
-                                    warnedOfPrefix = NewSystem.getName(warnOf);
+                                    warnedOfPrefix = NewSystem.getName(warnOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                                 reason = SavingsFile.getStringPath("Punishment.Warn." + t.getUniqueId() + "." + (i + 1) + ".Reason");
                                 dateOfWarn = SettingsFile.DateFormat(SavingsFile.getLongPath("Punishment.Warn." + t.getUniqueId() + "." + (i + 1) + ".Date-Of-Warn"));
@@ -1056,7 +1056,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
 
                                         if (rs.getString("UUID_UNBAN_OF") != null) {
@@ -1064,7 +1064,7 @@ public class HistoryCmd implements CommandExecutor {
                                                 unbanOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNBAN_OF")));
-                                                unbanOf = NewSystem.getName(bannedOf);
+                                                unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -1085,14 +1085,14 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                                 if (SavingsFile.isPathSet("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".UnbanOf")) {
                                     if (SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".UnbanOf").equalsIgnoreCase("Console")) {
                                         unbanOf = SettingsFile.getConsolePrefix();
                                     } else {
                                         OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + (i + 1) + ".UnbanOf")));
-                                        unbanOf = NewSystem.getName(bannedOf);
+                                        unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
                             }
@@ -1145,14 +1145,14 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(bannedOf);
+                                            mutedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                         if (rs.getString("UUID_UNMUTE_OF") != null) {
                                             if (rs.getString("UUID_UNMUTE_OF").equalsIgnoreCase("Console")) {
                                                 unMuteOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNMUTE_OF")));
-                                                unMuteOf = NewSystem.getName(bannedOf);
+                                                unMuteOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -1175,7 +1175,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + (i + 1) + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
 
                                 if (SavingsFile.isPathSet("Punishment.Mute." + t.getUniqueId() + "." + (i + 1) + ".UnMuteOf")) {
@@ -1183,7 +1183,7 @@ public class HistoryCmd implements CommandExecutor {
                                         unMuteOf = SettingsFile.getConsolePrefix();
                                     } else {
                                         OfflinePlayer unMutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + (i + 1) + ".UnMuteOf")));
-                                        unMuteOf = NewSystem.getName(unMutedOf);
+                                        unMuteOf = NewSystem.getName(unMutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
                             }
@@ -1227,7 +1227,7 @@ public class HistoryCmd implements CommandExecutor {
                                             kickedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer kickedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_KICK_OF")));
-                                            kickedOfPrefix = NewSystem.getName(kickedOf);
+                                            kickedOfPrefix = NewSystem.getName(kickedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1241,7 +1241,7 @@ public class HistoryCmd implements CommandExecutor {
                                     kickedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer kickedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Kick." + t.getUniqueId() + "." + (i + 1) + ".KickOf")));
-                                    kickedOfPrefix = NewSystem.getName(kickedOf);
+                                    kickedOfPrefix = NewSystem.getName(kickedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1283,7 +1283,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1303,7 +1303,7 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1350,7 +1350,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(mutedOf);
+                                            mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1370,7 +1370,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1442,7 +1442,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
 
                                         if (rs.getString("UUID_UNBAN_OF") != null) {
@@ -1450,7 +1450,7 @@ public class HistoryCmd implements CommandExecutor {
                                                 unbanOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNBAN_OF")));
-                                                unbanOf = NewSystem.getName(bannedOf);
+                                                unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -1474,7 +1474,7 @@ public class HistoryCmd implements CommandExecutor {
                                         unbanOf = SettingsFile.getConsolePrefix();
                                     }else {
                                         OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + (i + 1) + ".UnbanOf")));
-                                        unbanOf = NewSystem.getName(bannedOf);
+                                        unbanOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
 
@@ -1482,7 +1482,7 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + (i + 1) + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1534,14 +1534,14 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(bannedOf);
+                                            mutedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                         if (rs.getString("UUID_UNMUTE_OF") != null) {
                                             if (rs.getString("UUID_UNMUTE_OF").equalsIgnoreCase("Console")) {
                                                 unMuteOf = SettingsFile.getConsolePrefix();
                                             } else {
                                                 OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_UNMUTE_OF")));
-                                                unMuteOf = NewSystem.getName(bannedOf);
+                                                unMuteOf = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                             }
                                         }
                                     }
@@ -1565,7 +1565,7 @@ public class HistoryCmd implements CommandExecutor {
                                         unMuteOf = SettingsFile.getConsolePrefix();
                                     } else {
                                         OfflinePlayer unMutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + (i + 1) + ".UnMuteOf")));
-                                        unMuteOf = NewSystem.getName(unMutedOf);
+                                        unMuteOf = NewSystem.getName(unMutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     }
                                 }
 
@@ -1573,7 +1573,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + (i + 1) + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1627,7 +1627,7 @@ public class HistoryCmd implements CommandExecutor {
                                             bannedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOfPrefix = NewSystem.getName(bannedOf);
+                                            bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1649,7 +1649,7 @@ public class HistoryCmd implements CommandExecutor {
                                     bannedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf")));
-                                    bannedOfPrefix = NewSystem.getName(bannedOf);
+                                    bannedOfPrefix = NewSystem.getName(bannedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1696,7 +1696,7 @@ public class HistoryCmd implements CommandExecutor {
                                             mutedOfPrefix = SettingsFile.getConsolePrefix();
                                         } else {
                                             OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOfPrefix = NewSystem.getName(mutedOf);
+                                            mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1718,7 +1718,7 @@ public class HistoryCmd implements CommandExecutor {
                                     mutedOfPrefix = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer mutedOf = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".MutedOf")));
-                                    mutedOfPrefix = NewSystem.getName(mutedOf);
+                                    mutedOfPrefix = NewSystem.getName(mutedOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 

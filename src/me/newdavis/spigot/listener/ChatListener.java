@@ -237,13 +237,13 @@ public class ChatListener implements Listener {
             e.setCancelled(true);
             if (NewSystem.hasPermission(p, chatColorPerm)) {
                 Bukkit.broadcastMessage(format.replace("{Prefix}", SettingsFile.getPrefix())
-                        .replace("{Player}", NewSystem.getName(p))
+                        .replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
                         .replace("{Time}", SettingsFile.TimeFormat(System.currentTimeMillis()))
                         .replace("{Date}", SettingsFile.DateFormat(System.currentTimeMillis()))
                         .replace("{Message}", msg.replace('&', '§')));
             } else {
                 Bukkit.broadcastMessage(format.replace("{Prefix}", SettingsFile.getPrefix())
-                        .replace("{Player}", NewSystem.getName(p))
+                        .replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
                         .replace("{Time}", SettingsFile.TimeFormat(System.currentTimeMillis()))
                         .replace("{Date}", SettingsFile.DateFormat(System.currentTimeMillis()))
                         .replace("{Message}", msg));

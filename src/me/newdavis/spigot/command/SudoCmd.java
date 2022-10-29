@@ -53,7 +53,7 @@ public class SudoCmd implements CommandExecutor {
                                 }
                                 t.performCommand(cmdString.replace("/", ""));
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Action}", cmdString));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Action}", cmdString));
                                 }
                             }
                         }else{
@@ -68,7 +68,7 @@ public class SudoCmd implements CommandExecutor {
                                 }
                                 t.chat(msgString);
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Action}", msgString));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Action}", msgString));
                                 }
                             }
                         }
@@ -98,7 +98,7 @@ public class SudoCmd implements CommandExecutor {
                         }
                         t.performCommand(cmdString.replace("/", ""));
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Action}", cmdString));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Action}", cmdString));
                         }
                     } else {
                         String msgString = "";
@@ -111,7 +111,7 @@ public class SudoCmd implements CommandExecutor {
                         }
                         t.chat(msgString);
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Action}", msgString));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Action}", msgString));
                         }
                     }
                 } else {

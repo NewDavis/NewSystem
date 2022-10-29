@@ -74,7 +74,7 @@ public class KitCmd implements CommandExecutor, TabCompleter {
                             if(NewSystem.hasPermission(p, permOther)) {
                                 if (KitFile.getKit(p, t, kit)) {
                                     for(String key : msg) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Kit}", kit).replace("[", "").replace("]", ""));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Kit}", kit).replace("[", "").replace("]", ""));
                                     }
                                     for(String key : msgP) {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Kit}", kit).replace("[", "").replace("]", ""));
@@ -116,7 +116,7 @@ public class KitCmd implements CommandExecutor, TabCompleter {
                         kit = kitExist(kit);
                             if (KitFile.getKit(t, kit)) {
                                 for(String key : msg) {
-                                    sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Kit}", kit).replace("[", "").replace("]", ""));
+                                    sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Kit}", kit).replace("[", "").replace("]", ""));
                                 }
                                 for(String key : msgP) {
                                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Kit}", kit).replace("[", "").replace("]", ""));

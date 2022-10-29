@@ -51,7 +51,7 @@ public class GlobalMuteCmd implements CommandExecutor {
                         if (globalMessage) {
                             for(Player all : Bukkit.getOnlinePlayers()) {
                                 for (String msg : messageGlobal) {
-                                    all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", deactivated).replace("{Player}", NewSystem.getName(p)));
+                                    all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", deactivated).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                                 }
                             }
                         }
@@ -63,7 +63,7 @@ public class GlobalMuteCmd implements CommandExecutor {
                         if (globalMessage) {
                             for(Player all : Bukkit.getOnlinePlayers()) {
                                 for (String msg : messageGlobal) {
-                                    all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", activated).replace("{Player}", NewSystem.getName(p)));
+                                    all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", activated).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                                 }
                             }
                         }

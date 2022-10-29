@@ -393,15 +393,15 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                     }
 
                     for(String key : msgBannedPermanent) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         if (NewSystem.hasPermission(all, perm)) {
                             for (String msg : messageListPermanent) {
                                 all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Player}", NewSystem.getName(t))
-                                        .replace("{Banned-Of}", NewSystem.getName(p))
+                                        .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
+                                        .replace("{Banned-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Ban}", dateOfBan));
                             }
@@ -456,14 +456,14 @@ public class BanCmd implements CommandExecutor, TabCompleter {
             }
 
             for (String key : msgBannedPermanent) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             for (Player all : Bukkit.getOnlinePlayers()) {
                 if (NewSystem.hasPermission(all, perm)) {
                     for (String msg : messageListPermanent) {
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t))
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                                 .replace("{Banned-Of}", SettingsFile.getConsolePrefix())
                                 .replace("{Reason}", reason)
                                 .replace("{Date-Of-Ban}", dateOfBan));
@@ -516,15 +516,15 @@ public class BanCmd implements CommandExecutor, TabCompleter {
 
 
                     for(String key : msgBannedTemporary) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Durate}", durate));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Durate}", durate));
                     }
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         if (NewSystem.hasPermission(all, perm)) {
                             for (String msg : messageListTemporary) {
                                 all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Player}", NewSystem.getName(t))
-                                        .replace("{Banned-Of}", NewSystem.getName(p))
+                                        .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
+                                        .replace("{Banned-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Durate}", durate)
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Ban}", dateOfBan)
@@ -583,14 +583,14 @@ public class BanCmd implements CommandExecutor, TabCompleter {
             }
 
             for (String key : msgBannedTemporary) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Durate}", durate));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Durate}", durate));
             }
 
             for (Player all : Bukkit.getOnlinePlayers()) {
                 if (NewSystem.hasPermission(all, perm)) {
                     for (String msg : messageListTemporary) {
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t))
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                                 .replace("{Banned-Of}", SettingsFile.getConsolePrefix())
                                 .replace("{Durate}", durate)
                                 .replace("{Reason}", reason)
@@ -647,7 +647,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOf = NewSystem.getName(bannedOfPlayer);
+                                            bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -669,7 +669,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                     bannedOf = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf")));
-                                    bannedOf = NewSystem.getName(bannedOfPlayer);
+                                    bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
                             if (!isBanPermanent(t)) {
@@ -679,7 +679,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                         .replace("{Durate}", durate)
                                         .replace("{Date-Of-Ban}", dateOfBan)
                                         .replace("{Date-Of-Ban-Ends}", dateOfBanEnds);
-                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Banned-Player}", NewSystem.getName(t)));
+                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Banned-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                                 text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMessage).create()));
                                 p.spigot().sendMessage(text);
                             } else {
@@ -687,7 +687,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                         .replace("{Banned-Of}", bannedOf)
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Ban}", dateOfBan);
-                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Banned-Player}", NewSystem.getName(t)));
+                                TextComponent text = new TextComponent(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Banned-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                                 text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMessage).create()));
                                 p.spigot().sendMessage(text);
                             }
@@ -737,7 +737,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOf = NewSystem.getName(bannedOfPlayer);
+                                            bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -759,12 +759,12 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                     bannedOf = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf")));
-                                    bannedOf = NewSystem.getName(bannedOfPlayer);
+                                    bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
                             if (!isBanPermanent(t)) {
                                 p.sendMessage(consoleMessageTemporary.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Banned-Player}", NewSystem.getName(t))
+                                        .replace("{Banned-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Banned-Of}", bannedOf)
                                         .replace("{Reason}", reason)
                                         .replace("{Durate}", durate)
@@ -772,7 +772,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                         .replace("{Date-Of-Ban-Ends}", dateOfBanEnds));
                             } else {
                                 p.sendMessage(consoleMessagePermanent.replace("{Prefix}", SettingsFile.getPrefix())
-                                        .replace("{Banned-Player}", NewSystem.getName(t))
+                                        .replace("{Banned-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                         .replace("{Banned-Of}", bannedOf)
                                         .replace("{Reason}", reason)
                                         .replace("{Date-Of-Ban}", dateOfBan));

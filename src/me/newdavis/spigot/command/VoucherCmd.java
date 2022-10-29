@@ -71,7 +71,7 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
                             t.getInventory().addItem(voucherItem);
 
                             for (String msg : message) {
-                                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t))
+                                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                                         .replace("{Voucher}", voucher).replace("{Amount}", String.valueOf(1)));
                             }
 
@@ -102,7 +102,7 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
                             t.getInventory().addItem(voucherItem);
 
                             for (String msg : message) {
-                                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t))
+                                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                                         .replace("{Voucher}", voucher).replace("{Amount}", String.valueOf(amount)));
                             }
 
@@ -282,7 +282,7 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
                         String roleSuffix = new PlaceholderManager(p).getPlaceholder("{RoleSuffix}").getValue();
                         NewPermManager.setPlayerRole(p, role);
                         for (String msg : redeemedRole) {
-                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p))
+                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
                                     .replace("{Role}", role).replace("{Role-Suffix}", roleSuffix));
                         }
                     } else {
@@ -295,7 +295,7 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
                         String permission = voucherCmd.voucherPermission(voucher);
                         NewPermManager.addPlayerPermission(p, permission);
                         for (String msg : redeemedPermission) {
-                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p))
+                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
                                     .replace("{Permission}", permission));
                         }
                     } else {
@@ -308,7 +308,7 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
                         double amount = voucherCmd.voucherCurrency(voucher);
                         CurrencyAPI.addCurrencyToPlayer(p, amount);
                         for (String msg : redeemedCurrency) {
-                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p))
+                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
                                     .replace("{Currency}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()));
                         }
                     } else {

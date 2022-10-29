@@ -111,7 +111,9 @@ public class StatsCmd implements CommandExecutor {
             String playTime = PlayTimeCmd.getPlayTime(t.getUniqueId().toString());
 
             for (String msg : message) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", (p == t ? showSelf : NewSystem.getName(t)))
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
+                        .replace("{Player}", (p == t ? showSelf : NewSystem.getName(t, false)))
+                        .replace("{DisplayName}", (p == t ? showSelf : NewSystem.getName(t, true)))
                         .replace("{Kills}", String.valueOf(kills)).replace("{Deaths}", String.valueOf(deaths))
                         .replace("{K/D}", kd).replace("{PlayTime}", playTime));
             }
@@ -158,7 +160,9 @@ public class StatsCmd implements CommandExecutor {
             String playTime = PlayTimeCmd.getPlayTime(t.getUniqueId().toString());
 
             for (String msg : message) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", (p == t ? showSelf : NewSystem.getName(t)))
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
+                        .replace("{Player}", (p == t ? showSelf : NewSystem.getName(t, false)))
+                        .replace("{DisplayName}", (p == t ? showSelf : NewSystem.getName(t, true)))
                         .replace("{Kills}", String.valueOf(kills)).replace("{Deaths}", String.valueOf(deaths))
                         .replace("{K/D}", kd).replace("{PlayTime}", playTime));
             }

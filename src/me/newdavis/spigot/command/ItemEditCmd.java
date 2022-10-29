@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemEditCmd implements CommandExecutor, TabCompleter {
 
@@ -231,6 +232,9 @@ public class ItemEditCmd implements CommandExecutor, TabCompleter {
             return Enchantment.LUCK;
         }else if(enchantment.equalsIgnoreCase("lure") || enchantment.equalsIgnoreCase("köder")) {
             return Enchantment.LURE;
+        }
+        if(Enchantment.getByName(enchantment.toUpperCase()) != null) {
+            return Enchantment.getByName(enchantment.toUpperCase());
         }
         return Enchantment.DURABILITY;
     }

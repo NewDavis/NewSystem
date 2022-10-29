@@ -60,7 +60,7 @@ public class SkullCmd implements CommandExecutor {
                                 t.sendMessage(key.replace("{SkullOwner}", skullOwner.getName()).replace("{Prefix}", SettingsFile.getPrefix()));
                             }
                             for(String key : msg) {
-                                p.sendMessage(key.replace("{SkullOwner}", skullOwner.getName()).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                p.sendMessage(key.replace("{SkullOwner}", skullOwner.getName()).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                             }
                         } else {
                             p.sendMessage(SettingsFile.getOffline());

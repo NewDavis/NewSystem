@@ -88,7 +88,7 @@ public class SpeedCmd implements CommandExecutor {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg));
                                     }
                                     for(String key : msg) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg).replace("{Player}", NewSystem.getName(t)));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                     }
                                 }else{
                                     p.setFlySpeed(speed);
@@ -118,7 +118,7 @@ public class SpeedCmd implements CommandExecutor {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg));
                                     }
                                     for(String key : msg) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg).replace("{Player}", NewSystem.getName(t)));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                     }
                                 }else{
                                     for(String key : msgP) {
@@ -144,7 +144,7 @@ public class SpeedCmd implements CommandExecutor {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg));
                                     }
                                     for(String key : msg) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg).replace("{Player}", NewSystem.getName(t)));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                     }
                                 }else{
                                     for(String key : msgP) {

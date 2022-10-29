@@ -1125,22 +1125,22 @@ public class NewSystem extends JavaPlugin {
         return p.isOp();
     }
 
-    public static String getName(OfflinePlayer p) {
-        /*if(!displayName) {
+    public static String getName(OfflinePlayer p, boolean displayName) {
+        if(!displayName) {
             return p.getName();
-        }*/
+        }
 
         if (!p.isOnline()) {
             if (newPerm) {
                 if (SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
-                    return NewPermManager.getPlayerPrefix(p) + NameFetcher.getName(p.getUniqueId());
+                    return NewPermManager.getPlayerPrefix(p) + p.getName();
                 }
             }
         }
         if (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
             return p.getPlayer().getDisplayName();
         }
-        return NameFetcher.getName(p.getUniqueId());
+        return p.getName();
     }
 
     public static String replace(String msg) {

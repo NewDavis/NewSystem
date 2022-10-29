@@ -40,7 +40,7 @@ public class InvseeCmd implements CommandExecutor {
                         if (t != p) {
                             p.openInventory(t.getInventory());
                             for(String key : msg) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                             }
                             if (!(NewSystem.hasPermission(p, permEdit))) {
                                 invSeePlayer.add(p);

@@ -71,7 +71,7 @@ public class ListCmd implements CommandExecutor {
                                 } else {
                                     String playersInRole = "";
                                     for (Player pList : roleList.get(role)) {
-                                        playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList));
+                                        playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList, false)).replace("{DisplayName}", NewSystem.getName(pList, true));
                                     }
                                     if (playersInRole.isEmpty()) {
                                         playersInRole = noPlayerOnline;
@@ -123,7 +123,7 @@ public class ListCmd implements CommandExecutor {
                                 } else {
                                     String playersInRole = "";
                                     for (Player pList : playerInRole) {
-                                        playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList));
+                                        playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList, false)).replace("{DisplayName}", NewSystem.getName(pList, true));
                                     }
                                     if (playersInRole.isEmpty()) {
                                         playersInRole = noPlayerOnline;
@@ -174,7 +174,7 @@ public class ListCmd implements CommandExecutor {
                         } else {
                             String playersInRole = "";
                             for (Player pList : roleList.get(role)) {
-                                playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList));
+                                playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList, false)).replace("{DisplayName}", NewSystem.getName(pList, true));
                             }
                             if (playersInRole.isEmpty()) {
                                 playersInRole = noPlayerOnline;
@@ -222,7 +222,7 @@ public class ListCmd implements CommandExecutor {
                         } else {
                             String playersInRole = "";
                             for (Player pList : playerInRole) {
-                                playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList));
+                                playersInRole = playersInRole + listFormat.replace("{Player}", NewSystem.getName(pList, false)).replace("{DisplayName}", NewSystem.getName(pList, true));
                             }
                             if (playersInRole.isEmpty()) {
                                 playersInRole = noPlayerOnline;

@@ -177,14 +177,14 @@ public class RepairCmd implements CommandExecutor {
                     if (item.getDurability() != 0) {
                         item.setDurability((short) 0);
                         for(String key : msg) {
-                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                         for(String key : msgP) {
                             t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                     } else {
                         for(String key : alreadyRepaired) {
-                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                         return;
                     }
@@ -251,7 +251,7 @@ public class RepairCmd implements CommandExecutor {
                     return;
                 }else{
                     for(String key : alreadyRepairedArmor) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                     return;
                 }
@@ -263,7 +263,7 @@ public class RepairCmd implements CommandExecutor {
                 }
             }else{
                 for(String key : msgArmor) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
                 for(String key : msgPArmor) {
                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));
@@ -322,7 +322,7 @@ public class RepairCmd implements CommandExecutor {
                 if(p == t) {
                     for(String key : alreadyRepairedAllPlayer) {
                         p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t)));
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                     return;
                 }else{
@@ -339,7 +339,7 @@ public class RepairCmd implements CommandExecutor {
                 }
             }else{
                 for(String key : msgAll) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
                 for(String key : msgPAll) {
                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));

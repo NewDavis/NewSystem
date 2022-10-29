@@ -32,7 +32,7 @@ public class QuitListener implements Listener {
         }
 
         for (String s : joinMsg) {
-            Bukkit.broadcastMessage(s.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+            Bukkit.broadcastMessage(s.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
         }
     }
 

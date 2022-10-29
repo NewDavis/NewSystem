@@ -4,6 +4,8 @@ package me.newdavis.spigot.command;
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.plugin.NewSystem;
+import me.newdavis.spigot.util.placeholder.Placeholder;
+import me.newdavis.spigot.util.placeholder.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -42,8 +44,8 @@ public class AdminChatCmd implements CommandExecutor {
                         if (NewSystem.hasPermission(all, perm)) {
                             for(String key : format) {
                                 all.sendMessage((colorCodes ?
-                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Message}", ChatColor.translateAlternateColorCodes('&', String.join(" ", args))) :
-                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Message}", String.join(" ", args))));
+                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", ChatColor.translateAlternateColorCodes('&', String.join(" ", args))) :
+                                        key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", String.join(" ", args))));
                             }
                         }
                     }

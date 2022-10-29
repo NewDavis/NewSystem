@@ -201,8 +201,8 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
 
                             all.spigot().sendMessage(text);
                         } else {
-                            String prefixPlayer = NewSystem.getName(p);
-                            String prefixTarget = NewSystem.getName(t);
+                            String prefixPlayer = NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                            String prefixTarget = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                             all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                     .replace("{ReportOf}", prefixPlayer)
                                     .replace("{Player}", prefixTarget)
@@ -263,7 +263,7 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
                             }
                         }
 
-                        String reportOfPrefix = NewSystem.getName(t);
+                        String reportOfPrefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         p.teleport(reportToPlayer);
                         for(String key : msgReportAccepted) {
                             p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", reportOfPrefix));
@@ -280,13 +280,13 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
 
                                         all.spigot().sendMessage(text);
                                     } else {
-                                        String reportOf = NewSystem.getName(t);
-                                        String reportTo = NewSystem.getName(reportToPlayer);
+                                        String reportOf = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                                        String reportTo = NewSystem.getName(reportToPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                                 .replace("{ReportOf}", reportOf)
                                                 .replace("{Player}", reportTo)
                                                 .replace("{Reason}", reason)
-                                                .replace("{Supporter}", NewSystem.getName(p))
+                                                .replace("{Supporter}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                                 .replace("{Status}", statusEdit));
                                     }
                                 }
@@ -330,7 +330,7 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
                 }
             }
 
-            String prefix = NewSystem.getName(t);
+            String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
             for(String key : msgReportClosed) {
                 p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", prefix));
             }
@@ -338,13 +338,13 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
             for (Player all : Bukkit.getOnlinePlayers()) {
                 for (String msg : msgSClosed) {
                     if (NewSystem.hasPermission(all, perm)) {
-                        String reportOf = NewSystem.getName(t);
-                        String reportTo = NewSystem.getName(reportToPlayer);
+                        String reportOf = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                        String reportTo = NewSystem.getName(reportToPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{ReportOf}", reportOf)
                                 .replace("{Player}", reportTo)
                                 .replace("{Reason}", reason)
-                                .replace("{Supporter}", NewSystem.getName(p))
+                                .replace("{Supporter}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                 .replace("{Status}", statusClosed));
                     }
                 }
@@ -362,11 +362,11 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
             if(msg.contains("{Reports}")) {
                 for (String uuid : reports) {
                     OfflinePlayer reportOf = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-                    String reportOfPrefix = NewSystem.getName(reportOf);
+                    String reportOfPrefix = NewSystem.getName(reportOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
 
                     String reportToUUID = SavingsFile.getStringPath("Report." + uuid + ".To");
                     OfflinePlayer reportTo = Bukkit.getOfflinePlayer(UUID.fromString(reportToUUID));
-                    String reportToPrefix = NewSystem.getName(reportTo);
+                    String reportToPrefix = NewSystem.getName(reportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
 
                     String reason = SavingsFile.getStringPath("Report." + uuid + ".Reason");
                     String status = SavingsFile.getStringPath("Report." + uuid + ".Status");
@@ -442,11 +442,11 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
             for (Player all : Bukkit.getOnlinePlayers()) {
                 for (String msg : msgSClosed) {
                     if (NewSystem.hasPermission(all, perm)) {
-                        String reportOfPrefix = NewSystem.getName(reportOf);
-                        String reportToPrefix = NewSystem.getName(reportTo);
+                        String reportOfPrefix = NewSystem.getName(reportOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                        String reportToPrefix = NewSystem.getName(reportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         String reportSupPrefix;
                         if (supporter != null) {
-                            reportSupPrefix = NewSystem.getName(supporter);
+                            reportSupPrefix = NewSystem.getName(supporter, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         } else {
                             reportSupPrefix = noSupporter;
                         }
@@ -486,8 +486,8 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
 
                             all.spigot().sendMessage(text);
                         } else {
-                            String prefixPlayer = NewSystem.getName(t);
-                            String prefixTarget = NewSystem.getName(reportTo);
+                            String prefixPlayer = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                            String prefixTarget = NewSystem.getName(reportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                             all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                     .replace("{ReportOf}", prefixPlayer)
                                     .replace("{Player}", prefixTarget)

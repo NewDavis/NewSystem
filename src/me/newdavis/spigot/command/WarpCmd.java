@@ -174,7 +174,7 @@ public class WarpCmd implements CommandExecutor, TabCompleter {
 
             if(p != t) {
                 for(String key : msg) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Warp}", warp));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Warp}", warp));
                 }
             }
             if(NewSystem.hasPermission(p, permNoDelay)) {

@@ -36,7 +36,7 @@ public class DeathListener implements Listener {
                 return;
             }
             for (String msg : deathMessageList) {
-                Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                Bukkit.broadcastMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
             }
 
             if(forceRespawn) {

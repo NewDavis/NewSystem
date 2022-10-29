@@ -168,7 +168,7 @@ public class SpawnCmd implements CommandExecutor, TabCompleter {
 
             if(p != t) {
                 for(String key : msg) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
             }
             if(NewSystem.hasPermission(p, permNoDelay)) {

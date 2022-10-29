@@ -124,7 +124,8 @@ public class RaffleCmd implements CommandExecutor {
                                 .replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{Amount}", String.valueOf(amount))
                                 .replace("{Item}", (itemMeta && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : ItemBuilder.getNameOfMaterial(ItemBuilder.getMaterialOfItemStack(item))))
-                                .replace("{Player}", NewSystem.getName(winner)));
+                                .replace("{Player}", NewSystem.getName(winner, false))
+                                .replace("{DisplayName}", NewSystem.getName(winner, true)));
                     }
                 }
             }

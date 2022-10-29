@@ -187,7 +187,7 @@ public class GiveCmd implements CommandExecutor, TabCompleter {
         Material material = Material.AIR;
         if (!isNumber(item)) {
             for (String mat : ItemBuilder.serverMaterials.keySet()) {
-                if (mat.equalsIgnoreCase(item) || ItemBuilder.getMaterial(item) != null && mat.equalsIgnoreCase(ItemBuilder.getMaterial(item).name())) {
+                if (mat.equalsIgnoreCase(item) || ItemBuilder.getMaterial(item) != null && mat.equalsIgnoreCase(ItemBuilder.getNameOfMaterial(ItemBuilder.getMaterial(item)))) {
                     material = ItemBuilder.getMaterial(mat);
                     break;
                 }
@@ -223,10 +223,10 @@ public class GiveCmd implements CommandExecutor, TabCompleter {
 
         if (p != t) {
             for (String key : msg) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{SubID}", subID).replace("{Item}", ItemBuilder.getNameOfMaterial(material)).replace("{Amount}", String.valueOf(amount)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{SubID}", subID).replace("{Item}", ItemBuilder.getNameOfMaterial(material)).replace("{Amount}", String.valueOf(amount)));
             }
             for (String key : msgP) {
-                t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Item}", ItemBuilder.getNameOfMaterial(material)).replace("{SubID}", subID).replace("{Amount}", String.valueOf(amount)).replace("{Player}", NewSystem.getName(t)));
+                t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Item}", ItemBuilder.getNameOfMaterial(material)).replace("{SubID}", subID).replace("{Amount}", String.valueOf(amount)).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
         }
     }
@@ -235,7 +235,7 @@ public class GiveCmd implements CommandExecutor, TabCompleter {
         Material material = Material.AIR;
         if (!isNumber(item)) {
             for (String mat : ItemBuilder.serverMaterials.keySet()) {
-                if (mat.equalsIgnoreCase(item) || ItemBuilder.getMaterial(item) != null && mat.equalsIgnoreCase(ItemBuilder.getMaterial(item).name())) {
+                if (mat.equalsIgnoreCase(item) || ItemBuilder.getMaterial(item) != null && mat.equalsIgnoreCase(ItemBuilder.getNameOfMaterial(ItemBuilder.getMaterial(item)))) {
                     material = ItemBuilder.getMaterial(mat);
                     break;
                 }
@@ -269,7 +269,7 @@ public class GiveCmd implements CommandExecutor, TabCompleter {
         }
 
         for (String key : msg) {
-            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{SubID}", subID).replace("{Item}", ItemBuilder.getNameOfMaterial(material)).replace("{Amount}", String.valueOf(amount)));
+            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{SubID}", subID).replace("{Item}", ItemBuilder.getNameOfMaterial(material)).replace("{Amount}", String.valueOf(amount)));
         }
     }
 

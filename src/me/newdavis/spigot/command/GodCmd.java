@@ -63,7 +63,7 @@ public class GodCmd implements CommandExecutor {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", deactivated));
                                     }
                                     for(String key : msg) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", deactivated).replace("{Player}", NewSystem.getName(t)));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", deactivated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                     }
                                 }else{
                                     godList.add(t);
@@ -71,7 +71,7 @@ public class GodCmd implements CommandExecutor {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", activated));
                                     }
                                     for(String key : msg) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", activated).replace("{Player}", NewSystem.getName(t)));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Status}", activated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                     }
                                 }
                             }else{

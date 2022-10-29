@@ -73,7 +73,7 @@ public class ShowIPCmd implements CommandExecutor {
             if(msg.contains("{IP}")) {
                 TextComponent component = new TextComponent(msg
                         .replace("{Prefix}", SettingsFile.getPrefix())
-                        .replace("{Player}", NewSystem.getName(t))
+                        .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                         .replace("{IP}", ip));
                 if(suggestIP) {
                     component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ip));
@@ -91,7 +91,7 @@ public class ShowIPCmd implements CommandExecutor {
         for(String msg : message) {
             p.sendMessage(msg
                     .replace("{Prefix}", SettingsFile.getPrefix())
-                    .replace("{Player}", NewSystem.getName(t))
+                    .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                     .replace("{IP}", ip));
         }
     }

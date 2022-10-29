@@ -169,11 +169,11 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                             OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
                             if (addPlayer(p, t)) {
                                 for(String key : addPlayer) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             } else {
                                 for(String key : alreadyAddedPlayer) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             }
                         } else {
@@ -204,11 +204,11 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                             OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
                             if (removePlayer(t)) {
                                 for(String key : removePlayer) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             } else {
                                 for(String key : alreadyRemovedPlayer) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             }
                         } else {
@@ -283,11 +283,11 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                     OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
                     if (addPlayer(t)) {
                         for (String key : addPlayer) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                     } else {
                         for (String key : alreadyAddedPlayer) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                     }
                 }else if(args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("entfernen")) {
@@ -312,11 +312,11 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                     OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
                     if (removePlayer(t)) {
                         for (String key : removePlayer) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                     } else {
                         for (String key : alreadyRemovedPlayer) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                     }
                 }else{
@@ -483,7 +483,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                 }else {
                     for (String addedPlayer : addedPlayers) {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(addedPlayer));
-                        String prefix = NewSystem.getName(t);
+                        String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         String addedDate = "";
                         String prefixAddedPlayer = "";
                         if(mySQLEnabled){
@@ -494,7 +494,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                     addedDate = rs.getString("ADDED_DATE");
                                     if (!rs.getString("UUID_ADDED_OF").equalsIgnoreCase("Console")) {
                                         OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_ADDED_OF")));
-                                        prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                        prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     } else {
                                         prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                     }
@@ -507,13 +507,13 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                             addedDate = SavingsFile.getStringPath("Maintenance.Info." + addedPlayer + ".AddedDate");
                             if (!SavingsFile.getStringPath("Maintenance.Info." + addedPlayer + ".AddedOf").equalsIgnoreCase("Console")) {
                                 OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Maintenance.Info." + addedPlayer + ".AddedOf")));
-                                prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                             } else {
                                 prefixAddedPlayer = SettingsFile.getConsolePrefix();
                             }
                         }
 
-                        TextComponent component = new TextComponent(listPlayerFormat.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        TextComponent component = new TextComponent(listPlayerFormat.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(listPlayerHover
                                 .replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{Player}", prefix)
@@ -548,7 +548,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                         addedDate = rs.getString("ADDED_DATE");
                                         if (!rs.getString("UUID_ADDED_OF").equalsIgnoreCase("Console")) {
                                             OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_ADDED_OF")));
-                                            prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                            prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         } else {
                                             prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                         }
@@ -561,7 +561,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                 addedDate = SavingsFile.getStringPath("Maintenance.Info." + role + ".AddedDate");
                                 if (!SavingsFile.getStringPath("Maintenance.Info." + role + ".AddedOf").equalsIgnoreCase("Console")) {
                                     OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Maintenance.Info." + role + ".AddedOf")));
-                                    prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                    prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 } else {
                                     prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                 }
@@ -600,7 +600,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                 }else {
                     for (String addedPlayer : player) {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(addedPlayer));
-                        String prefix = NewSystem.getName(t);
+                        String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         String addedDate = "";
                         String prefixAddedPlayer = "";
                         if(mySQLEnabled){
@@ -611,7 +611,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                     addedDate = rs.getString("ADDED_DATE");
                                     if (!rs.getString("UUID_ADDED_OF").equalsIgnoreCase("Console")) {
                                         OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_ADDED_OF")));
-                                        prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                        prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     } else {
                                         prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                     }
@@ -624,7 +624,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                             addedDate = SavingsFile.getStringPath("Maintenance.Info." + addedPlayer + ".AddedDate");
                             if (!SavingsFile.getStringPath("Maintenance.Info." + addedPlayer + ".AddedOf").equalsIgnoreCase("Console")) {
                                 OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Maintenance.Info." + addedPlayer + ".AddedOf")));
-                                prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                             } else {
                                 prefixAddedPlayer = SettingsFile.getConsolePrefix();
                             }
@@ -663,7 +663,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                         addedDate = rs.getString("ADDED_DATE");
                                         if (!rs.getString("UUID_ADDED_OF").equalsIgnoreCase("Console")) {
                                             OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_ADDED_OF")));
-                                            prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                            prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         } else {
                                             prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                         }
@@ -676,7 +676,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                                 addedDate = SavingsFile.getStringPath("Maintenance.Info." + role + ".AddedDate");
                                 if (!SavingsFile.getStringPath("Maintenance.Info." + role + ".AddedOf").equalsIgnoreCase("Console")) {
                                     OfflinePlayer addedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Maintenance.Info." + role + ".AddedOf")));
-                                    prefixAddedPlayer = NewSystem.getName(addedOfPlayer);
+                                    prefixAddedPlayer = NewSystem.getName(addedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 } else {
                                     prefixAddedPlayer = SettingsFile.getConsolePrefix();
                                 }

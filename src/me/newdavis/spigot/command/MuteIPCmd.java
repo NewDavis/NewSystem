@@ -446,7 +446,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListPermanent) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Muted-Of}", NewSystem.getName(p))
+                                            .replace("{Muted-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Mute}", dateOfMute));
                                 }
@@ -534,7 +534,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListPermanent) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Muted-Of}", NewSystem.getName(p))
+                                            .replace("{Muted-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Mute}", dateOfMute));
                                 }
@@ -806,7 +806,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListTemporary) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Muted-Of}", NewSystem.getName(p))
+                                            .replace("{Muted-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Durate}", durate)
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Mute}", dateOfMute)
@@ -898,7 +898,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListTemporary) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Muted-Of}", NewSystem.getName(p))
+                                            .replace("{Muted-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Durate}", durate)
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Mute}", dateOfMute)
@@ -1171,7 +1171,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
                                             mutedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOf = NewSystem.getName(bannedOfPlayer);
+                                            mutedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1191,7 +1191,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
 
                                 if (SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".MutedOf").equalsIgnoreCase("Console")) {
                                     OfflinePlayer muteOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".MutedOf")));
-                                    mutedOf = NewSystem.getName(muteOfPlayer);
+                                    mutedOf = NewSystem.getName(muteOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 } else {
                                     mutedOf = SettingsFile.getConsolePrefix();
                                 }
@@ -1259,7 +1259,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
                                             mutedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_MUTED_OF")));
-                                            mutedOf = NewSystem.getName(bannedOfPlayer);
+                                            mutedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1279,7 +1279,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
 
                                 if (SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".MutedOf").equalsIgnoreCase("Console")) {
                                     OfflinePlayer muteOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".MutedOf")));
-                                    mutedOf = NewSystem.getName(muteOfPlayer);
+                                    mutedOf = NewSystem.getName(muteOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 } else {
                                     mutedOf = SettingsFile.getConsolePrefix();
                                 }

@@ -47,7 +47,7 @@ public class FeedCmd implements CommandExecutor {
                                 t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));
                             }
                             for(String key : msg) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                             }
                         } else {
                             p.sendMessage(SettingsFile.getNoPerm());
@@ -72,7 +72,7 @@ public class FeedCmd implements CommandExecutor {
                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));
                     }
                     for (String key : msg) {
-                        sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                 } else {
                     sender.sendMessage(SettingsFile.getOffline());

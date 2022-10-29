@@ -212,7 +212,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
 
                             all.spigot().sendMessage(text);
                         } else {
-                            String prefixPlayer = NewSystem.getName(p);
+                            String prefixPlayer = NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                             all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                     .replace("{SupportTicketOf}", prefixPlayer)
                                     .replace("{Status}", statusCreated));
@@ -258,7 +258,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                     }
 
                     for(String key : msgAccepted) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
@@ -272,10 +272,10 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
 
                                     all.spigot().sendMessage(text);
                                 } else {
-                                    String supportOf = NewSystem.getName(t);
+                                    String supportOf = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{SupportTicketOf}", supportOf)
-                                            .replace("{Supporter}", NewSystem.getName(p))
+                                            .replace("{Supporter}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Status}", statusEdit));
                                 }
                             }
@@ -316,7 +316,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                 }
             }
 
-            String prefix = NewSystem.getName(t);
+            String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
             if(p != null) {
                 for (String key : msgSupportClosed) {
                     p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", prefix));
@@ -326,10 +326,10 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
             for (Player all : Bukkit.getOnlinePlayers()) {
                 for (String msg : msgSClosed) {
                     if (NewSystem.hasPermission(all, perm)) {
-                        String supportOf = NewSystem.getName(t);
+                        String supportOf = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{SupportTicketOf}", supportOf)
-                                .replace("{Supporter}", (p == null ? SettingsFile.getConsolePrefix() : NewSystem.getName(p)))
+                                .replace("{Supporter}", (p == null ? SettingsFile.getConsolePrefix() : NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))))
                                 .replace("{Status}", statusClosed));
                     }
                 }
@@ -349,7 +349,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
             if(msg.contains("{SupportTickets}")) {
                 for (String uuid : supportTickets) {
                     OfflinePlayer supportTicketOf = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-                    String supportTicketOfPrefix = NewSystem.getName(supportTicketOf);
+                    String supportTicketOfPrefix = NewSystem.getName(supportTicketOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                     String status = SavingsFile.getStringPath("Support." + uuid + ".Status");
 
                     TextComponent text = new TextComponent(listFormat.replace("{Prefix}", SettingsFile.getPrefix())
@@ -433,12 +433,12 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
             if(!uuidSupportTicketOf.equals("")) {
                 Player supportTicketOf = Bukkit.getPlayer(UUID.fromString(uuidSupportTicketOf));
 
-                p.sendMessage(formatSupporterToPlayer.replace("{Supporter}", NewSystem.getName(p)).replace("{Player}", NewSystem.getName(supportTicketOf)).replace("{Message}", message));
-                supportTicketOf.sendMessage(formatSupporterToPlayer.replace("{Supporter}", NewSystem.getName(p)).replace("{Player}", NewSystem.getName(supportTicketOf)).replace("{Message}", message));
+                p.sendMessage(formatSupporterToPlayer.replace("{Supporter}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Player}", NewSystem.getName(supportTicketOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Message}", message));
+                supportTicketOf.sendMessage(formatSupporterToPlayer.replace("{Supporter}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Player}", NewSystem.getName(supportTicketOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Message}", message));
 
                 for(Player spyPlayer : spy) {
                     if (spyPlayer != supportTicketOf && spyPlayer != p) {
-                        spyPlayer.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(p)).replace("{Player}", NewSystem.getName(supportTicketOf)).replace("{Message}", message));
+                        spyPlayer.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Player}", NewSystem.getName(supportTicketOf, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Message}", message));
                     }
                 }
             }
@@ -447,12 +447,12 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                 String uuidSupporter = SavingsFile.getStringPath("Support." + p.getUniqueId() + ".Supporter");
                 Player supporter = Bukkit.getPlayer(UUID.fromString(uuidSupporter));
 
-                p.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(supporter)).replace("{Player}", NewSystem.getName(p)).replace("{Message}", message));
-                supporter.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(supporter)).replace("{Player}", NewSystem.getName(p)).replace("{Message}", message));
+                p.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(supporter, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", message));
+                supporter.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(supporter, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", message));
 
                 for(Player spyPlayer : spy) {
                     if (spyPlayer != p && spyPlayer != supporter) {
-                        spyPlayer.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(supporter)).replace("{Player}", NewSystem.getName(p)).replace("{Message}", message));
+                        spyPlayer.sendMessage(formatPlayerToSupporter.replace("{Supporter}", NewSystem.getName(supporter, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", message));
                     }
                 }
             }

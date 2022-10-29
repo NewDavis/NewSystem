@@ -204,7 +204,7 @@ public class HologramCmd implements CommandExecutor, TabCompleter {
                                 if (t != null) {
                                     HologramAPI.moveHologram(hologramName, t.getLocation());
                                     for (String msg : moved) {
-                                        p.sendMessage(msg.replace("{HologramName}", hologramName).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                                        p.sendMessage(msg.replace("{HologramName}", hologramName).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                                     }
                                 } else {
                                     p.sendMessage(SettingsFile.getOffline());

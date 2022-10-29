@@ -62,7 +62,7 @@ public class FlyCmd implements CommandExecutor {
                                     p.sendMessage(key.replace("{FlyMode}", deactivated).replace("{Prefix}", SettingsFile.getPrefix()));
                                 }
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{FlyMode}", deactivated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{FlyMode}", deactivated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                                 DoubleJumpListener.flyMode.remove(t);
                             } else {
@@ -71,7 +71,7 @@ public class FlyCmd implements CommandExecutor {
                                     p.sendMessage(key.replace("{FlyMode}", activated).replace("{Prefix}", SettingsFile.getPrefix()));
                                 }
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{FlyMode}", activated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{FlyMode}", activated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                                 DoubleJumpListener.flyMode.add(t);
                             }
@@ -99,7 +99,7 @@ public class FlyCmd implements CommandExecutor {
                             t.sendMessage(key.replace("{FlyMode}", deactivated).replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{FlyMode}", deactivated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{FlyMode}", deactivated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                         DoubleJumpListener.flyMode.remove(t);
                     } else {
@@ -108,7 +108,7 @@ public class FlyCmd implements CommandExecutor {
                             t.sendMessage(key.replace("{FlyMode}", activated).replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{FlyMode}", activated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{FlyMode}", activated).replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                         DoubleJumpListener.flyMode.add(t);
                     }

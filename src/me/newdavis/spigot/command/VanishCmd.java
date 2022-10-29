@@ -98,9 +98,9 @@ public class VanishCmd implements CommandExecutor {
             if(vanishedPlayer != null) {
                 vanishCount++;
                 if(vanishedPlayerFormat.equalsIgnoreCase("")) {
-                    vanishedPlayerFormat = vanishedPlayers.replace("{Player}", NewSystem.getName(vanishedPlayer));
+                    vanishedPlayerFormat = vanishedPlayers.replace("{Player}", NewSystem.getName(vanishedPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")));
                 }else{
-                    vanishedPlayerFormat = vanishedPlayerFormat + " " + vanishedPlayers.replace("{Player}", NewSystem.getName(vanishedPlayer));
+                    vanishedPlayerFormat = vanishedPlayerFormat + " " + vanishedPlayers.replace("{Player}", NewSystem.getName(vanishedPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")));
                 }
             }
         }
@@ -133,7 +133,7 @@ public class VanishCmd implements CommandExecutor {
             SavingsFile.setPath("Vanish.Vanished", vanished);
 
             for(String key : quitMsg) {
-                Bukkit.broadcastMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                Bukkit.broadcastMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             for(String key : msgP) {
@@ -160,7 +160,7 @@ public class VanishCmd implements CommandExecutor {
 
             if(p != t) {
                 for(String key : msg) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Vanish}", activated).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Vanish}", activated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
             }
         }else{
@@ -171,7 +171,7 @@ public class VanishCmd implements CommandExecutor {
             SavingsFile.setPath("Vanish.Vanished", vanished);
 
             for (String key : joinMsg) {
-                Bukkit.broadcastMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                Bukkit.broadcastMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             for(String key : msgP) {
@@ -198,7 +198,7 @@ public class VanishCmd implements CommandExecutor {
 
             if(p != t) {
                 for(String key : msg) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Vanish}", deactivated).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Vanish}", deactivated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
             }
         }

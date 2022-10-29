@@ -47,7 +47,7 @@ public class ClearCmd implements CommandExecutor {
                             if(p != t) {
                                 clearInventory(t);
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                                 for(String key : msgP) {
                                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));

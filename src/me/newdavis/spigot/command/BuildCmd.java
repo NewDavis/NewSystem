@@ -70,7 +70,7 @@ public class BuildCmd implements CommandExecutor {
                                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{BuildMode}", deactivated));
                                 }
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{BuildMode}", deactivated).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{BuildMode}", deactivated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                                 t.setGameMode(GameMode.SURVIVAL);
                                 DoubleJumpListener.flyMode.remove(t);
@@ -80,7 +80,7 @@ public class BuildCmd implements CommandExecutor {
                                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{BuildMode}", activated));
                                 }
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{BuildMode}", activated).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{BuildMode}", activated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                                 t.setGameMode(GameMode.CREATIVE);
                                 DoubleJumpListener.flyMode.add(t);

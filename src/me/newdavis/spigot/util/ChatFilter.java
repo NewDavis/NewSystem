@@ -135,7 +135,7 @@ public class ChatFilter {
             if(NewSystem.hasPermission(all, permNotify)) {
                 for (String msg : notifyMessage) {
                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                            .replace("{Player}", NewSystem.getName(p))
+                            .replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
                             .replace("{Advertisement}", advertisement));
                 }
             }

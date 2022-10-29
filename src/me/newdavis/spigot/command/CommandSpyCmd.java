@@ -64,7 +64,7 @@ public class CommandSpyCmd implements CommandExecutor {
                                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CommandSpyMode}", deactivated));
                                 }
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CommandSpyMode}", deactivated).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CommandSpyMode}", deactivated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             } else {
                                 cmdSpyList.add(t);
@@ -72,7 +72,7 @@ public class CommandSpyCmd implements CommandExecutor {
                                     t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CommandSpyMode}", activated));
                                 }
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CommandSpyMode}", activated).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{CommandSpyMode}", activated).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             }
                         } else {

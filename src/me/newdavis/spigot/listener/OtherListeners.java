@@ -163,7 +163,7 @@ public class OtherListeners implements Listener {
                             .replace("||", "\n");
                     e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, kickMessage);
                     if (CommandFile.getBooleanPath("Command.Maintenance.MessageIfPlayerTryJoin")) {
-                        String prefix = NewSystem.getName(p);
+                        String prefix = NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         for (String key : tryJoinMessage) {
                             Bukkit.broadcastMessage(key
                                     .replace("{Prefix}", SettingsFile.getPrefix())
@@ -324,7 +324,7 @@ public class OtherListeners implements Listener {
                         if (new PeaceCmd().inPeace(p, t)) {
                             e.setCancelled(true);
                             for (String msg : tryToDamage) {
-                                t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                                t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                             }
                         }
                     }
@@ -515,7 +515,7 @@ public class OtherListeners implements Listener {
                 Player t = CommandSpyCmd.cmdSpyList.get(i);
                 if (t != p) {
                     for(String key : CommandSpyCmd.format) {
-                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Command}", commandMessage));
+                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Command}", commandMessage));
                     }
                 }
             }
@@ -736,7 +736,7 @@ public class OtherListeners implements Listener {
                         SavingsFile.setPath("Backpack." + t.getUniqueId() + ".Slot." + slotI, items.get(slotI));
                     }
                     for (String msg : BackpackCmd.messageSavedOther) {
-                        p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                     BackpackCmd.backpack.remove(p);
                 }

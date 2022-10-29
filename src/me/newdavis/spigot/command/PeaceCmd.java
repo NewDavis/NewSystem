@@ -167,12 +167,12 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
                 SavingsFile.setPath("Peace." + t.getUniqueId() + ".PeaceRequestList", requests);
 
                 for(String msg : messageRequest) {
-                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
 
                 if(!enableClick) {
                     for (String msg : messageRequestPlayer) {
-                        t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                        t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                     }
                 }else{
                     for(String msg : messageRequestPlayer) {
@@ -187,7 +187,7 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
                             text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/peace decline " + p.getName()));
                             t.spigot().sendMessage(text);
                         }else{
-                            t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                            t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                         }
                     }
                 }
@@ -196,7 +196,7 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
             }
         }else{
             for (String msg : messageRequestAlreadySend) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
         }
     }
@@ -211,17 +211,17 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
             SavingsFile.setPath("Peace." + t.getUniqueId() + ".PeaceList", peaceT);
 
             for(String msg : messageDisband) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             if(t.isOnline()) {
                 for (String msg : messageDisbandPlayer) {
-                    t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
             }
         }else{
             for(String msg : messageNoPeace) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
         }
     }
@@ -239,17 +239,17 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
             SavingsFile.setPath("Peace." + t.getUniqueId() + ".PeaceList", peaceT);
 
             for(String msg : messageAccept) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             if(t.isOnline()) {
                 for (String msg : messageAcceptPlayer) {
-                    t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
             }
         }else{
             for(String msg : messageNoRequest) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
         }
     }
@@ -261,17 +261,17 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
             SavingsFile.setPath("Peace." + p.getUniqueId() + ".PeaceRequestList", requests);
 
             for(String msg : messageDecline) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             if(t.isOnline()) {
                 for (String msg : messageDeclinePlayer) {
-                    t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    t.getPlayer().sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
             }
         }else{
             for(String msg : messageNoRequest) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
         }
     }
@@ -285,9 +285,9 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
                     for (int i = 0; i < peace.size(); i++) {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(peace.get(i)));
                         if (i == (peace.size() - 1)) {
-                            peaceListString = peaceListString.replace("{Player}", NewSystem.getName(t));
+                            peaceListString = peaceListString.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true));
                         } else {
-                            peaceListString = peaceListString.replace("{Player}", NewSystem.getName(t)) + peaceListFormat;
+                            peaceListString = peaceListString.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)) + peaceListFormat;
                         }
                     }
                     p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Peace}", peaceListString));
@@ -311,9 +311,9 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
                     for (int i = 0; i < requests.size(); i++) {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(requests.get(i)));
                         if (i == (requests.size() - 1)) {
-                            requestsListString = requestsListString.replace("{Player}", NewSystem.getName(t));
+                            requestsListString = requestsListString.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true));
                         } else {
-                            requestsListString = requestsListString.replace("{Player}", NewSystem.getName(t)) + requestListFormat;
+                            requestsListString = requestsListString.replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)) + requestListFormat;
                         }
                     }
                     p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Requests}", requestsListString));

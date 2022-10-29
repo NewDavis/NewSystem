@@ -45,7 +45,7 @@ public class FreezeCmd implements CommandExecutor {
                         if(freezed.containsKey(t)) {
                             freezed.remove(t);
                             for(String key : msgUnfreezed) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                             }
                             for(String value : msgUnfreezedP) {
                                 t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
@@ -53,7 +53,7 @@ public class FreezeCmd implements CommandExecutor {
                         }else{
                             freezed.put(t, t.getLocation());
                             for(String key : msgFreezed) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                             }
                             for(String value : msgFreezedP) {
                                 t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
@@ -77,7 +77,7 @@ public class FreezeCmd implements CommandExecutor {
                     if(freezed.containsKey(t)) {
                         freezed.remove(t);
                         for(String key : msgUnfreezed) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                         for(String value : msgUnfreezedP) {
                             t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
@@ -85,7 +85,7 @@ public class FreezeCmd implements CommandExecutor {
                     }else{
                         freezed.put(t, t.getLocation());
                         for(String key : msgFreezed) {
-                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                         for(String value : msgFreezedP) {
                             t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));

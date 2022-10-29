@@ -456,20 +456,20 @@ public class TeleportCmd implements CommandExecutor {
 
     public static void teleportAskPlayer(Player p, Player t) {
         for(String key : teleportAskMsg) {
-            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
         }
         for (String key : teleportAskMsgP) {
-            t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+            t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
         }
         SavingsFile.setPath("Teleport." + t.getUniqueId() + ".AskFrom", "TPA#" + p.getUniqueId().toString());
     }
 
     public static void teleportAskHerePlayer(Player p, Player t) {
         for(String key : teleportAskHereMsg) {
-            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
         }
         for (String key : teleportAskHereMsgP) {
-            t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+            t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
         }
         SavingsFile.setPath("Teleport." + t.getUniqueId() + ".AskFrom", "TPAHERE#" + p.getUniqueId().toString());
     }
@@ -480,10 +480,10 @@ public class TeleportCmd implements CommandExecutor {
             Player t = Bukkit.getPlayer(UUID.fromString(uuid[1]));
             if(t != null) {
                 for(String key : teleportAcceptMsgAccepted) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
                 for(String key : teleportAcceptMsgAcceptedP) {
-                    t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
                 if(NewSystem.hasPermission(p, teleportAcceptPermNoDelay)) {
                     teleportAcceptTeleport(p, t);
@@ -539,22 +539,22 @@ public class TeleportCmd implements CommandExecutor {
                             if (seconds[0] == 1) {
                                 if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
                                     for(String key : teleportAcceptMsgTpWithDelay) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
                                     }
                                 }else{
                                     for(String key : teleportAcceptMsgTpWithDelay) {
-                                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
+                                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
                                     }
                                 }
                                 seconds[0]--;
                             } else if (seconds[0] >= 1) {
                                 if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
                                     for(String key : teleportAcceptMsgTpWithDelay) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Seconds}", String.valueOf(seconds[0])));
+                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Seconds}", String.valueOf(seconds[0])));
                                     }
                                 }else{
                                     for(String key : teleportAcceptMsgTpWithDelay) {
-                                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Seconds}", String.valueOf(seconds[0])));
+                                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Seconds}", String.valueOf(seconds[0])));
                                     }
                                 }
                                 seconds[0]--;
@@ -636,10 +636,10 @@ public class TeleportCmd implements CommandExecutor {
         if(t != p) {
             t.teleport(p);
             for(String key : teleportHereMsgP) {
-                t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
             }
             for(String key : teleportHereMsg) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
         }else{
             for(String value : msgTpSendSelf) {
@@ -655,17 +655,17 @@ public class TeleportCmd implements CommandExecutor {
         if(teleportTo != t) {
             t.teleport(teleportTo);
             for(String key : msgP) {
-                t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(teleportTo)));
+                t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(teleportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
             }
             if(p != t) {
                 for (String key : msg) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{TeleportTo}", NewSystem.getName(teleportTo)));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{TeleportTo}", NewSystem.getName(teleportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                 }
             }
         }else{
             p.teleport(t);
             for(String key : msgP) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(teleportTo)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(teleportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
             }
         }
     }
@@ -673,10 +673,10 @@ public class TeleportCmd implements CommandExecutor {
     public static void teleportPlayer(CommandSender p, Player t, Player teleportTo) {
         t.teleport(teleportTo);
         for (String key : teleportMsgP) {
-            t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(teleportTo)));
+            t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(teleportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
         }
         for (String key : teleportMsg) {
-            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{TeleportTo}", NewSystem.getName(teleportTo)));
+            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{TeleportTo}", NewSystem.getName(teleportTo, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
         }
     }
 
@@ -697,7 +697,7 @@ public class TeleportCmd implements CommandExecutor {
                 t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{X}", xS).replace("{Y}", yS).replace("{Z}", zS).replace("{World}", world.getName()));
             }
             for(String key : teleportMsgLocation) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{X}", xS).replace("{Y}", yS).replace("{Z}", zS).replace("{World}", world.getName()));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{X}", xS).replace("{Y}", yS).replace("{Z}", zS).replace("{World}", world.getName()));
             }
         }
     }
@@ -713,7 +713,7 @@ public class TeleportCmd implements CommandExecutor {
             t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{X}", xS).replace("{Y}", yS).replace("{Z}", zS).replace("{World}", world.getName()));
         }
         for (String key : teleportMsgLocation) {
-            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{X}", xS).replace("{Y}", yS).replace("{Z}", zS).replace("{World}", world.getName()));
+            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{X}", xS).replace("{Y}", yS).replace("{Z}", zS).replace("{World}", world.getName()));
         }
     }
 
@@ -724,7 +724,7 @@ public class TeleportCmd implements CommandExecutor {
             }
         }else{
             for(String key : teleportAllMsgPTpTo) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{TeleportTo}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
             }
             for(String key : teleportAllMsgP) {
                 t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()));
@@ -735,7 +735,7 @@ public class TeleportCmd implements CommandExecutor {
             if(all != t) {
                 all.teleport(t);
                 for(String key : teleportAllMsgAll) {
-                    all.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    all.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
             }
         }
@@ -748,7 +748,7 @@ public class TeleportCmd implements CommandExecutor {
         for(Player all : Bukkit.getOnlinePlayers()) {
             if(all != p) {
                 for (String key : teleportAskAllMsg) {
-                    all.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                    all.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
                 SavingsFile.setPath("Teleport." + all.getUniqueId() + ".AskFrom", "TPAALL#" + p.getUniqueId().toString());
             }

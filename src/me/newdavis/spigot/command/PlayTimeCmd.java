@@ -52,7 +52,7 @@ public class PlayTimeCmd implements CommandExecutor {
                 OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
                 if(NewSystem.hasPermission(p, perm)) {
                     for(String key : msg) {
-                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{PlayTime}", getPlayTime(t.getUniqueId().toString())).replace("{Player}", NewSystem.getName(t)));
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{PlayTime}", getPlayTime(t.getUniqueId().toString())).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                 }
             }else{
@@ -64,7 +64,7 @@ public class PlayTimeCmd implements CommandExecutor {
             if(args.length == 1) {
                 OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
                 for (String key : msg) {
-                    sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{PlayTime}", getPlayTime(t.getUniqueId().toString())).replace("{Player}", NewSystem.getName(t)));
+                    sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{PlayTime}", getPlayTime(t.getUniqueId().toString())).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                 }
             }else{
                 for(String value : usage) {

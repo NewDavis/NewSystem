@@ -102,7 +102,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                             if (NewSystem.hasPermission(p, permGMOther.replace("{GameMode}", survival))) {
                                 t.setGameMode(GameMode.SURVIVAL);
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{GameMode}", survival).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                                    p.sendMessage(key.replace("{GameMode}", survival).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                                 }
                                 for(String key : msgP) {
                                     t.sendMessage(key.replace("{GameMode}", survival).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -115,7 +115,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                             if (NewSystem.hasPermission(p, permGMOther.replace("{GameMode}", creative))) {
                                 t.setGameMode(GameMode.CREATIVE);
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{GameMode}", creative).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                                    p.sendMessage(key.replace("{GameMode}", creative).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                                 }
                                 for(String key : msgP) {
                                     t.sendMessage(key.replace("{GameMode}", creative).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -128,7 +128,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                             if (NewSystem.hasPermission(p, permGMOther.replace("{GameMode}", adventure))) {
                                 t.setGameMode(GameMode.ADVENTURE);
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{GameMode}", adventure).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                                    p.sendMessage(key.replace("{GameMode}", adventure).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                                 }
                                 for(String key : msgP) {
                                     t.sendMessage(key.replace("{GameMode}", adventure).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -141,7 +141,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                             if (NewSystem.hasPermission(p, permGMOther.replace("{GameMode}", spectator))) {
                                 t.setGameMode(GameMode.SPECTATOR);
                                 for(String key : msg) {
-                                    p.sendMessage(key.replace("{GameMode}", spectator).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                                    p.sendMessage(key.replace("{GameMode}", spectator).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                                 }
                                 for(String key : msgP) {
                                     t.sendMessage(key.replace("{GameMode}", spectator).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -171,7 +171,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                     if (args[0].equalsIgnoreCase("Survival") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("Überleben") || args[0].equalsIgnoreCase("0")) {
                         t.setGameMode(GameMode.SURVIVAL);
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{GameMode}", survival).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                            sender.sendMessage(key.replace("{GameMode}", survival).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         for (String key : msgP) {
                             t.sendMessage(key.replace("{GameMode}", survival).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -180,7 +180,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                     } else if (args[0].equalsIgnoreCase("Creative") || args[0].equalsIgnoreCase("c") || args[0].equalsIgnoreCase("Kreativ") || args[0].equalsIgnoreCase("1")) {
                         t.setGameMode(GameMode.CREATIVE);
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{GameMode}", creative).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                            sender.sendMessage(key.replace("{GameMode}", creative).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         for (String key : msgP) {
                             t.sendMessage(key.replace("{GameMode}", creative).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -189,7 +189,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                     } else if (args[0].equalsIgnoreCase("Adventure") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("Abenteuer") || args[0].equalsIgnoreCase("2")) {
                         t.setGameMode(GameMode.ADVENTURE);
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{GameMode}", adventure).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                            sender.sendMessage(key.replace("{GameMode}", adventure).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         for (String key : msgP) {
                             t.sendMessage(key.replace("{GameMode}", adventure).replace("{Prefix}", SettingsFile.getPrefix()));
@@ -198,7 +198,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
                     } else if (args[0].equalsIgnoreCase("Spectator") || args[0].equalsIgnoreCase("sp") || args[0].equalsIgnoreCase("Zuschauer") || args[0].equalsIgnoreCase("3")) {
                         t.setGameMode(GameMode.SPECTATOR);
                         for (String key : msg) {
-                            sender.sendMessage(key.replace("{GameMode}", spectator).replace("{Player}", NewSystem.getName(t)).replace("{Prefix}", SettingsFile.getPrefix()));
+                            sender.sendMessage(key.replace("{GameMode}", spectator).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         for (String key : msgP) {
                             t.sendMessage(key.replace("{GameMode}", spectator).replace("{Prefix}", SettingsFile.getPrefix()));

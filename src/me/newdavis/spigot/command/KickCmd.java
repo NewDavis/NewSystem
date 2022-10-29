@@ -138,15 +138,15 @@ public class KickCmd implements CommandExecutor {
             }
 
             for (String key : msgP) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
 
             for (Player all : Bukkit.getOnlinePlayers()) {
                 for (String msg : listMessage) {
                     if (NewSystem.hasPermission(all, perm)) {
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t))
-                                .replace("{Kick-Of}", NewSystem.getName(p))
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
+                                .replace("{Kick-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                 .replace("{Reason}", reason));
                     }
                 }
@@ -176,14 +176,14 @@ public class KickCmd implements CommandExecutor {
         }
 
         for (String key : msgP) {
-            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
         }
 
         for (Player all : Bukkit.getOnlinePlayers()) {
             for (String msg : listMessage) {
                 if (NewSystem.hasPermission(all, perm)) {
                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                            .replace("{Player}", NewSystem.getName(t))
+                            .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true))
                             .replace("{Kick-Of}", SettingsFile.getConsolePrefix())
                             .replace("{Reason}", reason));
                 }

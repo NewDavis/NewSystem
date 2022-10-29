@@ -456,7 +456,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListPermanent) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Banned-Of}", NewSystem.getName(p))
+                                            .replace("{Banned-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Ban}", dateOfBan));
                                 }
@@ -540,7 +540,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListPermanent) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Banned-Of}", NewSystem.getName(p))
+                                            .replace("{Banned-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Ban}", dateOfBan));
                                 }
@@ -800,7 +800,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListTemporary) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Banned-Of}", NewSystem.getName(p))
+                                            .replace("{Banned-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Durate}", durate)
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Ban}", dateOfBan)
@@ -894,7 +894,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 for (String msg : messageListTemporary) {
                                     all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                             .replace("{IP}", ip.replace("-", "."))
-                                            .replace("{Banned-Of}", NewSystem.getName(p))
+                                            .replace("{Banned-Of}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")))
                                             .replace("{Durate}", durate)
                                             .replace("{Reason}", reason)
                                             .replace("{Date-Of-Ban}", dateOfBan)
@@ -1157,7 +1157,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOf = NewSystem.getName(bannedOfPlayer);
+                                            bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1179,7 +1179,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     bannedOf = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf")));
-                                    bannedOf = NewSystem.getName(bannedOfPlayer);
+                                    bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
 
@@ -1247,7 +1247,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                             bannedOf = SettingsFile.getConsolePrefix();
                                         }else{
                                             OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("UUID_BANNED_OF")));
-                                            bannedOf = NewSystem.getName(bannedOfPlayer);
+                                            bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                         }
                                     }
                                     mySQL.disconnect();
@@ -1269,7 +1269,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     bannedOf = SettingsFile.getConsolePrefix();
                                 } else {
                                     OfflinePlayer bannedOfPlayer = Bukkit.getOfflinePlayer(UUID.fromString(SavingsFile.getStringPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf")));
-                                    bannedOf = NewSystem.getName(bannedOfPlayer);
+                                    bannedOf = NewSystem.getName(bannedOfPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                                 }
                             }
                             if (!isBanPermanent(ip)) {

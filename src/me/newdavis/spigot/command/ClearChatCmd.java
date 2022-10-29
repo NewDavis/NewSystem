@@ -3,6 +3,8 @@ package me.newdavis.spigot.command;
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.plugin.NewSystem;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,12 +34,14 @@ public class ClearChatCmd implements CommandExecutor {
             Player p = (Player) sender;
             if (NewSystem.hasPermission(p, perm)) {
                 if (args.length == 0) {
-                    for(int i = 0; i < emptyLines; i++) {
-                        Bukkit.broadcastMessage("§f§6 ");
+                    for(Player all : Bukkit.getOnlinePlayers()) {
+                        for (int i = 0; i < emptyLines; i++) {
+                            all.sendMessage("");
+                        }
                     }
 
                     for(String key : msg) {
-                        Bukkit.broadcastMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)));
+                        Bukkit.broadcastMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                     }
                 }else{
                     for(String key : usage) {

@@ -97,12 +97,12 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
             }
 
             for(String key : msgUnMutedPlayer) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
             for(String msg : listMessage) {
                 for(Player all : Bukkit.getOnlinePlayers()) {
                     if(NewSystem.hasPermission(all, perm)) {
-                        all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Muted-Player}", NewSystem.getName(t)));
+                        all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Muted-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                     }
                 }
             }
@@ -128,12 +128,12 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
             }
 
             for(String key : msgUnMutedPlayer) {
-                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
             }
             for(String msg : listMessage) {
                 for(Player all : Bukkit.getOnlinePlayers()) {
                     if(NewSystem.hasPermission(all, perm)) {
-                        all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", SettingsFile.getConsolePrefix()).replace("{Muted-Player}", NewSystem.getName(t)));
+                        all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", SettingsFile.getConsolePrefix()).replace("{Muted-Player}", NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                     }
                 }
             }
@@ -166,7 +166,7 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
                 for (String msg : listMessage) {
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         if (NewSystem.hasPermission(all, perm)) {
-                            all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Muted-Player}", ip.replace("-", ".")));
+                            all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Muted-Player}", ip.replace("-", ".")));
                         }
                     }
                 }

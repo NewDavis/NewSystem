@@ -43,7 +43,7 @@ public class PlaceholderManager {
         if(p != null) {
             String playtime = (CommandFile.getBooleanPath("Command.PlayTime.Enabled") ? PlayTimeCmd.getPlayTime(p.getUniqueId().toString()) : "");
             String role = "";
-            String prefix = NewSystem.getName(p);
+            String prefix = NewSystem.getName(p, true);
             String rolePrefix = "";
             String roleSuffix = "";
             String suffix = "";
@@ -96,7 +96,7 @@ public class PlaceholderManager {
     public void updatePlaceholder(String placeholder) {
         switch (placeholder) {
             case "{PlayerPrefix}":
-                String prefix = NewSystem.getName(p);
+                String prefix = NewSystem.getName(p, true);
                 getPlaceholder("{PlayerPrefix}").updateValue(prefix);
                 break;
             case "{PlayerSuffix}":
@@ -213,7 +213,7 @@ public class PlaceholderManager {
                     .replace("{RolePrefix}", getPlaceholder("{RolePrefix}").getValue())
                     .replace("{RoleSuffix}", getPlaceholder("{RoleSuffix}").getValue())
                     .replace("{Name}", p.getName())
-                    .replace("{DisplayName}", NewSystem.getName(p))
+                    .replace("{DisplayName}", NewSystem.getName(p, true))
                     .replace("{Role}", getPlaceholder("{Role}").getValue())
                     .replace("{Currency}", getPlaceholder("{Currency}").getValue())
                     .replace("{CurrencyPrefix}", new PlaceholderManager().getPlaceholder("{CurrencyPrefix}").getValue())

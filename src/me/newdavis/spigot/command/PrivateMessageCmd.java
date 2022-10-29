@@ -101,10 +101,10 @@ public class PrivateMessageCmd implements CommandExecutor {
         }
 
         for(String msg : messageSender) {
-            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{Message}", message));
+            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Message}", message));
         }
         for(String msg : messagePlayer) {
-            t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Message}", message));
+            t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Message}", message));
         }
         replyHashMap.put(p, t);
         replyHashMap.put(t, p);

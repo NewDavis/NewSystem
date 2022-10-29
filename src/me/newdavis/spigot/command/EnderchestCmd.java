@@ -44,7 +44,7 @@ public class EnderchestCmd implements CommandExecutor {
                     if (t != null) {
                         if (NewSystem.hasPermission(p, permOther)) {
                             for(String key : msg) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                             }
                             p.openInventory(t.getEnderChest());
                         }else{

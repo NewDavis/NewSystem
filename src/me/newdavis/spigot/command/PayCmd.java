@@ -51,7 +51,7 @@ public class PayCmd implements CommandExecutor {
                                 for (Player all : Bukkit.getOnlinePlayers()) {
                                     if(all != p) {
                                         for(String msg : payPlayer) {
-                                            all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Player}", NewSystem.getName(p)));
+                                            all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                                         }
                                     }
                                 }
@@ -69,10 +69,10 @@ public class PayCmd implements CommandExecutor {
                             if(p != t) {
                                 if (CurrencyAPI.payCurrencyToPlayer(p, t, amount)) {
                                     for(String msg : pay) {
-                                        p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                        p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                     }
                                     for(String msg : payPlayer) {
-                                        t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Player}", NewSystem.getName(p)));
+                                        t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Amount}", CurrencyAPI.getCurrencyString(amount)).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                                     }
                                 } else {
                                     for(String value : noMoney) {

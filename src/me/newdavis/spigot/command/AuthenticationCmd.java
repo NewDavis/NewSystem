@@ -62,13 +62,13 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
                     if(args[1].equalsIgnoreCase("reset")) {
                         resetPassword(t);
                         for(String msg : reset) {
-                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                         }
                     }else if(args[1].equalsIgnoreCase("get")) {
                         String password = getPassword(t);
                         for (String msg : get) {
                             p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                    .replace("{Player}", NewSystem.getName(t)).replace("{Password}", password));
+                                    .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Password}", password));
                         }
                     }else if(args[0].equalsIgnoreCase("register")) {
                         String password = getPasswordFromArray(args, 1);
@@ -88,7 +88,7 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
                         setPassword(t, password);
                         for (String msg : set) {
                             p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                    .replace("{Player}", NewSystem.getName(t)).replace("{Password}", password));
+                                    .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Password}", password));
                         }
                     }else if(args[0].equalsIgnoreCase("register")) {
                         String password = getPasswordFromArray(args, 1);
@@ -132,13 +132,13 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
                 if(args[1].equalsIgnoreCase("reset")) {
                     resetPassword(t);
                     for(String msg : reset) {
-                        sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                        sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                     }
                 }else if(args[1].equalsIgnoreCase("get")) {
                     String password = getPassword(t);
                     for (String msg : get) {
                         sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t)).replace("{Password}", password));
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Password}", password));
                     }
                 }else{
                     for(String value : usageWP) {
@@ -152,7 +152,7 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
                     setPassword(t, password);
                     for (String msg : set) {
                         sender.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                .replace("{Player}", NewSystem.getName(t)).replace("{Password}", password));
+                                .replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Password}", password));
                     }
                 }else{
                     for(String value : usageWP) {
@@ -188,7 +188,7 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
         if (loggedInPlayer.contains(p)) {
             SavingsFile.setPath("Authentication." + p.getUniqueId() + ".Password", password);
             for (String msg : changed) {
-                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p)).replace("{Password}", password));
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Password}", password));
             }
         } else {
             for(String value : haveToLogin) {

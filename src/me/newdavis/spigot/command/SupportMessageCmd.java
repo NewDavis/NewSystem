@@ -145,7 +145,7 @@ public class SupportMessageCmd implements CommandExecutor, TabCompleter {
                             } else {
                                 String msg = savedTemplate.get(p);
                                 for (String msgP : messagePlayer) {
-                                    p.sendMessage(msgP.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{SupportMessage}", msg));
+                                    p.sendMessage(msgP.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{SupportMessage}", msg));
                                 }
                                 for (String msgT : message) {
                                     t.sendMessage(msgT.replace("{Prefix}", SettingsFile.getPrefix()).replace("{SupportMessage}", msg));
@@ -231,7 +231,7 @@ public class SupportMessageCmd implements CommandExecutor, TabCompleter {
                     Player t = Bukkit.getPlayer(arg);
                     if (t != null) {
                         for (String msgP : messagePlayer) {
-                            sender.sendMessage(msgP.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)).replace("{SupportMessage}", savedTemplateConsole));
+                            sender.sendMessage(msgP.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{SupportMessage}", savedTemplateConsole));
                         }
                         for (String msgT : message) {
                             t.sendMessage(msgT.replace("{Prefix}", SettingsFile.getPrefix()).replace("{SupportMessage}", savedTemplateConsole));

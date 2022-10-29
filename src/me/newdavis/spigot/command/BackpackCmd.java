@@ -69,7 +69,7 @@ public class BackpackCmd implements CommandExecutor {
                         }else {
                             if (openBackpack(p, t, titleOther.replace("{Player}", t.getName()), size)) {
                                 for (String msg : messageOther) {
-                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t)));
+                                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
                                 }
                             }
                         }
