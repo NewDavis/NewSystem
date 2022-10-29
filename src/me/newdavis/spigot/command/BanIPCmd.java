@@ -792,7 +792,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         }
 
                         for (String key : msgBannedTemporary) {
-                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")));
+                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")).replace("{Durate}", durate));
                         }
 
                         for (Player all : Bukkit.getOnlinePlayers()) {
@@ -886,7 +886,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         }
 
                         for (String key : msgBannedTemporary) {
-                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")));
+                            p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")).replace("{Durate}", durate));
                         }
 
                         for (Player all : Bukkit.getOnlinePlayers()) {
@@ -985,14 +985,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 }
 
                 for (String key : msgBannedTemporary) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")).replace("{Durate}", durate));
                 }
 
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     if (NewSystem.hasPermission(all, perm)) {
                         for (String msg : messageListTemporary) {
                             all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                    .replace("{Player}", ip.replace("-", "."))
+                                    .replace("{IP}", ip.replace("-", "."))
                                     .replace("{Banned-Of}", SettingsFile.getConsolePrefix())
                                     .replace("{Durate}", durate)
                                     .replace("{Reason}", reason)
@@ -1069,14 +1069,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 }
 
                 for (String key : msgBannedTemporary) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")));
+                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{IP}", ip.replace("-", ".")).replace("{Durate}", durate));
                 }
 
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     if (NewSystem.hasPermission(all, perm)) {
                         for (String msg : messageListTemporary) {
                             all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
-                                    .replace("{Player}", ip.replace("-", "."))
+                                    .replace("{IP}", ip.replace("-", "."))
                                     .replace("{Banned-Of}", SettingsFile.getConsolePrefix())
                                     .replace("{Durate}", durate)
                                     .replace("{Reason}", reason)

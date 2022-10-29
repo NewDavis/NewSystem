@@ -87,7 +87,7 @@ public class HistoryCmd implements CommandExecutor {
             if(NewSystem.hasPermission(p, perm)) {
                 if(args.length == 1) {
                     String ip = args[0].replace(".", "-");
-                    if(SavingsFile.getSavedIPs().contains(ip)) {
+                    if(ip.contains("-")) {
                         sendHistory(p, ip);
                     }else {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
@@ -104,7 +104,7 @@ public class HistoryCmd implements CommandExecutor {
         }else{
             if(args.length == 1) {
                 String ip = args[0].replace(".", "-");
-                if(SavingsFile.getSavedIPs().contains(ip)) {
+                if(ip.contains("-")) {
                     sendHistory(sender, ip);
                 }else {
                     OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
