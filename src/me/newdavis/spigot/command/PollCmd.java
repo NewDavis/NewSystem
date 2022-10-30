@@ -41,7 +41,7 @@ public class PollCmd implements CommandExecutor {
     private static String voteYes;
     private static String voteNo;
 
-    public void init() {
+    public PollCmd() {
         usage = CommandFile.getStringListPath("Command.Poll.Usage");
         perm = CommandFile.getStringPath("Command.Poll.Permission");
         pollActive = CommandFile.getStringListPath("Command.Poll.MessagePollActive");
@@ -61,9 +61,12 @@ public class PollCmd implements CommandExecutor {
         voted = CommandFile.getStringListPath("Command.Poll.MessageVoted");
         voteYes = CommandFile.getStringPath("Command.Poll.Yes");
         voteNo = CommandFile.getStringPath("Command.Poll.No");
-        NewSystem.getInstance().getCommand("poll").setExecutor(this);
-        NewSystem.getInstance().getCommand("ja").setExecutor(this);
-        NewSystem.getInstance().getCommand("nein").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("poll").setExecutor(this);
+            NewSystem.getInstance().getCommand("ja").setExecutor(this);
+            NewSystem.getInstance().getCommand("nein").setExecutor(this);
+        }
     }
 
     @Override

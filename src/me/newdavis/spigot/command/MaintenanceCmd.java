@@ -58,7 +58,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
     private static String listRoleConsoleMessage;
     public static String maintenanceMOTD;
 
-    public void init() {
+    public MaintenanceCmd() {
         usage = CommandFile.getStringListPath("Command.Maintenance.Usage");
         perm = CommandFile.getStringPath("Command.Maintenance.Permission.Use");
         permPlayer = CommandFile.getStringPath("Command.Maintenance.Permission.Player");
@@ -88,10 +88,15 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
         listPlayerConsoleMessage = CommandFile.getStringPath("Command.Maintenance.ListPlayerConsole");
         listRoleConsoleMessage = CommandFile.getStringPath("Command.Maintenance.ListRoleConsole");
         maintenanceMOTD = CommandFile.getStringPath("Command.Maintenance.MOTD").replace("{Prefix}", SettingsFile.getPrefix());
+        addedRoles.clear();
+        addedPlayers.clear();
         getAddedPlayers();
         getAddedRoles();
         getStatus();
-        NewSystem.getInstance().getCommand("maintenance").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("maintenance").setExecutor(this);
+        }
     }
 
     @Override
@@ -483,7 +488,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                 }else {
                     for (String addedPlayer : addedPlayers) {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(addedPlayer));
-                        String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                        String prefix = NewSystem.getName(addedPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         String addedDate = "";
                         String prefixAddedPlayer = "";
                         if(mySQLEnabled){
@@ -513,13 +518,13 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                             }
                         }
 
-                        TextComponent component = new TextComponent(listPlayerFormat.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
+                        TextComponent component = new TextComponent(listPlayerFormat.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(addedPlayer, false)).replace("{DisplayName}", NewSystem.getName(addedPlayer, true)));
                         component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(listPlayerHover
                                 .replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{Player}", prefix)
                                 .replace("{AddedOf}", prefixAddedPlayer)
                                 .replace("{AddedDate}", addedDate)).create()));
-                        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wartung remove " + t.getName()));
+                        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/wartung remove " + NewSystem.getName(addedPlayer, false)));
 
                         p.spigot().sendMessage(component);
                     }
@@ -591,16 +596,14 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
     }
 
     public static void sendList(CommandSender p) {
-        List<String> player = SavingsFile.getStringListPath("Maintenance.Added");
-
         for(String msg : messageListPlayer) {
             if(msg.contains("{AddedPlayer}")) {
-                if(player.isEmpty()) {
+                if(addedPlayers.isEmpty()) {
                     p.sendMessage(msg.replace("{AddedPlayer}", msgNoPlayersAdded));
                 }else {
-                    for (String addedPlayer : player) {
+                    for (String addedPlayer : addedPlayers) {
                         OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(addedPlayer));
-                        String prefix = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
+                        String prefix = NewSystem.getName(addedPlayer, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         String addedDate = "";
                         String prefixAddedPlayer = "";
                         if(mySQLEnabled){
@@ -644,14 +647,12 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
         }
 
         if(NewSystem.newPerm) {
-            List<String> roles = SavingsFile.getStringListPath("Maintenance.AddedRoles");
-
             for (String msg : messageListRole) {
                 if (msg.contains("{AddedRoles}")) {
-                    if (roles.isEmpty()) {
+                    if (addedRoles.isEmpty()) {
                         p.sendMessage(msg.replace("{AddedRoles}", msgNoRolesAdded));
                     } else {
-                        for (String role : roles) {
+                        for (String role : addedRoles) {
                             String suffix = NewPermManager.getRoleSuffix(role);
                             String addedDate = "";
                             String prefixAddedPlayer = "";

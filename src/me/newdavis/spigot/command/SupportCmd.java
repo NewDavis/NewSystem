@@ -52,7 +52,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
     private static String formatSupporterToPlayer;
     private static String formatPlayerToSupporter;
 
-    public void init() {
+    public SupportCmd() {
         usage = CommandFile.getStringListPath("Command.Support.Usage");
         usageWithPerm = CommandFile.getStringListPath("Command.Support.UsageWithPermission");
         perm = CommandFile.getStringPath("Command.Support.Permission.Use");
@@ -81,7 +81,10 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
         noSupporter = CommandFile.getStringPath("Command.Support.NoSupporter");
         formatSupporterToPlayer = CommandFile.getStringPath("Command.Support.SupportChatFormatToPlayer").replace("{Prefix}", SettingsFile.getPrefix());
         formatPlayerToSupporter = CommandFile.getStringPath("Command.Support.SupportChatFormatToSupporter").replace("{Prefix}", SettingsFile.getPrefix());
-        NewSystem.getInstance().getCommand("support").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("support").setExecutor(this);
+        }
     }
 
     @Override
@@ -329,7 +332,7 @@ public class SupportCmd implements CommandExecutor, TabCompleter {
                         String supportOf = NewSystem.getName(t, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         all.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix())
                                 .replace("{SupportTicketOf}", supportOf)
-                                .replace("{Supporter}", (p == null ? SettingsFile.getConsolePrefix() : NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))))
+                                .replace("{Supporter}", (p == null ? noSupporter : NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))))
                                 .replace("{Status}", statusClosed));
                     }
                 }

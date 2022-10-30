@@ -34,7 +34,7 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
     private static List<String> alreadyLoggedIn;
     private static List<String> incorrect;
 
-    public void init() {
+    public AuthenticationCmd() {
         usageWP = CommandFile.getStringListPath("Command.Authentication.UsageWithPerms");
         usage = CommandFile.getStringListPath("Command.Authentication.Usage");
         reset = CommandFile.getStringListPath("Command.Authentication.MessageReseted");
@@ -49,7 +49,10 @@ public class AuthenticationCmd implements CommandExecutor, TabCompleter {
         loggedIn = CommandFile.getStringListPath("Command.Authentication.MessageLoggedIn");
         alreadyLoggedIn = CommandFile.getStringListPath("Command.Authentication.MessageAlreadyLoggedIn");
         incorrect = CommandFile.getStringListPath("Command.Authentication.MessagePasswordIncorrect");
-        NewSystem.getInstance().getCommand("authentication").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("authentication").setExecutor(this);
+        }
     }
 
     @Override

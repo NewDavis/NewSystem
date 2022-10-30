@@ -28,7 +28,7 @@ public class ListCmd implements CommandExecutor {
     private static List<String> messageAll;
     private static List<String> messageRole;
 
-    public void init() {
+    public ListCmd() {
         usage = CommandFile.getStringListPath("Command.List.Usage");
         perm = CommandFile.getStringPath("Command.List.Permission.Use");
         permAll = CommandFile.getStringPath("Command.List.Permission.All");
@@ -40,7 +40,10 @@ public class ListCmd implements CommandExecutor {
         allListFormat = CommandFile.getStringListPath("Command.List.AllListFormat");
         messageAll = CommandFile.getStringListPath("Command.List.MessageAll");
         messageRole = CommandFile.getStringListPath("Command.List.MessageRole");
-        NewSystem.getInstance().getCommand("list").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("list").setExecutor(this);
+        }
     }
 
     @Override

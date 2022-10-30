@@ -20,7 +20,7 @@ public class DeathDropListener implements Listener {
 
     private static final List<ItemStack> items = new ArrayList<>();
 
-    public void init() {
+    public DeathDropListener() {
         if(ListenerFile.isPathSet("Listener.DeathDrop.Items")) {
             for (String item : ListenerFile.getConfigurationSection("Listener.DeathDrop.Items")) {
                 ItemStack itemStack = new ItemStack(Material.GRASS);
@@ -104,7 +104,10 @@ public class DeathDropListener implements Listener {
                 }
             }
         }
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

@@ -20,13 +20,16 @@ public class SudoCmd implements CommandExecutor {
     private static String permMessage;
     private static List<String> msg;
 
-    public void init() {
+    public SudoCmd() {
         usage = CommandFile.getStringListPath("Command.Sudo.Usage");
         perm = CommandFile.getStringPath("Command.Sudo.Permission.Use");
         permCommand = CommandFile.getStringPath("Command.Sudo.Permission.Command");
         permMessage = CommandFile.getStringPath("Command.Sudo.Permission.Message");
         msg = CommandFile.getStringListPath("Command.Sudo.Message");
-        NewSystem.getInstance().getCommand("sudo").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("sudo").setExecutor(this);
+        }
     }
 
     @Override

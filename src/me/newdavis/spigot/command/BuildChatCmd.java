@@ -20,12 +20,15 @@ public class BuildChatCmd implements CommandExecutor {
     private static boolean colorCodes;
     private static List<String> format;
 
-    public void init() {
+    public BuildChatCmd() {
         perm = CommandFile.getStringPath("Command.BuildChat.Permission");
         usage = CommandFile.getStringListPath("Command.BuildChat.Usage");
         colorCodes = CommandFile.getBooleanPath("Command.BuildChat.ColorCodes");
         format = CommandFile.getStringListPath("Command.BuildChat.Format");
-        NewSystem.getInstance().getCommand("buildchat").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("buildchat").setExecutor(this);
+        }
     }
 
     @Override

@@ -13,9 +13,12 @@ public class ServerPingListener implements Listener {
 
     private static String motd;
 
-    public void init() {
+    public ServerPingListener() {
         motd = ListenerFile.getStringPath("Listener.ServerPing.MOTD").replace("{Prefix}", SettingsFile.getPrefix().replace("||", "\n"));
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

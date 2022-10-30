@@ -23,7 +23,7 @@ public class PayCmd implements CommandExecutor {
     private static List<String> payPlayer;
     private static List<String> payEveryone;
 
-    public void init() {
+    public PayCmd() {
         usage = CommandFile.getStringListPath("Command.Currency.UsagePay");
         perm = CommandFile.getStringPath("Command.Currency.Permission.Pay");
         permEveryone = CommandFile.getStringPath("Command.Currency.Permission.PayEveryone");
@@ -32,7 +32,10 @@ public class PayCmd implements CommandExecutor {
         pay = CommandFile.getStringListPath("Command.Currency.MessagePay");
         payPlayer = CommandFile.getStringListPath("Command.Currency.MessagePayPlayer");
         payEveryone = CommandFile.getStringListPath("Command.Currency.MessagePayEveryone");
-        NewSystem.getInstance().getCommand("pay").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("pay").setExecutor(this);
+        }
     }
 
     @Override

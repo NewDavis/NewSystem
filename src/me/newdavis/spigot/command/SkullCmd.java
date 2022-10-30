@@ -23,14 +23,17 @@ public class SkullCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public SkullCmd() {
         usage = CommandFile.getStringListPath("Command.Skull.Usage");
         perm = CommandFile.getStringPath("Command.Skull.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Skull.Permission.Other");
         skullName = CommandFile.getStringPath("Command.Skull.Name");
         msg = CommandFile.getStringListPath("Command.Skull.Message");
         msgP = CommandFile.getStringListPath("Command.Skull.MessageP");
-        NewSystem.getInstance().getCommand("skull").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("skull").setExecutor(this);
+        }
     }
 
     @Override

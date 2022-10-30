@@ -26,7 +26,7 @@ public class ClearLagCmd implements CommandExecutor, TabCompleter {
     private static boolean globalMessage;
     private static List<String> deletedMessage;
 
-    public void init() {
+    public ClearLagCmd() {
         perm = CommandFile.getStringPath("Command.ClearLag.Permission");
         usage = CommandFile.getStringListPath("Command.ClearLag.Usage");
         message = CommandFile.getStringListPath("Command.ClearLag.Message");
@@ -34,7 +34,10 @@ public class ClearLagCmd implements CommandExecutor, TabCompleter {
         enabled = CommandFile.getBooleanPath("Command.ClearLag.Auto.Enabled");
         globalMessage = CommandFile.getBooleanPath("Command.ClearLag.Auto.Message.Enabled");
         deletedMessage = CommandFile.getStringListPath("Command.ClearLag.Auto.Message.Deleted");
-        NewSystem.getInstance().getCommand("clearlag").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("clearlag").setExecutor(this);
+        }
     }
 
     @Override

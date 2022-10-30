@@ -40,7 +40,7 @@ public class RepairCmd implements CommandExecutor {
     private static List<String> msgAll;
     private static List<String> msgPAll;
 
-    public void init() {
+    public RepairCmd() {
         usage = CommandFile.getStringListPath("Command.Repair.Usage");
         perm = CommandFile.getStringPath("Command.Repair.Permission.Use");
         permArmor = CommandFile.getStringPath("Command.Repair.Permission.Armor");
@@ -62,7 +62,10 @@ public class RepairCmd implements CommandExecutor {
         alreadyRepairedAll = CommandFile.getStringListPath("Command.Repair.MessageAlreadyRepairedAll");
         msgAll = CommandFile.getStringListPath("Command.Repair.MessageAll");
         msgPAll = CommandFile.getStringListPath("Command.Repair.MessageAllPlayer");
-        NewSystem.getInstance().getCommand("repair").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("repair").setExecutor(this);
+        }
     }
 
     @Override

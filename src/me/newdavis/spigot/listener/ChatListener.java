@@ -39,7 +39,7 @@ public class ChatListener implements Listener {
     private static String mentionKey;
     private static String mentionPrefix;
 
-    public void init() {
+    public ChatListener() {
         chatColorPerm = ListenerFile.getStringPath("Listener.Chat.Permission.Color");
         chatColorRGB = ListenerFile.getStringPath("Listener.Chat.Permission.RGB");
         format = ListenerFile.getStringPath("Listener.Chat.Format");

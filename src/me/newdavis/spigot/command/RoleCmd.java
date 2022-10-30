@@ -44,7 +44,7 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
     private static List<String> messagePTemporary;
     private static List<String> messageTemporaryExpired;
 
-    public void init() {
+    public RoleCmd() {
         usage = CommandFile.getStringListPath("Command.Role.Usage");
         perm = CommandFile.getStringPath("Command.Role.Permission.Use");
         rolePerm = CommandFile.getStringPath("Command.Role.Permission.Use");
@@ -63,7 +63,10 @@ public class RoleCmd implements CommandExecutor, TabCompleter {
         messageTTemporary = CommandFile.getStringListPath("Command.Role.MessageTemporary");
         messagePTemporary = CommandFile.getStringListPath("Command.Role.MessagePlayerTemporary");
         messageTemporaryExpired = CommandFile.getStringListPath("Command.Role.MessageTemporaryExpired");
-        NewSystem.getInstance().getCommand("role").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("role").setExecutor(this);
+        }
     }
 
     @Override

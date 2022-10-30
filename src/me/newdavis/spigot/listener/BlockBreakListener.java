@@ -18,10 +18,13 @@ public class BlockBreakListener implements Listener {
     private static String perm;
     private static List<String> message;
 
-    public void init() {
+    public BlockBreakListener() {
         perm = ListenerFile.getStringPath("Listener.BlockBreak.Permission");
         message = ListenerFile.getStringListPath("Listener.BlockBreak.Message");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

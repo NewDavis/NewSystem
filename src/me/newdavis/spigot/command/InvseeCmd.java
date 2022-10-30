@@ -21,12 +21,15 @@ public class InvseeCmd implements CommandExecutor {
     private static String permEdit;
     private static List<String> msg;
 
-    public void init() {
+    public InvseeCmd() {
         usage = CommandFile.getStringListPath("Command.InvSee.Usage");
         perm = CommandFile.getStringPath("Command.InvSee.Permission.Use");
         permEdit = CommandFile.getStringPath("Command.InvSee.Permission.Edit");
         msg = CommandFile.getStringListPath("Command.InvSee.Message");
-        NewSystem.getInstance().getCommand("invsee").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("invsee").setExecutor(this);
+        }
     }
 
     @Override

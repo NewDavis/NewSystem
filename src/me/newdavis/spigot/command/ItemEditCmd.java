@@ -35,7 +35,7 @@ public class ItemEditCmd implements CommandExecutor, TabCompleter {
     private static List<String> msgAir;
     private static List<String> format;
 
-    public void init() {
+    public ItemEditCmd() {
         usage = CommandFile.getStringListPath("Command.ItemEdit.Usage");
         perm = CommandFile.getStringPath("Command.ItemEdit.Permission.Use");
         permRename = CommandFile.getStringPath("Command.ItemEdit.Permission.Rename");
@@ -49,7 +49,10 @@ public class ItemEditCmd implements CommandExecutor, TabCompleter {
         msgSigned = CommandFile.getStringListPath("Command.ItemEdit.MessageSigned");
         msgAir = CommandFile.getStringListPath("Command.ItemEdit.MessageItemIsAir");
         format = CommandFile.getStringListPath("Command.ItemEdit.SignFormat");
-        NewSystem.getInstance().getCommand("itemedit").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("itemedit").setExecutor(this);
+        }
     }
 
     @Override

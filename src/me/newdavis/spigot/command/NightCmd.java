@@ -20,12 +20,15 @@ public class NightCmd implements CommandExecutor {
     private static List<String> msgAll;
     private static boolean globalMessage;
 
-    public void init() {
+    public NightCmd() {
         perm = CommandFile.getStringPath("Command.Night.Permission");
         msgP = CommandFile.getStringListPath("Command.Night.Message");
         msgAll = CommandFile.getStringListPath("Command.Night.GlobalMessage");
         globalMessage = CommandFile.getBooleanPath("Command.Night.GlobalMessageEnabled");
-        NewSystem.getInstance().getCommand("night").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("night").setExecutor(this);
+        }
     }
 
     @Override

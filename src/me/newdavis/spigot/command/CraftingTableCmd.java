@@ -19,11 +19,14 @@ public class CraftingTableCmd implements CommandExecutor {
     private static List<String> usage;
     private static List<String> message;
 
-    public void init() {
+    public CraftingTableCmd() {
         perm = CommandFile.getStringPath("Command.CraftingTable.Permission");
         usage = CommandFile.getStringListPath("Command.CraftingTable.Usage");
         message = CommandFile.getStringListPath("Command.CraftingTable.Message");
-        NewSystem.getInstance().getCommand("craftingtable").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("craftingtable").setExecutor(this);
+        }
     }
 
     @Override

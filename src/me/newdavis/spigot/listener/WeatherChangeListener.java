@@ -7,8 +7,11 @@ import org.bukkit.event.Listener;
 
 public class WeatherChangeListener implements Listener {
 
-    public void init() {
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+    public WeatherChangeListener() {
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

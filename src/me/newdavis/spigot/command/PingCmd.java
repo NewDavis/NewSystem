@@ -20,7 +20,7 @@ public class PingCmd implements CommandExecutor {
     private static List<String> message;
     private static final HashMap<String, String> colorCodes = new HashMap<>();
 
-    public void init() {
+    public PingCmd() {
         perm = CommandFile.getStringPath("Command.Ping.Permission");
         usage = CommandFile.getStringListPath("Command.Ping.Usage");
         message = CommandFile.getStringListPath("Command.Ping.Message");
@@ -29,7 +29,10 @@ public class PingCmd implements CommandExecutor {
             String condition = CommandFile.getStringPath("Command.Ping.ColorCode." + colorCode + ".Condition");
             colorCodes.put(condition, colorCode);
         }
-        NewSystem.getInstance().getCommand("ping").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("ping").setExecutor(this);
+        }
     }
 
     @Override

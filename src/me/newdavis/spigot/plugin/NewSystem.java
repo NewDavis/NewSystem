@@ -13,7 +13,10 @@ import me.newdavis.spigot.util.placeholder.PlaceholderManager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -26,8 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class NewSystem extends JavaPlugin {
@@ -36,6 +38,8 @@ public class NewSystem extends JavaPlugin {
     public static MySQL mySQL;
     public static boolean newPerm;
     public static boolean enabled = false;
+    public static List<Class<?>> loadedListeners = new ArrayList();
+    public static List<CommandExecutor> loadedCommands = new ArrayList();
     public final String PLUGIN_VERSION = getDescription().getVersion();
     public static HashMap<String, Boolean> status = new HashMap<>();
     public static HashMap<Player, Scoreboard> playerScoreboard = new HashMap<>();
@@ -109,7 +113,7 @@ public class NewSystem extends JavaPlugin {
         }
     }
 
-    private static void loadAll() {
+    public static void loadAll() {
         //Command Aliases & Custom Command Aliases
         OtherListeners.commandAliases = CommandFile.getCommandAliases();
         Bukkit.getConsoleSender().sendMessage("");
@@ -137,8 +141,8 @@ public class NewSystem extends JavaPlugin {
         //Commands
         status.put("GameMode CMD", CommandFile.getBooleanPath("Command.GameMode.Enabled"));
         if (CommandFile.getBooleanPath("Command.GameMode.Enabled")) {
-            new GameModeCmd().init();
-            new GameModeShortCmd().init();
+            new GameModeCmd();
+            new GameModeShortCmd();
             commands += "§aGameMode§8, ";
         } else {
             commands += "§cGameMode§8, ";
@@ -146,7 +150,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Fly CMD", CommandFile.getBooleanPath("Command.Fly.Enabled"));
         if (CommandFile.getBooleanPath("Command.Fly.Enabled")) {
-            new FlyCmd().init();
+            new FlyCmd();
             commands += "§aFly§8, ";
         } else {
             commands += "§cFly§8, ";
@@ -154,7 +158,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Speed CMD", CommandFile.getBooleanPath("Command.Speed.Enabled"));
         if(CommandFile.getBooleanPath("Command.Speed.Enabled")) {
-            new SpeedCmd().init();
+            new SpeedCmd();
             commands += "§aSpeed§8, ";
         }else{
             commands += "§cSpeed§8, ";
@@ -162,7 +166,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Heal CMD", CommandFile.getBooleanPath("Command.Heal.Enabled"));
         if (CommandFile.getBooleanPath("Command.Heal.Enabled")) {
-            new HealCmd().init();
+            new HealCmd();
             commands += "§aHeal§8, ";
         } else {
             commands += "§cHeal§8, ";
@@ -170,7 +174,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Feed CMD", CommandFile.getBooleanPath("Command.Feed.Enabled"));
         if (CommandFile.getBooleanPath("Command.Feed.Enabled")) {
-            new FeedCmd().init();
+            new FeedCmd();
             commands += "§aFeed§8, ";
         } else {
             commands += "§cFeed§8, ";
@@ -178,7 +182,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Back CMD", CommandFile.getBooleanPath("Command.Back.Enabled"));
         if (CommandFile.getBooleanPath("Command.Back.Enabled")) {
-            new BackCmd().init();
+            new BackCmd();
             commands += "§aBack§8, ";
         } else {
             commands += "§cBack§8, ";
@@ -186,7 +190,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("EnderChest CMD", CommandFile.getBooleanPath("Command.EnderChest.Enabled"));
         if (CommandFile.getBooleanPath("Command.EnderChest.Enabled")) {
-            new EnderchestCmd().init();
+            new EnderchestCmd();
             commands += "§aEnderchest§8, ";
         } else {
             commands += "§cEnderchest§8, ";
@@ -194,7 +198,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("InvSee CMD", CommandFile.getBooleanPath("Command.InvSee.Enabled"));
         if (CommandFile.getBooleanPath("Command.InvSee.Enabled")) {
-            new InvseeCmd().init();
+            new InvseeCmd();
             commands += "§aInvsee§8, ";
         } else {
             commands += "§cInvsee§8, ";
@@ -202,7 +206,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("CraftingTable CMD", CommandFile.getBooleanPath("Command.CraftingTable.Enabled"));
         if (CommandFile.getBooleanPath("Command.CraftingTable.Enabled")) {
-            new CraftingTableCmd().init();
+            new CraftingTableCmd();
             commands += "§aCraftingTable§8, ";
         } else {
             commands += "§cCraftingTable§8, ";
@@ -210,7 +214,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Anvil CMD", CommandFile.getBooleanPath("Command.Anvil.Enabled"));
         /*if (CommandFile.getBooleanPath("Command.Anvil.Enabled")) {
-            new AnvilCmd().init();
+            new AnvilCmd();
             commands += "§aAnvil§8, ";
         } else {*/
             commands += "§cAnvil§8, ";
@@ -218,7 +222,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("EnchantingTable CMD", CommandFile.getBooleanPath("Command.EnchantingTable.Enabled"));
         /*if (CommandFile.getBooleanPath("Command.EnchantingTable.Enabled")) {
-            new EnchantingTableCmd().init();
+            new EnchantingTableCmd();
             commands += "§aEnchantingTable§8, ";
         } else {*/
             commands += "§cEnchantingTable§8, ";
@@ -226,7 +230,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Kit CMD", CommandFile.getBooleanPath("Command.Kit.Enabled"));
         if (CommandFile.getBooleanPath("Command.Kit.Enabled")) {
-            new KitCmd().init();
+            new KitCmd();
             commands += "§aKit§8, ";
         } else {
             commands += "§cKit§8, ";
@@ -234,7 +238,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Give CMD", CommandFile.getBooleanPath("Command.Give.Enabled"));
         if(CommandFile.getBooleanPath("Command.Give.Enabled")) {
-            new GiveCmd().init();
+            new GiveCmd();
             commands += "§aGive§8, ";
         }else{
             commands += "§cGive§8, ";
@@ -242,7 +246,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("GiveAll CMD", CommandFile.getBooleanPath("Command.GiveAll.Enabled"));
         if (CommandFile.getBooleanPath("Command.GiveAll.Enabled")) {
-            new GiveAllCmd().init();
+            new GiveAllCmd();
             commands += "§aGiveAll§8, ";
         } else {
             commands += "§cGiveAll§8, ";
@@ -250,7 +254,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Raffle CMD", CommandFile.getBooleanPath("Command.Raffle.Enabled"));
         if (CommandFile.getBooleanPath("Command.Raffle.Enabled")) {
-            new RaffleCmd().init();
+            new RaffleCmd();
             commands += "§aRaffle§8, ";
         } else {
             commands += "§cRaffle§8, ";
@@ -259,7 +263,7 @@ public class NewSystem extends JavaPlugin {
         status.put("SpawnMob CMD", CommandFile.getBooleanPath("Command.SpawnMob.Enabled"));
         if(CommandFile.getBooleanPath("Command.SpawnMob.Enabled")) {
             SpawnMobCmd.setMobEntityTypes();
-            new SpawnMobCmd().init();
+            new SpawnMobCmd();
             commands += "§aSpawnMob§8, ";
         }else{
             commands += "§cSpawnMob§8, ";
@@ -267,7 +271,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Clear CMD", CommandFile.getBooleanPath("Command.Clear.Enabled"));
         if(CommandFile.getBooleanPath("Command.Clear.Enabled")) {
-            new ClearCmd().init();
+            new ClearCmd();
             commands += "§aClear§8, ";
         }else{
             commands += "§cClear§8, ";
@@ -275,7 +279,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Dupe CMD", CommandFile.getBooleanPath("Command.Dupe.Enabled"));
         if (CommandFile.getBooleanPath("Command.Dupe.Enabled")) {
-            new DupeCmd().init();
+            new DupeCmd();
             commands += "§aDupe§8, ";
         } else {
             commands += "§cDupe§8, ";
@@ -283,7 +287,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ItemEdit CMD", CommandFile.getBooleanPath("Command.ItemEdit.Enabled"));
         if (CommandFile.getBooleanPath("Command.ItemEdit.Enabled")) {
-            new ItemEditCmd().init();
+            new ItemEditCmd();
             commands += "§aItemEdit§8, ";
         } else {
             commands += "§cItemEdit§8, ";
@@ -291,7 +295,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Repair CMD", CommandFile.getBooleanPath("Command.Repair.Enabled"));
         if (CommandFile.getBooleanPath("Command.Repair.Enabled")) {
-            new RepairCmd().init();
+            new RepairCmd();
             commands += "§aRepair§8, ";
         } else {
             commands += "§cRepair§8, ";
@@ -299,7 +303,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Skull CMD", CommandFile.getBooleanPath("Command.Skull.Enabled"));
         if (CommandFile.getBooleanPath("Command.Skull.Enabled")) {
-            new SkullCmd().init();
+            new SkullCmd();
             commands += "§aSkull§8, ";
         } else {
             commands += "§cSkull§8, ";
@@ -307,7 +311,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Hat CMD", CommandFile.getBooleanPath("Command.Hat.Enabled"));
         if (CommandFile.getBooleanPath("Command.Hat.Enabled")) {
-            new HatCmd().init();
+            new HatCmd();
             commands += "§aHat§8, ";
         } else {
             commands += "§cHat§8, ";
@@ -315,7 +319,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Backpack CMD", CommandFile.getBooleanPath("Command.Backpack.Enabled"));
         if (CommandFile.getBooleanPath("Command.Backpack.Enabled")) {
-            new BackpackCmd().init();
+            new BackpackCmd();
             commands += "§aBackpack§8, ";
         } else {
             commands += "§cBackpack§8, ";
@@ -323,7 +327,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Garbage CMD", CommandFile.getBooleanPath("Command.Garbage.Enabled"));
         if (CommandFile.getBooleanPath("Command.Garbage.Enabled")) {
-            new GarbageCmd().init();
+            new GarbageCmd();
             commands += "§aGarbage§8, ";
         } else {
             commands += "§cGarbage§8, ";
@@ -331,12 +335,11 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Poll CMD", CommandFile.getBooleanPath("Command.Poll.Enabled"));
         if (CommandFile.getBooleanPath("Command.Poll.Enabled")) {
-            PollCmd pollCmd = new PollCmd();
+            new PollCmd();
             status.put("ja CMD", true);
             OtherListeners.commandAliases.put("ja", new String[]{"yes"});
             status.put("nein CMD", true);
             OtherListeners.commandAliases.put("nein", new String[]{"no"});
-            pollCmd.init();
             SavingsFile.setPath("Poll.Enabled", false);
             commands += "§aPoll§8, ";
         } else {
@@ -345,7 +348,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Peace CMD", CommandFile.getBooleanPath("Command.Peace.Enabled"));
         if(CommandFile.getBooleanPath("Command.Peace.Enabled")) {
-            new PeaceCmd().init();
+            new PeaceCmd();
             commands += "§aPeace§8, ";
         }else{
             commands += "§cPeace§8, ";
@@ -353,7 +356,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("God CMD", CommandFile.getBooleanPath("Command.God.Enabled"));
         if(CommandFile.getBooleanPath("Command.God.Enabled")) {
-            new GodCmd().init();
+            new GodCmd();
             commands += "§aGod§8, ";
         }else{
             commands += "§cGod§8, ";
@@ -361,7 +364,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Freeze CMD", CommandFile.getBooleanPath("Command.Freeze.Enabled"));
         if(CommandFile.getBooleanPath("Command.Freeze.Enabled")) {
-            new FreezeCmd().init();
+            new FreezeCmd();
             commands += "§aFreeze§8, ";
         }else{
             commands += "§cFreeze§8, ";
@@ -369,7 +372,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Vanish CMD", CommandFile.getBooleanPath("Command.Vanish.Enabled"));
         if (CommandFile.getBooleanPath("Command.Vanish.Enabled")) {
-            new VanishCmd().init();
+            new VanishCmd();
             commands += "§aVanish§8, ";
         } else {
             commands += "§cVanish§8, ";
@@ -377,7 +380,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("PrivateMessage CMD", CommandFile.getBooleanPath("Command.PrivateMessage.Enabled"));
         if (CommandFile.getBooleanPath("Command.PrivateMessage.Enabled")) {
-            new PrivateMessageCmd().init();
+            new PrivateMessageCmd();
             commands += "§aPrivateMessage§8, ";
         } else {
             commands += "§cPrivateMessage§8, ";
@@ -385,7 +388,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Build CMD", CommandFile.getBooleanPath("Command.Build.Enabled"));
         if (CommandFile.getBooleanPath("Command.Build.Enabled")) {
-            new BuildCmd().init();
+            new BuildCmd();
             commands += "§aBuild§8, ";
         } else {
             commands += "§cBuild§8, ";
@@ -393,7 +396,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Hologram CMD", CommandFile.getBooleanPath("Command.Hologram.Enabled"));
         if (CommandFile.getBooleanPath("Command.Hologram.Enabled")) {
-            new HologramCmd().init();
+            new HologramCmd();
             commands += "§aHologram§8, ";
         } else {
             commands += "§cHologram§8, ";
@@ -401,7 +404,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Currency CMD", CommandFile.getBooleanPath("Command.Currency.Enabled.Currency"));
         if(CommandFile.getBooleanPath("Command.Currency.Enabled.Currency")) {
-            new CurrencyCmd().init();
+            new CurrencyCmd();
             commands += "§aCurrency§8, ";
         }else{
             commands += "§cCurrency§8, ";
@@ -409,7 +412,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Pay CMD", CommandFile.getBooleanPath("Command.Currency.Enabled.Pay"));
         if(CommandFile.getBooleanPath("Command.Currency.Enabled.Pay")) {
-            new PayCmd().init();
+            new PayCmd();
             commands += "§aPay§8, ";
         }else{
             commands += "§cPay§8, ";
@@ -417,7 +420,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("PlayTime CMD", CommandFile.getBooleanPath("Command.PlayTime.Enabled"));
         if (CommandFile.getBooleanPath("Command.PlayTime.Enabled")) {
-            new PlayTimeCmd().init();
+            new PlayTimeCmd();
             startScheduler = true;
             commands += "§aPlayTime§8, ";
         } else {
@@ -426,7 +429,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ClearLag CMD", CommandFile.getBooleanPath("Command.ClearLag.Enabled"));
         if (CommandFile.getBooleanPath("Command.ClearLag.Enabled")) {
-            new ClearLagCmd().init();
+            new ClearLagCmd();
             startScheduler = true;
             commands += "§aClearLag§8, ";
         } else {
@@ -473,7 +476,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Home CMD", CommandFile.getBooleanPath("Command.Home.Enabled"));
         if (CommandFile.getBooleanPath("Command.Home.Enabled")) {
-            new HomeCmd().init();
+            new HomeCmd();
             commands += "§aHome§8, ";
         } else {
             commands += "§cHome§8, ";
@@ -481,7 +484,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Spawn CMD", CommandFile.getBooleanPath("Command.Spawn.Enabled"));
         if (CommandFile.getBooleanPath("Command.Spawn.Enabled")) {
-            new SpawnCmd().init();
+            new SpawnCmd();
             commands += "§aSpawn§8, ";
         } else {
             commands += "§cSpawn§8, ";
@@ -489,7 +492,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Warp CMD", CommandFile.getBooleanPath("Command.Warp.Enabled"));
         if (CommandFile.getBooleanPath("Command.Warp.Enabled")) {
-            new WarpCmd().init();
+            new WarpCmd();
             commands += "§aWarp§8, ";
         } else {
             commands += "§cWarp§8, ";
@@ -498,7 +501,7 @@ public class NewSystem extends JavaPlugin {
         status.put("List CMD", CommandFile.getBooleanPath("Command.List.Enabled"));
         if(NewSystem.newPerm) {
             if(CommandFile.getBooleanPath("Command.List.Enabled")) {
-                new ListCmd().init();
+                new ListCmd();
                 commands += "§aList§8, ";
             }else{
                 commands += "§cList§8, ";
@@ -509,7 +512,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Authentication CMD", CommandFile.getBooleanPath("Command.Authentication.Enabled"));
         if (CommandFile.getBooleanPath("Command.Authentication.Enabled")) {
-            new AuthenticationCmd().init();
+            new AuthenticationCmd();
             for(Player all : Bukkit.getOnlinePlayers()) {
                 AuthenticationCmd.setPasswordRequired(all);
             }
@@ -520,7 +523,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Ban CMD", CommandFile.getBooleanPath("Command.Ban.Enabled"));
         if (CommandFile.getBooleanPath("Command.Ban.Enabled")) {
-            new BanCmd().init();
+            new BanCmd();
             commands += "§aBan§8, ";
         } else {
             commands += "§cBan§8, ";
@@ -528,7 +531,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("BanIP CMD", CommandFile.getBooleanPath("Command.BanIP.Enabled"));
         if (CommandFile.getBooleanPath("Command.BanIP.Enabled")) {
-            new BanIPCmd().init();
+            new BanIPCmd();
             commands += "§aBanIP§8, ";
         } else {
             commands += "§cBanIP§8, ";
@@ -536,7 +539,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("UnBan CMD", CommandFile.getBooleanPath("Command.UnBan.Enabled"));
         if (CommandFile.getBooleanPath("Command.UnBan.Enabled")) {
-            new UnBanCmd().init();
+            new UnBanCmd();
             commands += "§aUnban§8, ";
         } else {
             commands += "§cUnban§8, ";
@@ -544,7 +547,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Mute CMD", CommandFile.getBooleanPath("Command.Mute.Enabled"));
         if (CommandFile.getBooleanPath("Command.Mute.Enabled")) {
-            new MuteCmd().init();
+            new MuteCmd();
             commands += "§aMute§8, ";
         } else {
             commands += "§cMute§8, ";
@@ -552,7 +555,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("MuteIP CMD", CommandFile.getBooleanPath("Command.MuteIP.Enabled"));
         if (CommandFile.getBooleanPath("Command.MuteIP.Enabled")) {
-            new MuteIPCmd().init();
+            new MuteIPCmd();
             commands += "§aMuteIP§8, ";
         } else {
             commands += "§cMuteIP§8, ";
@@ -560,7 +563,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("UnMute CMD", CommandFile.getBooleanPath("Command.UnMute.Enabled"));
         if (CommandFile.getBooleanPath("Command.UnMute.Enabled")) {
-            new UnMuteCmd().init();
+            new UnMuteCmd();
             commands += "§aUnMute§8, ";
         } else {
             commands += "§cUnMute§8, ";
@@ -568,7 +571,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Kick CMD", CommandFile.getBooleanPath("Command.Kick.Enabled"));
         if (CommandFile.getBooleanPath("Command.Kick.Enabled")) {
-            new KickCmd().init();
+            new KickCmd();
             commands += "§aKick§8, ";
         } else {
             commands += "§cKick§8, ";
@@ -576,7 +579,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Warn CMD", CommandFile.getBooleanPath("Command.Warn.Enabled"));
         if(CommandFile.getBooleanPath("Command.Warn.Enabled")) {
-            new WarnCmd().init();
+            new WarnCmd();
             commands += "§aWarn§8, ";
         }else{
             commands += "§cWarn§8, ";
@@ -584,7 +587,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ShowIP CMD", CommandFile.getBooleanPath("Command.ShowIP.Enabled"));
         if(CommandFile.getBooleanPath("Command.ShowIP.Enabled")) {
-            new ShowIPCmd().init();
+            new ShowIPCmd();
             commands += "§aShowIP§8, ";
         }else{
             commands += "§cShowIP§8, ";
@@ -592,7 +595,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("History CMD", CommandFile.getBooleanPath("Command.History.Enabled"));
         if (CommandFile.getBooleanPath("Command.History.Enabled")) {
-            new HistoryCmd().init();
+            new HistoryCmd();
             commands += "§aHistory§8, ";
         } else {
             commands += "§cHistory§8, ";
@@ -600,7 +603,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Maintenance CMD", CommandFile.getBooleanPath("Command.Maintenance.Enabled"));
         if (CommandFile.getBooleanPath("Command.Maintenance.Enabled")) {
-            new MaintenanceCmd().init();
+            new MaintenanceCmd();
             commands += "§aMaintenance§8, ";
         } else {
             commands += "§cMaintenance§8, ";
@@ -608,7 +611,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("CommandSpy CMD", CommandFile.getBooleanPath("Command.CommandSpy.Enabled"));
         if (CommandFile.getBooleanPath("Command.CommandSpy.Enabled")) {
-            new CommandSpyCmd().init();
+            new CommandSpyCmd();
             commands += "§aCommandSpy§8, ";
         } else {
             commands += "§cCommandSpy§8, ";
@@ -616,7 +619,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("GlobalMute CMD", CommandFile.getBooleanPath("Command.GlobalMute.Enabled"));
         if (CommandFile.getBooleanPath("Command.GlobalMute.Enabled")) {
-            new GlobalMuteCmd().init();
+            new GlobalMuteCmd();
             commands += "§aGlobalMute§8, ";
         } else {
             commands += "§cGlobalMute§8, ";
@@ -624,7 +627,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ClearChat CMD", CommandFile.getBooleanPath("Command.ClearChat.Enabled"));
         if (CommandFile.getBooleanPath("Command.ClearChat.Enabled")) {
-            new ClearChatCmd().init();
+            new ClearChatCmd();
             commands += "§aClearChat§8, ";
         } else {
             commands += "§cClearChat§8, ";
@@ -632,7 +635,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Broadcast CMD", CommandFile.getBooleanPath("Command.Broadcast.Enabled"));
         if (CommandFile.getBooleanPath("Command.Broadcast.Enabled")) {
-            new BroadcastCmd().init();
+            new BroadcastCmd();
             commands += "§aBroadcast§8, ";
         } else {
             commands += "§cBroadcast§8, ";
@@ -640,7 +643,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Sudo CMD", CommandFile.getBooleanPath("Command.Sudo.Enabled"));
         if (CommandFile.getBooleanPath("Command.Sudo.Enabled")) {
-            new SudoCmd().init();
+            new SudoCmd();
             commands += "§aSudo§8, ";
         } else {
             commands += "§cSudo§8, ";
@@ -648,7 +651,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("TeamChat CMD", CommandFile.getBooleanPath("Command.TeamChat.Enabled"));
         if (CommandFile.getBooleanPath("Command.TeamChat.Enabled")) {
-            new TeamChatCmd().init();
+            new TeamChatCmd();
             commands += "§aTeamChat§8, ";
         } else {
             commands += "§cTeamChat§8, ";
@@ -656,7 +659,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("BuildChat CMD", CommandFile.getBooleanPath("Command.BuildChat.Enabled"));
         if (CommandFile.getBooleanPath("Command.BuildChat.Enabled")) {
-            new BuildChatCmd().init();
+            new BuildChatCmd();
             commands += "§aBuildChat§8, ";
         } else {
             commands += "§cTeamChat§8, ";
@@ -664,7 +667,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("AdminChat CMD", CommandFile.getBooleanPath("Command.AdminChat.Enabled"));
         if (CommandFile.getBooleanPath("Command.AdminChat.Enabled")) {
-            new AdminChatCmd().init();
+            new AdminChatCmd();
             commands += "§aAdminChat§8, ";
         } else {
             commands += "§cAdminChat§8, ";
@@ -672,7 +675,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Support CMD", CommandFile.getBooleanPath("Command.Support.Enabled"));
         if(CommandFile.getBooleanPath("Command.Support.Enabled")) {
-            new SupportCmd().init();
+            new SupportCmd();
             commands += "§aSupport§8, ";
         }else{
             commands += "§cSupport§8, ";
@@ -680,7 +683,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("SupportMessage CMD", CommandFile.getBooleanPath("Command.SupportMessage.Enabled"));
         if(CommandFile.getBooleanPath("Command.SupportMessage.Enabled")) {
-            new SupportMessageCmd().init();
+            new SupportMessageCmd();
             commands += "§aSupportMessage§8, ";
         }else{
             commands += "§cSupportMessage§8, ";
@@ -688,7 +691,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Report CMD", CommandFile.getBooleanPath("Command.Report.Enabled"));
         if (CommandFile.getBooleanPath("Command.Report.Enabled")) {
-            new ReportCmd().init();
+            new ReportCmd();
             commands += "§aReport§8, ";
         } else {
             commands += "§cReport§8, ";
@@ -696,7 +699,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Stats CMD", CommandFile.getBooleanPath("Command.Stats.Enabled"));
         if(CommandFile.getBooleanPath("Command.Stats.Enabled")) {
-            new StatsCmd().init();
+            new StatsCmd();
             commands += "§aStats§8, ";
         }else{
             commands += "§cStats§8, ";
@@ -705,7 +708,7 @@ public class NewSystem extends JavaPlugin {
         status.put("Role CMD", CommandFile.getBooleanPath("Command.Role.Enabled"));
         if (NewSystem.newPerm) {
             if (CommandFile.getBooleanPath("Command.Role.Enabled")) {
-                new RoleCmd().init();
+                new RoleCmd();
                 startScheduler = true;
                 commands += "§aRole§8, ";
             } else {
@@ -717,7 +720,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Voucher CMD", CommandFile.getBooleanPath("Command.Voucher.Enabled"));
         if(CommandFile.getBooleanPath("Command.Voucher.Enabled")) {
-            new VoucherCmd().init();
+            new VoucherCmd();
             commands += "§aVoucher§8, ";
         }else{
             commands += "§cVoucher§8, ";
@@ -725,7 +728,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Generator CMD", CommandFile.getBooleanPath("Command.Generator.Enabled"));
         if(CommandFile.getBooleanPath("Command.Generator.Enabled")) {
-            new GeneratorCmd().init();
+            new GeneratorCmd();
             if(CommandFile.getBooleanPath("Command.Generator.StartAllAtServerStart")) {
                 for(String gen : GeneratorAPI.getAllGenerator()) {
                     GeneratorAPI.start(gen);
@@ -738,7 +741,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Day CMD", CommandFile.getBooleanPath("Command.Day.Enabled"));
         if(CommandFile.getBooleanPath("Command.Day.Enabled")) {
-            new DayCmd().init();
+            new DayCmd();
             commands += "§aDay§8, ";
         }else{
             commands += "§cDay§8, ";
@@ -746,7 +749,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Night CMD", CommandFile.getBooleanPath("Command.Night.Enabled"));
         if(CommandFile.getBooleanPath("Command.Night.Enabled")) {
-            new NightCmd().init();
+            new NightCmd();
             commands += "§aNight§8, ";
         }else{
             commands += "§cNight§8, ";
@@ -754,7 +757,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Ping CMD", CommandFile.getBooleanPath("Command.Ping.Enabled"));
         if(CommandFile.getBooleanPath("Command.Ping.Enabled")) {
-            new PingCmd().init();
+            new PingCmd();
             commands += "§aPing§8, ";
         }else{
             commands += "§cPing§8, ";
@@ -802,12 +805,19 @@ public class NewSystem extends JavaPlugin {
 
         //Listeners
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new OtherListeners(), instance);
-        pm.registerEvents(new ChatListener(), instance);
+        OtherListeners otherListeners = new OtherListeners();
+        ChatListener chatListener = new ChatListener();
+        if(!NewSystem.loadedListeners.contains(otherListeners.getClass())) {
+            loadedListeners.add(otherListeners.getClass());
+            pm.registerEvents(otherListeners, instance);
+        }
+        if(!NewSystem.loadedListeners.contains(chatListener.getClass())) {
+            loadedListeners.add(chatListener.getClass());
+            pm.registerEvents(chatListener, instance);
+        }
 
         status.put("Chat", ListenerFile.getBooleanPath("Listener.Chat.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.Chat.Enabled")) {
-            new ChatListener().init();
             listeners += "§aChat§8, ";
         } else {
             listeners += "§cChat§8, ";
@@ -815,7 +825,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ServerPing", ListenerFile.getBooleanPath("Listener.ServerPing.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.ServerPing.Enabled")) {
-            new ServerPingListener().init();
+            new ServerPingListener();
             listeners += "§aServerPing§8, ";
         } else {
             listeners += "§cServerPing§8, ";
@@ -823,7 +833,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Join", ListenerFile.getBooleanPath("Listener.Join.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.Join.Enabled")) {
-            new JoinListener().init();
+            new JoinListener();
             listeners += "§aJoin§8, ";
         } else {
             listeners += "§cJoin§8, ";
@@ -831,7 +841,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Quit", ListenerFile.getBooleanPath("Listener.Quit.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.Quit.Enabled")) {
-            new QuitListener().init();
+            new QuitListener();
             listeners += "§aQuit§8, ";
         } else {
             listeners += "§cQuit§8, ";
@@ -839,7 +849,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("BlockBreak", ListenerFile.getBooleanPath("Listener.BlockBreak.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.BlockBreak.Enabled")) {
-            new BlockBreakListener().init();
+            new BlockBreakListener();
             listeners += "§aBlockBreak§8, ";
         } else {
             listeners += "§cBlockBreak§8, ";
@@ -847,7 +857,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("BlockPlace", ListenerFile.getBooleanPath("Listener.BlockPlace.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.BlockPlace.Enabled")) {
-            new BlockPlaceListener().init();
+            new BlockPlaceListener();
             listeners += "§aBlockPlace§8, ";
         } else {
             listeners += "§cBlockPlace§8, ";
@@ -855,7 +865,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("Death", ListenerFile.getBooleanPath("Listener.Death.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.Death.Enabled")) {
-            new DeathListener().init();
+            new DeathListener();
             listeners += "§aDeath§8, ";
         } else {
             listeners += "§cDeath§8, ";
@@ -863,7 +873,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("DeathDrop", ListenerFile.getBooleanPath("Listener.DeathDrop.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.DeathDrop.Enabled")) {
-            new DeathDropListener().init();
+            new DeathDropListener();
             listeners += "§aDeathDrop§8, ";
         } else {
             listeners += "§cDeathDrop§8, ";
@@ -871,7 +881,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("CancelWeatherChange", ListenerFile.getBooleanPath("Listener.CancelWeatherChange.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.CancelWeatherChange.Enabled")) {
-            new WeatherChangeListener().init();
+            new WeatherChangeListener();
             listeners += "§aCancelWeatherChange§8, ";
         } else {
             listeners += "§cCancelWeatherChange§8, ";
@@ -879,7 +889,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("DoubleJump", ListenerFile.getBooleanPath("Listener.DoubleJump.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.DoubleJump.Enabled")) {
-            new DoubleJumpListener().init();
+            new DoubleJumpListener();
             listeners += "§aDoubleJump§8, ";
         } else {
             listeners += "§cDoubleJump§8, ";
@@ -887,7 +897,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("NoHunger", ListenerFile.getBooleanPath("Listener.NoHunger.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.NoHunger.Enabled")) {
-            new NoHungerListener().init();
+            new NoHungerListener();
             listeners += "§aNoHunger§8, ";
         } else {
             listeners += "§cNoHunger§8, ";
@@ -895,10 +905,10 @@ public class NewSystem extends JavaPlugin {
 
         status.put("NoDamage", ListenerFile.getBooleanPath("Listener.NoDamage.Fall.Enabled") || ListenerFile.getBooleanPath("Listener.NoDamage.Every.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.NoDamage.Every.Enabled")) {
-            new NoDamageListener().init();
+            new NoDamageListener();
             listeners += "§aNoDamage§8, ";
         } else if (ListenerFile.getBooleanPath("Listener.NoDamage.Fall.Enabled")) {
-            new NoDamageListener().init();
+            new NoDamageListener();
             listeners += "§aNoFallDamage§8, ";
         } else {
             listeners += "§cNoDamage§8, ";
@@ -906,7 +916,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("BlockCommand", ListenerFile.getBooleanPath("Listener.BlockCommand.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.BlockCommand.Enabled")) {
-            new BlockCommandListener().init();
+            new BlockCommandListener();
             listeners += "§aBlockCommand§8, ";
         } else {
             listeners += "§cBlockCommand§8, ";
@@ -914,7 +924,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ColorSign", ListenerFile.getBooleanPath("Listener.ColorSign.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.ColorSign.Enabled")) {
-            new ColorSignListener().init();
+            new ColorSignListener();
             listeners += "§aColorSign§8, ";
         } else {
             listeners += "§cColorSign§8, ";
@@ -922,7 +932,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("FreeItemSign", ListenerFile.getBooleanPath("Listener.FreeItemSign.Enabled"));
         if (ListenerFile.getBooleanPath("Listener.FreeItemSign.Enabled")) {
-            new FreeItemSignListener().init();
+            new FreeItemSignListener();
             listeners += "§aFreeItemSign";
         } else {
             listeners += "§cFreeItemSign";
@@ -1013,7 +1023,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("ChatFilter", OtherFile.getBooleanPath("Other.ChatFilter.Enabled"));
         if (OtherFile.getBooleanPath("Other.ChatFilter.Enabled")) {
-            new ChatFilter().init();
+            new ChatFilter();
             other += "§aChatFilter§8, ";
         } else {
             other += "§cChatFilter§8, ";
@@ -1030,7 +1040,7 @@ public class NewSystem extends JavaPlugin {
 
         status.put("PlayTimeReward", OtherFile.getBooleanPath("Other.PlayTimeReward.Enabled"));
         if (OtherFile.getBooleanPath("Other.PlayTimeReward.Enabled") && CommandFile.getBooleanPath("Command.PlayTime.Enabled")) {
-            new PlayTimeReward().init();
+            new PlayTimeReward();
             other += "§aPlayTimeReward";
         } else {
             other += "§cPlayTimeReward";
@@ -1115,6 +1125,10 @@ public class NewSystem extends JavaPlugin {
         }, 0, 20);
     }
 
+    public static void stopAllScheduler() {
+        Bukkit.getScheduler().cancelTasks(instance);
+    }
+
     public static boolean hasPermission(OfflinePlayer p, String perm) {
         if (newPerm) {
             return NewPermManager.playerHasPermission(p, perm);
@@ -1126,21 +1140,39 @@ public class NewSystem extends JavaPlugin {
     }
 
     public static String getName(OfflinePlayer p, boolean displayName) {
-        if(!displayName) {
+        if (!displayName) {
             return p.getName();
         }
 
-        if (!p.isOnline()) {
-            if (newPerm) {
-                if (SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
-                    return NewPermManager.getPlayerPrefix(p) + p.getName();
-                }
+        if (newPerm && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
+            return NewPermManager.getPlayerPrefix(p) + p.getName();
+        } else {
+            return (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName") ? p.getPlayer().getDisplayName() : p.getName());
+        }
+    }
+
+    public static HashMap<UUID, String> playerCache = new HashMap<>();
+
+    public static String getName(String uuid, boolean displayName) {
+        UUID u = UUID.fromString(uuid);
+        OfflinePlayer p = Bukkit.getServer().getOfflinePlayer(u);
+
+
+        if(p.getName() != null) {
+            if (!displayName) {
+                return p.getName();
+            }
+
+            if (newPerm && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
+                return NewPermManager.getPlayerPrefix(p) + p.getName();
+            } else {
+                return (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName") ? p.getPlayer().getDisplayName() : p.getName());
             }
         }
-        if (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
-            return p.getPlayer().getDisplayName();
+        if(NameFetcher.getName(u) == null) {
+            return NameFetcher.getName(u);
         }
-        return p.getName();
+        return u.toString();
     }
 
     public static String replace(String msg) {

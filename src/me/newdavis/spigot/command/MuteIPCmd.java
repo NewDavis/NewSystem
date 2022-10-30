@@ -57,7 +57,7 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
     public static List<String> chatMessagePermanent;
     public static List<String> chatMessageTemporary;
 
-    public void init() {
+    public MuteIPCmd() {
         usage = CommandFile.getStringListPath("Command.MuteIP.Usage");
         perm = CommandFile.getStringPath("Command.MuteIP.Permission.Use");
         seconds = CommandFile.getStringPath("Command.MuteIP.Seconds");
@@ -84,8 +84,12 @@ public class MuteIPCmd implements CommandExecutor, TabCompleter {
         consoleMessagePermanent = CommandFile.getStringPath("Command.MuteIP.IPListConsolePermanent");
         chatMessagePermanent = CommandFile.getStringListPath("Command.MuteIP.ChatMessagePermanent");
         chatMessageTemporary = CommandFile.getStringListPath("Command.MuteIP.ChatMessageTemporary");
+        mutedIPs.clear();
         getMutedIPs();
-        NewSystem.getInstance().getCommand("muteip").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("muteip").setExecutor(this);
+        }
     }
 
     @Override

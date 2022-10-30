@@ -37,7 +37,7 @@ public class SupportMessageCmd implements CommandExecutor, TabCompleter {
     private static List<String> message;
     private static List<String> messagePlayer;
 
-    public void init() {
+    public SupportMessageCmd() {
         usage = CommandFile.getStringListPath("Command.SupportMessage.Usage");
         perm = CommandFile.getStringPath("Command.SupportMessage.Permission");
         templates = CommandFile.getConfigurationSection("Command.SupportMessage.Templates");
@@ -51,7 +51,10 @@ public class SupportMessageCmd implements CommandExecutor, TabCompleter {
         messageListTemplates = CommandFile.getStringListPath("Command.SupportMessage.MessageList");
         message = CommandFile.getStringListPath("Command.SupportMessage.Message");
         messagePlayer = CommandFile.getStringListPath("Command.SupportMessage.MessagePlayer");
-        NewSystem.getInstance().getCommand("supportmessage").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("supportmessage").setExecutor(this);
+        }
     }
 
     @Override

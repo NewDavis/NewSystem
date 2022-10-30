@@ -20,11 +20,14 @@ public class AnvilCmd implements CommandExecutor {
     private static List<String> usage;
     private static List<String> message;
 
-    public void init() {
+    public AnvilCmd() {
         perm = CommandFile.getStringPath("Command.Anvil.Permission");
         usage = CommandFile.getStringListPath("Command.Anvil.Usage");
         message = CommandFile.getStringListPath("Command.Anvil.Message");
-        //NewSystem.getInstance().getCommand("anvil").setExecutor(this);
+        /*if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("anvil").setExecutor(this);
+        }*/
     }
 
     @Override

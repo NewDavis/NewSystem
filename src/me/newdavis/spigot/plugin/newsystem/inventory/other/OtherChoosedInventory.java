@@ -36,7 +36,12 @@ public class OtherChoosedInventory {
             Inventory inventory = Bukkit.createInventory(null, 9 * rows, TITLE);
 
             List<String> paths = getPaths(inventoryOther);
-            int maxPages = (Math.round(paths.size() / 28F) == 0 ? 1 : Math.round(paths.size() / 28F));
+            int pathsAmount = paths.size();
+            int maxPages = pathsAmount / 28;
+            pathsAmount -= maxPages*28;
+            if(pathsAmount > 0) {
+                maxPages++;
+            }
             replace(REDARROW_LEFT, "{CurrentPage-1}", (inventoryPage - 1 != 0 ? String.valueOf(inventoryPage - 1) : String.valueOf(inventoryPage)));
             replace(REDARROW_RIGHT, "{CurrentPage+1}", (maxPages > inventoryPage ? String.valueOf(inventoryPage + 1) : String.valueOf(inventoryPage)));
             replace(REDARROW_LEFT, "{MaxPages}", String.valueOf(maxPages));
@@ -70,7 +75,7 @@ public class OtherChoosedInventory {
                 }
             }
 
-            if (inventoryPage > 0) {
+            if (inventoryPage > 0 && inventoryPage <= maxPages) {
                 if (inventoryPage == 1) {
                     for (String path : paths) {
                         if (inventory.getItem(43) == null || inventory.getItem(43).getType() == Material.AIR) {
@@ -107,7 +112,8 @@ public class OtherChoosedInventory {
                     }
                 }
             } else {
-                p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
+                return;
             }
 
             p.openInventory(inventory);

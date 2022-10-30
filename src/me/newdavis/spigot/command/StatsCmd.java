@@ -29,13 +29,16 @@ public class StatsCmd implements CommandExecutor {
     private static String showSelf;
     private static List<String> message;
 
-    public void init() {
+    public StatsCmd() {
         usage = CommandFile.getStringListPath("Command.Stats.Usage");
         perm = CommandFile.getStringPath("Command.Stats.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Stats.Permission.Other");
         showSelf = CommandFile.getStringPath("Command.Stats.ShowSelf");
         message = CommandFile.getStringListPath("Command.Stats.Message");
-        NewSystem.getInstance().getCommand("stats").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("stats").setExecutor(this);
+        }
     }
 
     @Override

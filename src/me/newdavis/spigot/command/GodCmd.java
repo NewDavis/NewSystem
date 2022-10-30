@@ -24,7 +24,7 @@ public class GodCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public GodCmd() {
         usage = CommandFile.getStringListPath("Command.God.Usage");
         perm = CommandFile.getStringPath("Command.God.Permission.Use");
         permOther = CommandFile.getStringPath("Command.God.Permission.Other");
@@ -32,7 +32,10 @@ public class GodCmd implements CommandExecutor {
         deactivated = CommandFile.getStringPath("Command.God.Deactivated");
         msg = CommandFile.getStringListPath("Command.God.Message");
         msgP = CommandFile.getStringListPath("Command.God.MessagePlayer");
-        NewSystem.getInstance().getCommand("god").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("god").setExecutor(this);
+        }
     }
 
     @Override

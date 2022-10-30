@@ -16,6 +16,14 @@ public class SettingsFile {
     public static YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 
     public static void loadConfig() {
+        configurationSection.clear();
+        string.clear();
+        booleanSavings.clear();
+        integer.clear();
+        longSavings.clear();
+        doubleSavings.clear();
+        stringList.clear();
+
         if(file.exists()) {
             try {
                 yaml.load(file);
@@ -24,14 +32,6 @@ public class SettingsFile {
             }
         }
         saveConfig();
-
-        configurationSection.clear();
-        string.clear();
-        booleanSavings.clear();
-        integer.clear();
-        longSavings.clear();
-        doubleSavings.clear();
-        stringList.clear();
     }
 
     public static void saveConfig() {

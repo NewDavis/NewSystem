@@ -35,7 +35,7 @@ public class FreeItemSignListener implements Listener {
     private static int inventoryRows;
     private static String[] itemSlots;
 
-    public void init() {
+    public FreeItemSignListener() {
         perm = ListenerFile.getStringPath("Listener.FreeItemSign.Permission");
         title = ListenerFile.getStringPath("Listener.FreeItemSign.Title");
         titleReplace = ListenerFile.getStringPath("Listener.FreeItemSign.TitleReplace");
@@ -50,7 +50,10 @@ public class FreeItemSignListener implements Listener {
         inventoryTitle = ListenerFile.getStringPath("Listener.FreeItemSign.Inventory.Title").replace("{Prefix}", SettingsFile.getPrefix());
         inventoryRows = ListenerFile.getIntegerPath("Listener.FreeItemSign.Inventory.Rows");
         itemSlots = ListenerFile.getStringPath("Listener.FreeItemSign.Inventory.ItemSlots").split("\\|");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

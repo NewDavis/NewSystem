@@ -14,6 +14,14 @@ public class CommandFile {
     public static YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 
     public static void loadConfig() {
+        configurationSection.clear();
+        string.clear();
+        booleanSavings.clear();
+        integer.clear();
+        longSavings.clear();
+        doubleSavings.clear();
+        stringList.clear();
+
         if(file.exists()) {
             try {
                 yaml.load(file);
@@ -24,14 +32,6 @@ public class CommandFile {
         }else{
             saveConfig();
         }
-
-        configurationSection.clear();
-        string.clear();
-        booleanSavings.clear();
-        integer.clear();
-        longSavings.clear();
-        doubleSavings.clear();
-        stringList.clear();
     }
 
     public static void saveConfig() {
@@ -587,7 +587,7 @@ public class CommandFile {
             yaml.set("Command.Currency.OtherPlacing", "§7{Placing}§f.");
             yaml.set("Command.Currency.NoPlayer", "§c-");
             yaml.set("Command.Currency.NoMoney", 0D);
-            yaml.set("Command.Currency.TopListFormat", "§8» {Placing} §7Platz §8┃ {Player} §7besitzt §b{Amount}§7{CurrencyPrefix}");
+            yaml.set("Command.Currency.TopListFormat", "§8» {Placing} §7Platz §8┃ §7{Player} besitzt §b{Amount}§7{CurrencyPrefix}");
             yaml.set("Command.Currency.TopListMessage", Arrays.asList("{Prefix} §eTop Balance", "", "{TopListFormat}", "", "{Prefix} Insgesamt sind §b{AllMoneyCount}§7{CurrencyPrefix} im Umlauf!"));
             pathsChanged = true;
         }
@@ -1610,11 +1610,11 @@ public class CommandFile {
     }
 
     public static boolean isPathSet(String path) {
-        if(file.exists()) {
+        if (file.exists()) {
             return yaml.contains(path);
-        }else{
+        } else {
             try {
-                if(file.createNewFile()) {
+                if (file.createNewFile()) {
                     saveConfig();
                 }
             } catch (IOException e) {

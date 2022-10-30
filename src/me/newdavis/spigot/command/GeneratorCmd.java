@@ -44,7 +44,7 @@ public class GeneratorCmd implements CommandExecutor, TabCompleter {
     private static List<String> list;
     private static List<String> noGeneratorsCreated;
 
-    public void init() {
+    public GeneratorCmd() {
         usage = CommandFile.getStringListPath("Command.Generator.Usage");
         perm = CommandFile.getStringPath("Command.Generator.Permission");
         created = CommandFile.getStringListPath("Command.Generator.MessageCreated");
@@ -68,7 +68,10 @@ public class GeneratorCmd implements CommandExecutor, TabCompleter {
         format = CommandFile.getStringPath("Command.Generator.ListFormat");
         list = CommandFile.getStringListPath("Command.Generator.MessageList");
         noGeneratorsCreated = CommandFile.getStringListPath("Command.Generator.NoGeneratorsCreated");
-        NewSystem.getInstance().getCommand("generator").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("generator").setExecutor(this);
+        }
     }
 
     @Override

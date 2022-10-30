@@ -22,7 +22,7 @@ public class FlyCmd implements CommandExecutor {
     private static String deactivated;
     private static String activated;
 
-    public void init() {
+    public FlyCmd() {
         usage = CommandFile.getStringListPath("Command.Fly.Usage");
         perm = CommandFile.getStringPath("Command.Fly.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Fly.Permission.Other");
@@ -30,7 +30,10 @@ public class FlyCmd implements CommandExecutor {
         msgP = CommandFile.getStringListPath("Command.Fly.MessagePlayer");
         deactivated = CommandFile.getStringPath("Command.Fly.Deactivated");
         activated = CommandFile.getStringPath("Command.Fly.Activated");
-        NewSystem.getInstance().getCommand("fly").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("fly").setExecutor(this);
+        }
     }
 
     @Override

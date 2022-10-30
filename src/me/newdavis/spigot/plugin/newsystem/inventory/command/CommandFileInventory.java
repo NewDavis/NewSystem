@@ -39,8 +39,12 @@ public class CommandFileInventory {
         Other.deleteOther(p, "Command");
 
         List<String> commands = CommandFile.getConfigurationSection("Command");
-        double maxPagesDouble = (String.valueOf(commands.size() / 27D).contains(".") ? (commands.size() / 27D) +1 : commands.size() / 27D);
-        int maxPages = (int) maxPagesDouble;
+        int pathsAmount = commands.size();
+        int maxPages = pathsAmount / 28;
+        pathsAmount -= maxPages*28;
+        if(pathsAmount > 0) {
+            maxPages++;
+        }
 
         if(!(inventoryPage > maxPages)) {
             replace(REDARROW_LEFT, "{CurrentPage-1}", (inventoryPage - 1 != 0 ? String.valueOf(inventoryPage - 1) : String.valueOf(inventoryPage)));
@@ -103,7 +107,7 @@ public class CommandFileInventory {
             p.openInventory(inventory);
             page.put(p, inventoryPage);
         }else{
-            p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+            p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
         }
     }
 

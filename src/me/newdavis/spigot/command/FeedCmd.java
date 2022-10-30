@@ -19,13 +19,16 @@ public class FeedCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public FeedCmd() {
         usage = CommandFile.getStringListPath("Command.Feed.Usage");
         perm = CommandFile.getStringPath("Command.Feed.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Feed.Permission.Other");
         msg = CommandFile.getStringListPath("Command.Feed.Message");
         msgP = CommandFile.getStringListPath("Command.Feed.MessagePlayer");
-        NewSystem.getInstance().getCommand("feed").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("feed").setExecutor(this);
+        }
     }
 
     @Override

@@ -52,7 +52,7 @@ public class HistoryCmd implements CommandExecutor {
     private static String consoleMessageMuteTemporary;
     private static String consoleMessageKick;
 
-    public void init() {
+    public HistoryCmd() {
         usage = CommandFile.getStringListPath("Command.History.Usage");
         perm = CommandFile.getStringPath("Command.History.Permission");
         noPunishmentsOfThis = CommandFile.getStringPath("Command.History.MessageNoPunishmentsOfThis").replace("{Prefix}", SettingsFile.getPrefix());
@@ -77,7 +77,10 @@ public class HistoryCmd implements CommandExecutor {
         consoleMessageMutePermanent = CommandFile.getStringPath("Command.History.MessageMutePermanentConsole");
         consoleMessageMuteTemporary = CommandFile.getStringPath("Command.History.MessageMuteTemporaryConsole");
         consoleMessageKick = CommandFile.getStringPath("Command.History.MessageKickConsole");
-        NewSystem.getInstance().getCommand("history").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("history").setExecutor(this);
+        }
     }
 
     @Override

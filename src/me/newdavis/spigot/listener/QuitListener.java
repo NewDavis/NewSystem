@@ -15,11 +15,14 @@ import java.util.List;
 
 public class QuitListener implements Listener {
 
-    private static List<String> joinMsg = ListenerFile.getStringListPath("Listener.Quit.Message");
+    private static List<String> quitMsg = ListenerFile.getStringListPath("Listener.Quit.Message");
 
-    public void init() {
-        joinMsg = ListenerFile.getStringListPath("Listener.Quit.Message");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+    public QuitListener() {
+        quitMsg = ListenerFile.getStringListPath("Listener.Quit.Message");
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler
@@ -31,7 +34,7 @@ public class QuitListener implements Listener {
             return;
         }
 
-        for (String s : joinMsg) {
+        for (String s : quitMsg) {
             Bukkit.broadcastMessage(s.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
         }
     }

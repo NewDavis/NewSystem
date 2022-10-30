@@ -17,11 +17,14 @@ public class BroadcastCmd implements CommandExecutor {
     private static List<String> usage;
     private static List<String> msg;
 
-    public void init() {
+    public BroadcastCmd() {
         perm = CommandFile.getStringPath("Command.Broadcast.Permission");
         usage = CommandFile.getStringListPath("Command.Broadcast.Usage");
         msg = CommandFile.getStringListPath("Command.Broadcast.Message");
-        NewSystem.getInstance().getCommand("broadcast").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("broadcast").setExecutor(this);
+        }
     }
 
     @Override

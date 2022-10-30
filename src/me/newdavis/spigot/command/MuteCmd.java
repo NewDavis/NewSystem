@@ -57,7 +57,7 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
     public static List<String> chatMessagePermanent = CommandFile.getStringListPath("Command.Mute.ChatMessagePermanent");
     public static List<String> chatMessageTemporary = CommandFile.getStringListPath("Command.Mute.ChatMessageTemporary");
 
-    public void init() {
+    public MuteCmd() {
         usage = CommandFile.getStringListPath("Command.Mute.Usage");
         perm = CommandFile.getStringPath("Command.Mute.Permission.Use");
         seconds = CommandFile.getStringPath("Command.Mute.Seconds");
@@ -84,8 +84,12 @@ public class MuteCmd implements CommandExecutor, TabCompleter {
         consoleMessagePermanent = CommandFile.getStringPath("Command.Mute.PlayerListConsolePermanent");
         chatMessagePermanent = CommandFile.getStringListPath("Command.Mute.ChatMessagePermanent");
         chatMessageTemporary = CommandFile.getStringListPath("Command.Mute.ChatMessageTemporary");
+        mutedPlayers.clear();
         getMutedPlayers();
-        NewSystem.getInstance().getCommand("mute").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("mute").setExecutor(this);
+        }
     }
 
     @Override

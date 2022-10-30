@@ -40,8 +40,12 @@ public class KitFileInventory {
         Other.deleteOther(p, "Kit");
 
         List<String> kits = ListenerFile.getConfigurationSection("Kit");
-        double maxPagesDouble = (String.valueOf(kits.size() / 27D).contains(".") ? (kits.size() / 27D) +1 : kits.size() / 27D);
-        int maxPages = (int) maxPagesDouble;
+        int pathsAmount = kits.size();
+        int maxPages = pathsAmount / 28;
+        pathsAmount -= maxPages*28;
+        if(pathsAmount > 0) {
+            maxPages++;
+        }
 
         if(!(inventoryPage > maxPages)) {
             replace(REDARROW_LEFT, "{CurrentPage-1}", (inventoryPage - 1 != 0 ? String.valueOf(inventoryPage - 1) : String.valueOf(inventoryPage)));
@@ -104,7 +108,7 @@ public class KitFileInventory {
             p.openInventory(inventory);
             page.put(p, inventoryPage);
         }else{
-            p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+            p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
         }
     }
 

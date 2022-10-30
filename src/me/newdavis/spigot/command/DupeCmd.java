@@ -29,7 +29,7 @@ public class DupeCmd implements CommandExecutor {
     private static List<String> messageInventoryIsFull;
     private static List<String> delayMessage;
 
-    public void init() {
+    public DupeCmd() {
         perm = CommandFile.getStringPath("Command.Dupe.Permission.Use");
         permNoDelay = CommandFile.getStringPath("Command.Dupe.Permission.NoDelay");
         usage = CommandFile.getStringListPath("Command.Dupe.Usage");
@@ -41,7 +41,10 @@ public class DupeCmd implements CommandExecutor {
         messageItemCanNotDuped = CommandFile.getStringListPath("Command.Dupe.MessageItemCanNotDuped");
         messageInventoryIsFull = CommandFile.getStringListPath("Command.Dupe.MessageInventoryIsFull");
         delayMessage = CommandFile.getStringListPath("Command.Dupe.MessageDelay");
-        NewSystem.getInstance().getCommand("dupe").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("dupe").setExecutor(this);
+        }
     }
 
     @Override

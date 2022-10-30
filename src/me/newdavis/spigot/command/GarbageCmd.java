@@ -20,13 +20,16 @@ public class GarbageCmd implements CommandExecutor {
     public static String title;
     public static List<String> close;
 
-    public void init() {
+    public GarbageCmd() {
         usage = CommandFile.getStringListPath("Command.Garbage.Usage");
         perm = CommandFile.getStringPath("Command.Garbage.Permission");
         size = CommandFile.getIntegerPath("Command.Garbage.Size");
         title = CommandFile.getStringPath("Command.Garbage.Title");
         close = CommandFile.getStringListPath("Command.Garbage.MessageClose");
-        NewSystem.getInstance().getCommand("garbage").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("garbage").setExecutor(this);
+        }
     }
 
     @Override

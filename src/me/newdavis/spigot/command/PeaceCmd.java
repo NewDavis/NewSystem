@@ -45,7 +45,7 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
     private static String requestListFormat;
     private static List<String> noRequests;
 
-    public void init() {
+    public PeaceCmd() {
         usage = CommandFile.getStringListPath("Command.Peace.Usage");
         perm = CommandFile.getStringPath("Command.Peace.Permission");
         canNotSendSelf = CommandFile.getStringListPath("Command.Peace.MessageCanNotSendRequestSelf");
@@ -71,7 +71,10 @@ public class PeaceCmd implements CommandExecutor, TabCompleter {
         requestListMessage = CommandFile.getStringListPath("Command.Peace.MessageRequestList");
         requestListFormat = CommandFile.getStringPath("Command.Peace.RequestListFormat");
         noRequests = CommandFile.getStringListPath("Command.Peace.MessageNoRequests");
-        NewSystem.getInstance().getCommand("peace").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("peace").setExecutor(this);
+        }
     }
 
     @Override

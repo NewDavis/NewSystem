@@ -32,7 +32,7 @@ public class KickCmd implements CommandExecutor {
     private static List<String> listMessage;
     private static List<String> msgCanNotKicked;
 
-    public void init() {
+    public KickCmd() {
         usage = CommandFile.getStringListPath("Command.Kick.Usage");
         perm = CommandFile.getStringPath("Command.Kick.Permission.Use");
         permNoKick = CommandFile.getStringPath("Command.Kick.Permission.CanNotKick");
@@ -40,7 +40,10 @@ public class KickCmd implements CommandExecutor {
         msgP = CommandFile.getStringListPath("Command.Kick.MessagePlayer");
         listMessage = CommandFile.getStringListPath("Command.Kick.Message");
         msgCanNotKicked = CommandFile.getStringListPath("Command.Kick.PlayerCanNotGetKicked");
-        NewSystem.getInstance().getCommand("kick").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("kick").setExecutor(this);
+        }
     }
 
     @Override

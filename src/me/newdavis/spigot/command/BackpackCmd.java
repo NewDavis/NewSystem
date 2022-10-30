@@ -32,7 +32,7 @@ public class BackpackCmd implements CommandExecutor {
     public static HashMap<Player, Inventory> playerBackpack = new HashMap<>();
     public static HashMap<Player, OfflinePlayer> backpack = new HashMap<>();
 
-    public void init() {
+    public BackpackCmd() {
         usage = CommandFile.getStringListPath("Command.Backpack.Usage");
         perm = CommandFile.getStringPath("Command.Backpack.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Backpack.Permission.Other");
@@ -43,7 +43,10 @@ public class BackpackCmd implements CommandExecutor {
         messageOther = CommandFile.getStringListPath("Command.Backpack.MessageOther");
         messageSaved = CommandFile.getStringListPath("Command.Backpack.MessageSaved");
         messageSavedOther = CommandFile.getStringListPath("Command.Backpack.MessageSavedOther");
-        NewSystem.getInstance().getCommand("backpack").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("backpack").setExecutor(this);
+        }
     }
 
     @Override

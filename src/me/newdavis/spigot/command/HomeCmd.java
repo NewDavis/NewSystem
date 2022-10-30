@@ -38,7 +38,7 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
     private static List<String> messageCanNotCreateMoreHomes;
     private static List<String> messageHomeDeleted;
 
-    public void init() {
+    public HomeCmd() {
         perm = CommandFile.getStringPath("Command.Home.Permission.Use");
         permNoDelay = CommandFile.getStringPath("Command.Home.Permission.NoDelay");
         usage = CommandFile.getStringListPath("Command.Home.Usage");
@@ -54,7 +54,10 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
         messageAlreadyCreated = CommandFile.getStringListPath("Command.Home.MessageHomeAlreadyCreated");
         messageCanNotCreateMoreHomes = CommandFile.getStringListPath("Command.Home.MessageHomeCanNotCreateMoreHomes");
         messageHomeDeleted = CommandFile.getStringListPath("Command.Home.MessageHomeDeleted");
-        NewSystem.getInstance().getCommand("home").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("home").setExecutor(this);
+        }
     }
 
     @Override

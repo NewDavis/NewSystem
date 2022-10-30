@@ -16,10 +16,13 @@ public class BlockPlaceListener implements Listener {
     private static String perm;
     private static List<String> message;
 
-    public void init() {
+    public BlockPlaceListener() {
         perm = ListenerFile.getStringPath("Listener.BlockPlace.Permission");
         message = ListenerFile.getStringListPath("Listener.BlockPlace.Message");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

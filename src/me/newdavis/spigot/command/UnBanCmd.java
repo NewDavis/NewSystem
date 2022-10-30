@@ -33,7 +33,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
     private static List<String> listMessage;
     private static List<String> msgIPNotBanned;
 
-    public void init() {
+    public UnBanCmd() {
         usage = CommandFile.getStringListPath("Command.UnBan.Usage");
         perm = CommandFile.getStringPath("Command.UnBan.Permission.Use");
         permIP = CommandFile.getStringPath("Command.UnBan.Permission.IP");
@@ -41,7 +41,10 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
         msgUnBannedPlayer = CommandFile.getStringListPath("Command.UnBan.MessagePlayer");
         listMessage = CommandFile.getStringListPath("Command.UnBan.Message");
         msgIPNotBanned = CommandFile.getStringListPath("Command.UnBan.MessageIPNotBanned");
-        NewSystem.getInstance().getCommand("unban").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("unban").setExecutor(this);
+        }
     }
 
     @Override
@@ -91,7 +94,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
                 mySQL.executeUpdate("UPDATE " + SQLTables.BAN.getTableName() + " SET UUID_UNBAN_OF='" + p.getUniqueId().toString() + "' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
-                List<String> bannedPlayers = BanCmd.getBannedPlayers();
+                List<String> bannedPlayers = BanCmd.bannedPlayers;
                 bannedPlayers.remove(t.getUniqueId().toString());
                 SavingsFile.setPath("Ban.BannedPlayers", bannedPlayers);
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".UnbanOf", p.getUniqueId().toString());
@@ -122,7 +125,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
                 mySQL.executeUpdate("UPDATE " + SQLTables.BAN.getTableName() + " SET UUID_UNBAN_OF='Console' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
-                List<String> bannedPlayers = BanCmd.getBannedPlayers();
+                List<String> bannedPlayers = BanCmd.bannedPlayers;
                 bannedPlayers.remove(t.getUniqueId().toString());
                 SavingsFile.setPath("Ban.BannedPlayers", bannedPlayers);
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".UnbanOf", "Console");
@@ -154,7 +157,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
                     mySQL.executeUpdate("UPDATE " + SQLTables.BANIP.getTableName() + " SET UUID_UNBAN_OF='" + p.getUniqueId().toString() + "' WHERE " +
                             "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
                 }else {
-                    List<String> bannedIPs = BanIPCmd.getBannedIPs();
+                    List<String> bannedIPs = BanIPCmd.bannedIPs;
                     bannedIPs.remove(ip);
                     SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".UnbanOf", p.getUniqueId().toString());
@@ -188,7 +191,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
                 mySQL.executeUpdate("UPDATE " + SQLTables.BANIP.getTableName() + " SET UUID_UNBAN_OF='Console' WHERE " +
                         "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
-                List<String> bannedIPs = BanIPCmd.getBannedIPs();
+                List<String> bannedIPs = BanIPCmd.bannedIPs;
                 bannedIPs.remove(ip);
                 SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                 SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".UnbanOf", "Console");
@@ -219,7 +222,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
             Player p = (Player) sender;
             if(args.length == 1) {
                 if(NewSystem.hasPermission(p, perm)) {
-                    for (String uuid : BanCmd.getBannedPlayers()) {
+                    for (String uuid : BanCmd.bannedPlayers) {
                         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
                         if(offlinePlayer.getName().contains(args[0])) {
                             tabCompletions.add(offlinePlayer.getName());
@@ -228,7 +231,7 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
                 }
 
                 if(NewSystem.hasPermission(p, permIP)) {
-                    for (String ip : BanIPCmd.getBannedIPs()) {
+                    for (String ip : BanIPCmd.bannedIPs) {
                         if(ip.contains(args[0])) {
                             tabCompletions.add(ip);
                         }
@@ -237,14 +240,14 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
             }
         }else {
             if (args.length == 1) {
-                for (String uuid : BanCmd.getBannedPlayers()) {
+                for (String uuid : BanCmd.bannedPlayers) {
                     OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
                     if (offlinePlayer.getName().contains(args[0])) {
                         tabCompletions.add(offlinePlayer.getName());
                     }
                 }
 
-                for (String ip : BanIPCmd.getBannedIPs()) {
+                for (String ip : BanIPCmd.bannedIPs) {
                     if (ip.contains(args[0])) {
                         tabCompletions.add(ip);
                     }

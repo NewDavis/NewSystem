@@ -27,7 +27,7 @@ public class BuildCmd implements CommandExecutor {
     private static String deactivated;
     public static List<String> denyMessage;
 
-    public void init() {
+    public BuildCmd() {
         usage = CommandFile.getStringListPath("Command.Build.Usage");
         perm = CommandFile.getStringPath("Command.Build.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Build.Permission.Other");
@@ -36,7 +36,10 @@ public class BuildCmd implements CommandExecutor {
         activated = CommandFile.getStringPath("Command.Build.Activated");
         deactivated = CommandFile.getStringPath("Command.Build.Deactivated");
         denyMessage = CommandFile.getStringListPath("Command.Build.DenyMessage");
-        NewSystem.getInstance().getCommand("build").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("build").setExecutor(this);
+        }
     }
 
     @Override

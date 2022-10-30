@@ -27,13 +27,16 @@ public class GiveCmd implements CommandExecutor, TabCompleter {
     private static List<String> msg = CommandFile.getStringListPath("Command.Give.Message");
     private static List<String> msgP = CommandFile.getStringListPath("Command.Give.MessagePlayer");
 
-    public void init() {
+    public GiveCmd() {
         usage = CommandFile.getStringListPath("Command.Give.Usage");
         perm = CommandFile.getStringPath("Command.Give.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Give.Permission.Other");
         msg = CommandFile.getStringListPath("Command.Give.Message");
         msgP = CommandFile.getStringListPath("Command.Give.MessagePlayer");
-        NewSystem.getInstance().getCommand("give").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("give").setExecutor(this);
+        }
     }
 
     @Override

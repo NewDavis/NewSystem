@@ -23,14 +23,17 @@ public class PrivateMessageCmd implements CommandExecutor {
     private static List<String> messagePlayer;
     private static boolean color;
 
-    public void init() {
+    public PrivateMessageCmd() {
         usage = CommandFile.getStringListPath("Command.PrivateMessage.Usage");
         perm = CommandFile.getStringPath("Command.PrivateMessage.Permission");
         canNotSendSelf = CommandFile.getStringListPath("Command.PrivateMessage.CanNotSendSelf");
         messageSender = CommandFile.getStringListPath("Command.PrivateMessage.Message");
         messagePlayer = CommandFile.getStringListPath("Command.PrivateMessage.MessagePlayer");
         color = CommandFile.getBooleanPath("Command.PrivateMessage.EnabledColoredMessage");
-        NewSystem.getInstance().getCommand("privatemessage").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("privatemessage").setExecutor(this);
+        }
     }
 
     @Override

@@ -20,12 +20,15 @@ public class HatCmd implements CommandExecutor {
     private static List<String> message;
     private static List<String> itemIsAirMessage;
 
-    public void init() {
+    public HatCmd() {
         perm = CommandFile.getStringPath("Command.Hat.Permission");
         usage = CommandFile.getStringListPath("Command.Hat.Usage");
         message = CommandFile.getStringListPath("Command.Hat.Message");
         itemIsAirMessage = CommandFile.getStringListPath("Command.Hat.ItemIsAir");
-        NewSystem.getInstance().getCommand("hat").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("hat").setExecutor(this);
+        }
     }
 
     @Override

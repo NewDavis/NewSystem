@@ -24,14 +24,17 @@ public class FreezeCmd implements CommandExecutor {
     private static List<String> msgUnfreezed;
     private static List<String> msgUnfreezedP;
 
-    public void init() {
+    public FreezeCmd() {
         usage = CommandFile.getStringListPath("Command.Freeze.Usage");
         perm = CommandFile.getStringPath("Command.Freeze.Permission");
         msgFreezed = CommandFile.getStringListPath("Command.Freeze.MessageFreezed");
         msgFreezedP = CommandFile.getStringListPath("Command.Freeze.MessageFreezedPlayer");
         msgUnfreezed = CommandFile.getStringListPath("Command.Freeze.MessageUnfreezed");
         msgUnfreezedP = CommandFile.getStringListPath("Command.Freeze.MessageUnfreezedPlayer");
-        NewSystem.getInstance().getCommand("freeze").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("freeze").setExecutor(this);
+        }
     }
 
     @Override

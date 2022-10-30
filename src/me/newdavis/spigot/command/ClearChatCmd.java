@@ -20,12 +20,15 @@ public class ClearChatCmd implements CommandExecutor {
     private static int emptyLines;
     private static List<String> msg;
 
-    public void init() {
+    public ClearChatCmd() {
         usage = CommandFile.getStringListPath("Command.ClearChat.Usage");
         perm = CommandFile.getStringPath("Command.ClearChat.Permission");
         emptyLines = CommandFile.getIntegerPath("Command.ClearChat.EmptyLines");
         msg = CommandFile.getStringListPath("Command.ClearChat.Message");
-        NewSystem.getInstance().getCommand("clearchat").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("clearchat").setExecutor(this);
+        }
     }
 
     @Override

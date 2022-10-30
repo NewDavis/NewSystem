@@ -21,13 +21,16 @@ public class ClearCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public ClearCmd() {
         usage = CommandFile.getStringListPath("Command.Clear.Usage");
         perm = CommandFile.getStringPath("Command.Clear.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Clear.Permission.Other");
         msg = CommandFile.getStringListPath("Command.Clear.Message");
         msgP = CommandFile.getStringListPath("Command.Clear.MessagePlayer");
-        NewSystem.getInstance().getCommand("clear").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("clear").setExecutor(this);
+        }
     }
 
     @Override

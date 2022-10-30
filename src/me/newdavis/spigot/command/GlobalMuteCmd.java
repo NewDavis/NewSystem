@@ -25,7 +25,7 @@ public class GlobalMuteCmd implements CommandExecutor {
     public static List<String> messageListener;
     public static String permByPass;
 
-    public void init() {
+    public GlobalMuteCmd() {
         perm = CommandFile.getStringPath("Command.GlobalMute.Permission.Use");
         usage = CommandFile.getStringListPath("Command.GlobalMute.Usage");
         message = CommandFile.getStringListPath("Command.GlobalMute.Message");
@@ -35,7 +35,10 @@ public class GlobalMuteCmd implements CommandExecutor {
         messageGlobal = CommandFile.getStringListPath("Command.GlobalMute.MessageGlobal");
         messageListener = CommandFile.getStringListPath("Command.GlobalMute.MessageMute");
         permByPass = CommandFile.getStringPath("Command.GlobalMute.Permission.ByPass");
-        NewSystem.getInstance().getCommand("globalmute").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("globalmute").setExecutor(this);
+        }
     }
 
     @Override

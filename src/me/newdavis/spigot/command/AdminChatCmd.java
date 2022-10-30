@@ -22,12 +22,15 @@ public class AdminChatCmd implements CommandExecutor {
     private static boolean colorCodes;
     private static List<String> format;
 
-    public void init() {
+    public AdminChatCmd() {
         perm = CommandFile.getStringPath("Command.AdminChat.Permission");
         usage = CommandFile.getStringListPath("Command.AdminChat.Usage");
         colorCodes = CommandFile.getBooleanPath("Command.AdminChat.ColorCodes");
         format = CommandFile.getStringListPath("Command.AdminChat.Format");
-        NewSystem.getInstance().getCommand("adminchat").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("adminchat").setExecutor(this);
+        }
     }
 
     @Override

@@ -36,7 +36,7 @@ public class ChangeValueSettings {
                 e.printStackTrace();
             }
         }else{
-            p.sendMessage(SettingsFile.getPrefix() + " §cDieser Pfad existiert nicht!");
+            p.sendMessage(SettingsFile.getPrefix() + " §cThis path does not exist!");
         }
         return false;
     }

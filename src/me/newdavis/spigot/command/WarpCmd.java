@@ -38,7 +38,7 @@ public class WarpCmd implements CommandExecutor, TabCompleter {
     private static List<String> listMessage;
     private static String noWarps;
 
-    public void init() {
+    public WarpCmd() {
         usage = CommandFile.getStringListPath("Command.Warp.Usage");
         perm = CommandFile.getStringPath("Command.Warp.Permission.Use");
         permWarp = CommandFile.getStringPath("Command.Warp.Permission.Teleport");
@@ -58,7 +58,10 @@ public class WarpCmd implements CommandExecutor, TabCompleter {
         msgMoved = CommandFile.getStringListPath("Command.Warp.MessageMovedWhileTeleportation");
         listMessage = CommandFile.getStringListPath("Command.Warp.WarpListFormat");
         noWarps = CommandFile.getStringPath("Command.Warp.MessageNoWarps");
-        NewSystem.getInstance().getCommand("warp").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("warp").setExecutor(this);
+        }
     }
 
     @Override

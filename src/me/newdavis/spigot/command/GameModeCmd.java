@@ -28,7 +28,7 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
     private static String adventure;
     private static String spectator;
 
-    public void init() {
+    public GameModeCmd() {
         usage = CommandFile.getStringListPath("Command.GameMode.Usage");
         perm = CommandFile.getStringPath("Command.GameMode.Permission.Use");
         permGM = CommandFile.getStringPath("Command.GameMode.Permission.GameMode");
@@ -39,7 +39,10 @@ public class GameModeCmd implements CommandExecutor, TabCompleter {
         creative = CommandFile.getStringPath("Command.GameMode.Creative");
         adventure = CommandFile.getStringPath("Command.GameMode.Adventure");
         spectator = CommandFile.getStringPath("Command.GameMode.Spectator");
-        NewSystem.getInstance().getCommand("gamemode").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("gamemode").setExecutor(this);
+        }
     }
 
     @Override

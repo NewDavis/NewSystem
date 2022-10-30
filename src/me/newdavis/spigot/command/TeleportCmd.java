@@ -88,7 +88,6 @@ public class TeleportCmd implements CommandExecutor {
             teleportAskPerm = CommandFile.getStringPath("Command.TeleportAsk.Permission");
             teleportAskMsg = CommandFile.getStringListPath("Command.TeleportAsk.Message");
             teleportAskMsgP = CommandFile.getStringListPath("Command.TeleportAsk.MessagePlayer");
-            NewSystem.getInstance().getCommand("teleportask").setExecutor(this);
             registered[0] = true;
         }
         NewSystem.status.put("TeleportAskHere CMD", CommandFile.getBooleanPath("Command.TeleportAskHere.Enabled"));
@@ -98,7 +97,6 @@ public class TeleportCmd implements CommandExecutor {
             teleportAskHerePerm = CommandFile.getStringPath("Command.TeleportAskHere.Permission");
             teleportAskHereMsg = CommandFile.getStringListPath("Command.TeleportAskHere.Message");
             teleportAskHereMsgP = CommandFile.getStringListPath("Command.TeleportAskHere.MessagePlayer");
-            NewSystem.getInstance().getCommand("teleportaskhere").setExecutor(this);
             registered[1] = true;
         }
         NewSystem.status.put("TeleportAccept CMD", CommandFile.getBooleanPath("Command.TeleportAccept.Enabled"));
@@ -116,7 +114,6 @@ public class TeleportCmd implements CommandExecutor {
             teleportAcceptMsgAlreadyInTp = CommandFile.getStringListPath("Command.TeleportAccept.MessageAlreadyInTeleport");
             teleportAcceptMsgTeleport = CommandFile.getStringListPath("Command.TeleportAccept.MessageTeleport");
             teleportAcceptDelay = CommandFile.getIntegerPath("Command.TeleportAccept.DelayInSeconds");
-            NewSystem.getInstance().getCommand("teleportaccept").setExecutor(this);
             registered[2] = true;
         }
         NewSystem.status.put("TeleportAskAll CMD", CommandFile.getBooleanPath("Command.TeleportAskAll.Enabled"));
@@ -126,7 +123,6 @@ public class TeleportCmd implements CommandExecutor {
             teleportAskAllPerm = CommandFile.getStringPath("Command.TeleportAskAll.Permission");
             teleportAskAllMsg = CommandFile.getStringListPath("Command.TeleportAskAll.Message");
             teleportAskAllMsgP = CommandFile.getStringListPath("Command.TeleportAskAll.MessagePlayer");
-            NewSystem.getInstance().getCommand("teleportaskall").setExecutor(this);
             registered[3] = true;
         }
         NewSystem.status.put("TeleportAll CMD", CommandFile.getBooleanPath("Command.TeleportAll.Enabled"));
@@ -137,7 +133,6 @@ public class TeleportCmd implements CommandExecutor {
             teleportAllMsgAll = CommandFile.getStringListPath("Command.TeleportAll.MessageAll");
             teleportAllMsgPTpTo = CommandFile.getStringListPath("Command.TeleportAll.MessagePlayerTeleportTo");
             teleportAllMsgP = CommandFile.getStringListPath("Command.TeleportAll.MessagePlayer");
-            NewSystem.getInstance().getCommand("teleportall").setExecutor(this);
             registered[4] = true;
         }
         NewSystem.status.put("Teleport CMD", CommandFile.getBooleanPath("Command.Teleport.Enabled"));
@@ -149,7 +144,6 @@ public class TeleportCmd implements CommandExecutor {
             teleportMsgP = CommandFile.getStringListPath("Command.Teleport.MessagePlayer");
             teleportMsgLocation = CommandFile.getStringListPath("Command.Teleport.MessageLocation");
             teleportMsgLocationP = CommandFile.getStringListPath("Command.Teleport.MessageLocationPlayer");
-            NewSystem.getInstance().getCommand("teleport").setExecutor(this);
             registered[5] = true;
         }
         NewSystem.status.put("TeleportHere CMD", CommandFile.getBooleanPath("Command.TeleportHere.Enabled"));
@@ -159,9 +153,34 @@ public class TeleportCmd implements CommandExecutor {
             teleportHerePerm = CommandFile.getStringPath("Command.TeleportHere.Permission");
             teleportHereMsg = CommandFile.getStringListPath("Command.TeleportHere.Message");
             teleportHereMsgP = CommandFile.getStringListPath("Command.TeleportHere.MessagePlayer");
-            NewSystem.getInstance().getCommand("teleporthere").setExecutor(this);
             registered[6] = true;
         }
+
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            if(registered[0]) {
+                NewSystem.getInstance().getCommand("teleportask").setExecutor(this);
+            }
+            if(registered[1]) {
+                NewSystem.getInstance().getCommand("teleportaskhere").setExecutor(this);
+            }
+            if(registered[2]) {
+                NewSystem.getInstance().getCommand("teleportaccept").setExecutor(this);
+            }
+            if(registered[3]) {
+                NewSystem.getInstance().getCommand("teleportaskall").setExecutor(this);
+            }
+            if(registered[4]) {
+                NewSystem.getInstance().getCommand("teleportall").setExecutor(this);
+            }
+            if(registered[5]) {
+                NewSystem.getInstance().getCommand("teleport").setExecutor(this);
+            }
+            if(registered[6]) {
+                NewSystem.getInstance().getCommand("teleporthere").setExecutor(this);
+            }
+        }
+
         return registered;
     }
 

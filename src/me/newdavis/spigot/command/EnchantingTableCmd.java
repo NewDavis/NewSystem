@@ -19,11 +19,14 @@ public class EnchantingTableCmd implements CommandExecutor {
     private static List<String> usage;
     private static List<String> message;
 
-    public void init() {
+    public EnchantingTableCmd() {
         perm = CommandFile.getStringPath("Command.EnchantingTable.Permission");
         usage = CommandFile.getStringListPath("Command.EnchantingTable.Usage");
         message = CommandFile.getStringListPath("Command.EnchantingTable.Message");
-        //NewSystem.getInstance().getCommand("enchantingtable").setExecutor(this);
+        /*if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("enchantingtable").setExecutor(this);
+        }*/
     }
 
     @Override

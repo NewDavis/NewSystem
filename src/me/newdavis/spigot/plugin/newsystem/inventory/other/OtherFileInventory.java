@@ -39,8 +39,12 @@ public class OtherFileInventory {
         Other.deleteOther(p, "Other");
 
         List<String> others = OtherFile.getConfigurationSection("Other");
-        double maxPagesDouble = (String.valueOf(others.size() / 27D).contains(".") ? (others.size() / 27D) +1 : others.size() / 27D);
-        int maxPages = (int) maxPagesDouble;
+        int pathsAmount = others.size();
+        int maxPages = pathsAmount / 28;
+        pathsAmount -= maxPages*28;
+        if(pathsAmount > 0) {
+            maxPages++;
+        }
 
         if(!(inventoryPage > maxPages)) {
             replace(REDARROW_LEFT, "{CurrentPage-1}", (inventoryPage - 1 != 0 ? String.valueOf(inventoryPage - 1) : String.valueOf(inventoryPage)));
@@ -103,7 +107,7 @@ public class OtherFileInventory {
             p.openInventory(inventory);
             page.put(p, inventoryPage);
         }else{
-            p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+            p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
         }
     }
 

@@ -30,7 +30,7 @@ public class KitCmd implements CommandExecutor, TabCompleter {
     private static List<String> messageKitList;
     private static String kitListFormat;
 
-    public void init() {
+    public KitCmd() {
         usage = CommandFile.getStringListPath("Command.Kit.Usage");
         perm = CommandFile.getStringPath("Command.Kit.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Kit.Permission.Other");
@@ -41,7 +41,10 @@ public class KitCmd implements CommandExecutor, TabCompleter {
         messageKitDelay = CommandFile.getStringListPath("Command.Kit.MessageKitDelay");
         messageKitList = CommandFile.getStringListPath("Command.Kit.MessageKitList");
         kitListFormat = CommandFile.getStringPath("Command.Kit.KitListFormat");
-        NewSystem.getInstance().getCommand("kit").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("kit").setExecutor(this);
+        }
     }
 
     @Override

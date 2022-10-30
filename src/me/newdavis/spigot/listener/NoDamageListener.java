@@ -13,10 +13,13 @@ public class NoDamageListener implements Listener {
     private static boolean everyDamage;
     private static boolean fallDamage;
 
-    public void init() {
+    public NoDamageListener() {
         everyDamage = ListenerFile.getBooleanPath("Listener.NoDamage.Every.Enabled");
         fallDamage = ListenerFile.getBooleanPath("Listener.NoDamage.Fall.Enabled");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

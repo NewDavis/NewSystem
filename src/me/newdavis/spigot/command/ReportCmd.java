@@ -42,7 +42,7 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
     private static String hoverFormat;
     private static long delayForAutoDeleteInMinutes;
 
-    public void init() {
+    public ReportCmd() {
         usage = CommandFile.getStringListPath("Command.Report.Usage");
         usageWithPerm = CommandFile.getStringListPath("Command.Report.UsageWithPermission");
         msgSelfReport = CommandFile.getStringListPath("Command.Report.MessageSelfReport");
@@ -66,7 +66,10 @@ public class ReportCmd implements CommandExecutor, TabCompleter {
         listMessage = CommandFile.getStringListPath("Command.Report.ListMessage");
         hoverFormat = CommandFile.getStringPath("Command.Report.ReportFormat");
         delayForAutoDeleteInMinutes = CommandFile.getLongPath("Command.Report.DelayForAutoDeleteInMinutes");
-        NewSystem.getInstance().getCommand("report").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("report").setExecutor(this);
+        }
     }
 
     @Override

@@ -9,8 +9,11 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class NoHungerListener implements Listener {
 
-    public void init() {
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+    public NoHungerListener() {
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

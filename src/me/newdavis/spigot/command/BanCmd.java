@@ -57,7 +57,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
     private static String consoleMessageTemporary;
     private static String consoleMessagePermanent;
 
-    public void init() {
+    public BanCmd() {
         usage = CommandFile.getStringListPath("Command.Ban.Usage");
         perm = CommandFile.getStringPath("Command.Ban.Permission.Use");
         seconds = CommandFile.getStringPath("Command.Ban.Seconds");
@@ -84,7 +84,12 @@ public class BanCmd implements CommandExecutor, TabCompleter {
         hoverMessagePermanent = CommandFile.getStringPath("Command.Ban.HoverMessagePermanent");
         consoleMessageTemporary = CommandFile.getStringPath("Command.Ban.PlayerListConsoleTemporary");
         consoleMessagePermanent = CommandFile.getStringPath("Command.Ban.PlayerListConsolePermanent");
-        NewSystem.getInstance().getCommand("ban").setExecutor(this);
+        bannedPlayers.clear();
+        getBannedPlayers();
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("ban").setExecutor(this);
+        }
     }
 
     @Override
@@ -292,12 +297,13 @@ public class BanCmd implements CommandExecutor, TabCompleter {
         return reason;
     }
 
+    public static List<String> bannedPlayers = new ArrayList<>();
+
     public static boolean isPlayerBanned(OfflinePlayer p) {
-        return getBannedPlayers().contains(p.getUniqueId().toString());
+        return bannedPlayers.contains(p.getUniqueId().toString());
     }
 
-    public static List<String> getBannedPlayers() {
-        List<String> bannedPlayers;
+    public static void getBannedPlayers() {
         if(mySQLEnabled) {
             bannedPlayers = mySQL.getStringList("UUID", SQLTables.BANNED_PLAYERS.getTableName());
             for (int i = 0; i < bannedPlayers.size(); i++) {
@@ -335,7 +341,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                 }
             }
         }
-        return bannedPlayers;
     }
 
     public static int getPlayerPunishmentCount(OfflinePlayer p) {
@@ -381,7 +386,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                 "'Permanent')";
                         mySQL.executeUpdate(sql);
                     }else{
-                        List<String> bannedPlayers = getBannedPlayers();
                         bannedPlayers.add(t.getUniqueId().toString());
 
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
@@ -444,7 +448,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                         "'Permanent')";
                 mySQL.executeUpdate(sql);
             }else {
-                List<String> bannedPlayers = getBannedPlayers();
                 bannedPlayers.add(t.getUniqueId().toString());
 
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", "Console");
@@ -503,7 +506,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                 "'" + banEnds + "')";
                         mySQL.executeUpdate(sql);
                     }else {
-                        List<String> bannedPlayers = getBannedPlayers();
                         bannedPlayers.add(t.getUniqueId().toString());
 
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
@@ -571,7 +573,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                         "'" + banEnds + "')";
                 mySQL.executeUpdate(sql);
             }else {
-                List<String> bannedPlayers = getBannedPlayers();
                 bannedPlayers.add(t.getUniqueId().toString());
 
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", "Console");
@@ -611,8 +612,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
     }
 
     public static void sendList(Player p) {
-        List<String> bannedPlayers = getBannedPlayers();
-
         for (String msg : listMessage) {
             if (msg.contains("{Banned-Player}")) {
                 if (bannedPlayers.size() == 0) {
@@ -701,8 +700,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
     }
 
     public static void sendList(CommandSender p) {
-        List<String> bannedPlayers = getBannedPlayers();
-
         for (String msg : listMessage) {
             if (msg.contains("{Banned-Player}")) {
                 if (bannedPlayers.size() == 0) {

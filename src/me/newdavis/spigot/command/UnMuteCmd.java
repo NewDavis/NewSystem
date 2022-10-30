@@ -32,7 +32,7 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
     private static List<String> listMessage;
     private static List<String> msgIPNotMuted;
 
-    public void init() {
+    public UnMuteCmd() {
         usage = CommandFile.getStringListPath("Command.UnMute.Usage");
         perm = CommandFile.getStringPath("Command.UnMute.Permission.Use");
         permIP = CommandFile.getStringPath("Command.UnMute.Permission.IP");
@@ -40,7 +40,10 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
         msgUnMutedPlayer = CommandFile.getStringListPath("Command.UnMute.MessagePlayer");
         listMessage = CommandFile.getStringListPath("Command.UnMute.Message");
         msgIPNotMuted = CommandFile.getStringListPath("Command.UnMute.MessageIPNotMuted");
-        NewSystem.getInstance().getCommand("unmute").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("unmute").setExecutor(this);
+        }
     }
 
     @Override

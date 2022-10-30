@@ -25,7 +25,7 @@ public class CommandSpyCmd implements CommandExecutor {
     private static List<String> msgP;
     public static List<String> format;
 
-    public void init() {
+    public CommandSpyCmd() {
         usage = CommandFile.getStringListPath("Command.CommandSpy.Usage");
         perm = CommandFile.getStringPath("Command.CommandSpy.Permission.Use");
         permOther = CommandFile.getStringPath("Command.CommandSpy.Permission.Other");
@@ -34,7 +34,10 @@ public class CommandSpyCmd implements CommandExecutor {
         msg = CommandFile.getStringListPath("Command.CommandSpy.Message");
         msgP = CommandFile.getStringListPath("Command.CommandSpy.MessagePlayer");
         format = CommandFile.getStringListPath("Command.CommandSpy.Format");
-        NewSystem.getInstance().getCommand("commandspy").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("commandspy").setExecutor(this);
+        }
     }
 
     @Override

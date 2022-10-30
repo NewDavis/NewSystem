@@ -34,7 +34,7 @@ public class VanishCmd implements CommandExecutor {
     private static String deactivated;
     private static List<String> msgStillVanish;
 
-    public void init() {
+    public VanishCmd() {
         usage = CommandFile.getStringListPath("Command.Vanish.Usage");
         perm = CommandFile.getStringPath("Command.Vanish.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Vanish.Permission.Other");
@@ -49,7 +49,10 @@ public class VanishCmd implements CommandExecutor {
         activated = CommandFile.getStringPath("Command.Vanish.Activated");
         deactivated = CommandFile.getStringPath("Command.Vanish.Deactivated");
         msgStillVanish = CommandFile.getStringListPath("Command.Vanish.MessageStillInVanish");
-        NewSystem.getInstance().getCommand("vanish").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("vanish").setExecutor(this);
+        }
     }
 
     @Override

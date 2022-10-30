@@ -51,7 +51,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
     private static String format;
     private static List<String> topListMessage;
 
-    public void init() {
+    public CurrencyCmd() {
         perm = CommandFile.getStringPath("Command.Currency.Permission.Pay");
         permOther = CommandFile.getStringPath("Command.Currency.Permission.Other");
         usageWP = CommandFile.getStringListPath("Command.Currency.UsageWithPermission");
@@ -82,7 +82,10 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
         noPlayer = CommandFile.getStringPath("Command.Currency.NoPlayer");
         format = CommandFile.getStringPath("Command.Currency.TopListFormat").replace("{Prefix}", SettingsFile.getPrefix()).replace("{CurrencyPrefix}", CurrencyAPI.getCurrencyPrefix());
         topListMessage = CommandFile.getStringListPath("Command.Currency.TopListMessage");
-        NewSystem.getInstance().getCommand("currency").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("currency").setExecutor(this);
+        }
     }
 
     @Override
@@ -470,12 +473,12 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                         String amount = CurrencyAPI.getCurrencyOfPlayerString(t);
                         if (i == 0) {
                             p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", first).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
-                        }else if (i == 1) {
+                        } else if (i == 1) {
                             p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", second).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
-                        }else if (i == 2) {
+                        } else if (i == 2) {
                             p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", third).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
-                        }else {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
+                        } else {
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i + 1))).replace("{Player}", NewSystem.getName(t.getUniqueId().toString(), false)).replace("{DisplayName}", NewSystem.getName(t.getUniqueId().toString(), true)).replace("{Amount}", amount));
                         }
                     }else{
                         if (i == 0) {
@@ -511,7 +514,7 @@ public class CurrencyCmd implements CommandExecutor, TabCompleter {
                         }else if (i == 2) {
                             p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", third).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
                         }else {
-                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Amount}", amount));
+                            p.sendMessage(format.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Placing}", otherPlacing.replace("{Placing}", String.valueOf(i+1))).replace("{Player}", NewSystem.getName(t.getUniqueId().toString(), false)).replace("{DisplayName}", NewSystem.getName(t.getUniqueId().toString(), true)).replace("{Amount}", amount));
                         }
                     }else{
                         if (i == 0) {

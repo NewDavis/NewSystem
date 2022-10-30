@@ -23,9 +23,6 @@ public class ChatFilter {
     private static List<String> messageCouldNotBeSend = new ArrayList<>();
 
     public ChatFilter() {
-    }
-
-    public void init() {
         for(String cmd : OtherFile.getConfigurationSection("Other.ChatFilter.BadWords")) {
             List<String> badWordsList = OtherFile.getStringListPath("Other.ChatFilter.BadWords." + cmd);
             badWords.put(cmd, badWordsList);

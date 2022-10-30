@@ -37,7 +37,7 @@ public class SpawnCmd implements CommandExecutor, TabCompleter {
     private static List<String> msgAlreadyInTeleport;
     private static List<String> msgMovedWhileTeleport;
 
-    public void init() {
+    public SpawnCmd() {
         usage = CommandFile.getStringListPath("Command.Spawn.Usage");
         perm = CommandFile.getStringPath("Command.Spawn.Permission.Use");
         permEdit = CommandFile.getStringPath("Command.Spawn.Permission.Edit");
@@ -54,7 +54,10 @@ public class SpawnCmd implements CommandExecutor, TabCompleter {
         countIsOne = CommandFile.getStringPath("Command.Spawn.CountIsOne");
         msgAlreadyInTeleport = CommandFile.getStringListPath("Command.Spawn.MessageAlreadyInTeleport");
         msgMovedWhileTeleport = CommandFile.getStringListPath("Command.Spawn.MessageMovedWhileTeleportation");
-        NewSystem.getInstance().getCommand("spawn").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("spawn").setExecutor(this);
+        }
     }
 
     @Override

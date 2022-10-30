@@ -20,12 +20,15 @@ public class TeamChatCmd implements CommandExecutor {
     private static boolean colorCodes;
     private static List<String> format;
 
-    public void init() {
+    public TeamChatCmd() {
         perm = CommandFile.getStringPath("Command.TeamChat.Permission");
         usage = CommandFile.getStringListPath("Command.TeamChat.Usage");
         colorCodes = CommandFile.getBooleanPath("Command.TeamChat.ColorCodes");
         format = CommandFile.getStringListPath("Command.TeamChat.Format");
-        NewSystem.getInstance().getCommand("teamchat").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("teamchat").setExecutor(this);
+        }
     }
 
     @Override

@@ -18,12 +18,15 @@ public class BlockCommandListener implements Listener {
     private static List<String> commands;
     private static boolean enabledNewSystemCommands;
 
-    public void init() {
+    public BlockCommandListener() {
         perm = ListenerFile.getStringPath("Listener.BlockCommand.Permission");
         blockMessage = ListenerFile.getStringListPath("Listener.BlockCommand.Message");
         enabledNewSystemCommands = ListenerFile.getBooleanPath("Listener.BlockCommand.EnabledNewSystemCommands");
         commands = ListenerFile.getStringListPath("Listener.BlockCommand.EnabledCommands");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

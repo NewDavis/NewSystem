@@ -21,12 +21,15 @@ public class SpawnMobCmd implements CommandExecutor, TabCompleter {
     private static String permMob;
     private static List<String> message;
 
-    public void init() {
+    public SpawnMobCmd() {
         usage = CommandFile.getStringListPath("Command.SpawnMob.Usage");
         perm = CommandFile.getStringPath("Command.SpawnMob.Permission.Use");
         permMob = CommandFile.getStringPath("Command.SpawnMob.Permission.Type");
         message = CommandFile.getStringListPath("Command.SpawnMob.Message");
-        NewSystem.getInstance().getCommand("spawnmob").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("spawnmob").setExecutor(this);
+        }
     }
 
     @Override

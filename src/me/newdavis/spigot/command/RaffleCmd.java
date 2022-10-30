@@ -25,14 +25,17 @@ public class RaffleCmd implements CommandExecutor {
     private static List<String> msgChoose;
     private static List<String> msgSelected;
 
-    public void init() {
+    public RaffleCmd() {
         usage = CommandFile.getStringListPath("Command.GiveAll.Usage");
         perm = CommandFile.getStringPath("Command.Raffle.Permission");
         msgAir = CommandFile.getStringListPath("Command.Raffle.MessageItemIsAir");
         msgStarted = CommandFile.getStringListPath("Command.Raffle.MessageStarted");
         msgChoose = CommandFile.getStringListPath("Command.Raffle.MessageChoose");
         msgSelected = CommandFile.getStringListPath("Command.Raffle.MessageSelected");
-        NewSystem.getInstance().getCommand("raffle").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("raffle").setExecutor(this);
+        }
     }
 
     @Override

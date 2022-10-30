@@ -19,13 +19,16 @@ public class HealCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public HealCmd() {
         usage = CommandFile.getStringListPath("Command.Heal.Usage");
         perm = CommandFile.getStringPath("Command.Heal.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Heal.Permission.Other");
         msg = CommandFile.getStringListPath("Command.Heal.Message");
         msgP = CommandFile.getStringListPath("Command.Heal.MessagePlayer");
-        NewSystem.getInstance().getCommand("heal").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("heal").setExecutor(this);
+        }
     }
 
     @Override

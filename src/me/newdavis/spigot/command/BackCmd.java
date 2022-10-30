@@ -37,7 +37,7 @@ public class BackCmd implements CommandExecutor {
     private static List<String> messageMovedWhileTeleportation;
     private static List<String> messageAlreadyInTeleport;
 
-    public void init() {
+    public BackCmd() {
         usage = CommandFile.getStringListPath("Command.Back.Usage");
         permUse = CommandFile.getStringPath("Command.Back.Permission.Use");
         permNoDelay = CommandFile.getStringPath("Command.Back.Permission.NoDelay");
@@ -53,7 +53,10 @@ public class BackCmd implements CommandExecutor {
         noDeathPointMessage = CommandFile.getStringListPath("Command.Back.NoDeathPointFound");
         messageMovedWhileTeleportation = CommandFile.getStringListPath("Command.Back.MessageMovedWhileTeleportation");
         messageAlreadyInTeleport = CommandFile.getStringListPath("Command.Back.MessageAlreadyInTeleport");
-        NewSystem.getInstance().getCommand("back").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("back").setExecutor(this);
+        }
     }
 
     @Override

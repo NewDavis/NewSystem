@@ -19,11 +19,14 @@ public class DeathListener implements Listener {
     private static List<String> deathMessageList;
     private static boolean forceRespawn;
 
-    public void init() {
+    public DeathListener() {
         enabled = ListenerFile.getBooleanPath("Listener.Death.Enabled");
         deathMessageList = ListenerFile.getStringListPath("Listener.Death.Message");
         forceRespawn = ListenerFile.getBooleanPath("Listener.Death.ForceRespawn");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

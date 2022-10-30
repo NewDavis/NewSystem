@@ -19,13 +19,16 @@ public class EnderchestCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public EnderchestCmd() {
         usage = CommandFile.getStringListPath("Command.EnderChest.Usage");
         perm = CommandFile.getStringPath("Command.EnderChest.Permission.Use");
         permOther = CommandFile.getStringPath("Command.EnderChest.Permission.Other");
         msg = CommandFile.getStringListPath("Command.EnderChest.Message");
         msgP = CommandFile.getStringListPath("Command.EnderChest.MessagePlayer");
-        NewSystem.getInstance().getCommand("enderchest").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("enderchest").setExecutor(this);
+        }
     }
 
     @Override

@@ -19,10 +19,13 @@ public class JoinListener implements Listener {
     private static List<String> joinMsg;
     private static List<String> firstJoinMsg;
 
-    public void init() {
+    public JoinListener() {
         joinMsg = ListenerFile.getStringListPath("Listener.Join.Message");
         firstJoinMsg = ListenerFile.getStringListPath("Listener.Join.FirstJoin.Message");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     private static Integer getJoinCount() {

@@ -21,7 +21,7 @@ public class SpeedCmd implements CommandExecutor {
     private static List<String> msg;
     private static List<String> msgP;
 
-    public void init() {
+    public SpeedCmd() {
         usage = CommandFile.getStringListPath("Command.Speed.Usage");
         perm = CommandFile.getStringPath("Command.Speed.Permission.Use");
         permOther = CommandFile.getStringPath("Command.Speed.Permission.Other");
@@ -29,7 +29,10 @@ public class SpeedCmd implements CommandExecutor {
         permWalk = CommandFile.getStringPath("Command.Speed.Permission.Walk");
         msg = CommandFile.getStringListPath("Command.Speed.Message");
         msgP = CommandFile.getStringListPath("Command.Speed.MessagePlayer");
-        NewSystem.getInstance().getCommand("speed").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("speed").setExecutor(this);
+        }
     }
 
     @Override

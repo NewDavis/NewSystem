@@ -34,7 +34,7 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
     private static List<String> redeemedPermission;
     private static List<String> redeemedCurrency;
 
-    public void init() {
+    public VoucherCmd() {
         usage = CommandFile.getStringListPath("Command.Voucher.Usage");
         perm = CommandFile.getStringPath("Command.Voucher.Permission");
         message = CommandFile.getStringListPath("Command.Voucher.Message");
@@ -46,7 +46,10 @@ public class VoucherCmd implements CommandExecutor, TabCompleter {
         redeemedRole = CommandFile.getStringListPath("Command.Voucher.MessageRedeemedRole");
         redeemedPermission = CommandFile.getStringListPath("Command.Voucher.MessageRedeemedPermission");
         redeemedCurrency = CommandFile.getStringListPath("Command.Voucher.MessageRedeemedCurrency");
-        NewSystem.getInstance().getCommand("voucher").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("voucher").setExecutor(this);
+        }
     }
 
     @Override

@@ -12,9 +12,12 @@ public class ColorSignListener implements Listener {
 
     private static String perm;
 
-    public void init() {
+    public ColorSignListener() {
         perm = ListenerFile.getStringPath("Listener.ColorSign.Permission");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

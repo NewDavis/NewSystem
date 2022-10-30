@@ -21,12 +21,15 @@ public class ShowIPCmd implements CommandExecutor {
     private static boolean suggestIP;
     private static List<String> message;
 
-    public void init() {
+    public ShowIPCmd() {
         perm = CommandFile.getStringPath("Command.ShowIP.Permission");
         usage = CommandFile.getStringListPath("Command.ShowIP.Usage");
         suggestIP = CommandFile.getBooleanPath("Command.ShowIP.SuggestIP");
         message = CommandFile.getStringListPath("Command.ShowIP.Message");
-        NewSystem.getInstance().getCommand("showip").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("showip").setExecutor(this);
+        }
     }
 
     @Override

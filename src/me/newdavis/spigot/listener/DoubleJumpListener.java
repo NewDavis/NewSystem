@@ -22,9 +22,12 @@ public class DoubleJumpListener implements Listener {
 
     private static double height;
 
-    public void init() {
+    public DoubleJumpListener() {
         height = ListenerFile.getDoublePath("Listener.DoubleJump.Height");
-        NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        if(!NewSystem.loadedListeners.contains(this.getClass())) {
+            NewSystem.loadedListeners.add(this.getClass());
+            NewSystem.getInstance().getServer().getPluginManager().registerEvents(this, NewSystem.getInstance());
+        }
     }
 
     @EventHandler

@@ -295,7 +295,7 @@ public class CurrencyAPI {
 
             for (String key : keys) {
                 OfflinePlayer t = Bukkit.getOfflinePlayer(UUID.fromString(key));
-                if(t != null) {
+                if(t.hasPlayedBefore()) {
                     Double currency = getCurrencyOfPlayer(t);
                     currencyOfOfflinePlayers.put(t, currency);
                     currencyOfPlayers.put(t, currency);

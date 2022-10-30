@@ -54,7 +54,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
     private static String consoleMessageTemporary;
     private static String consoleMessagePermanent;
 
-    public void init() {
+    public BanIPCmd() {
         usage = CommandFile.getStringListPath("Command.BanIP.Usage");
         perm = CommandFile.getStringPath("Command.BanIP.Permission.Use");
         seconds = CommandFile.getStringPath("Command.BanIP.Seconds");
@@ -81,7 +81,12 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
         hoverMessagePermanent = CommandFile.getStringPath("Command.BanIP.HoverMessagePermanent");
         consoleMessageTemporary = CommandFile.getStringPath("Command.BanIP.IPListConsoleTemporary");
         consoleMessagePermanent = CommandFile.getStringPath("Command.BanIP.IPListConsolePermanent");
-        NewSystem.getInstance().getCommand("banip").setExecutor(this);
+        bannedIPs.clear();
+        getBannedIPs();
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("banip").setExecutor(this);
+        }
     }
 
     @Override
@@ -317,12 +322,13 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
         return reason;
     }
 
+    public static List<String> bannedIPs = new ArrayList<>();
+    
     public static boolean isIPBanned(String ip) {
-        return getBannedIPs().contains(ip);
+        return bannedIPs.contains(ip);
     }
 
-    public static List<String> getBannedIPs() {
-        List<String> bannedIPs;
+    public static void getBannedIPs() {
         if(mySQLEnabled) {
             bannedIPs = mySQL.getStringList("IP", SQLTables.BANNED_IPS.getTableName());
             for (String ip : bannedIPs) {
@@ -359,7 +365,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 }
             }
         }
-        return bannedIPs;
     }
 
     public static int getIPPunishmentCount(String ip) {
@@ -436,15 +441,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'Permanent')");
                         }else{
-                            List<String> bannedPlayers = getBannedIPs();
-                            bannedPlayers.add(ip);
+                            bannedIPs.add(ip);
 
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", "Permanent");
-                            SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                            SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                         }
 
                         for (String key : msgBannedPermanently) {
@@ -520,15 +524,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'Permanent')");
                         }else {
-                            List<String> bannedPlayers = getBannedIPs();
-                            bannedPlayers.add(ip);
+                            bannedIPs.add(ip);
 
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", "Permanent");
-                            SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                            SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                         }
 
                         for (String key : msgBannedPermanently) {
@@ -610,15 +613,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 "'" + System.currentTimeMillis() + "'," +
                                 "'Permanent')");
                     }else {
-                        List<String> bannedPlayers = getBannedIPs();
-                        bannedPlayers.add(ip);
+                        bannedIPs.add(ip);
 
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", "Permanent");
-                        SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                        SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                     }
 
                     for (String key : msgBannedPermanently) {
@@ -690,15 +692,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 "'" + System.currentTimeMillis() + "'," +
                                 "'Permanent')");
                     }else {
-                        List<String> bannedPlayers = getBannedIPs();
-                        bannedPlayers.add(ip);
+                        bannedIPs.add(ip);
 
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", "Permanent");
-                        SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                        SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                     }
 
                     for (String key : msgBannedPermanently) {
@@ -780,15 +781,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'" + banEnds + "')");
                         }else {
-                            List<String> bannedPlayers = getBannedIPs();
-                            bannedPlayers.add(ip);
+                            bannedIPs.add(ip);
 
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", banEnds);
-                            SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                            SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                         }
 
                         for (String key : msgBannedTemporary) {
@@ -874,15 +874,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'" + banEnds + "')");
                         }else {
-                            List<String> bannedPlayers = getBannedIPs();
-                            bannedPlayers.add(ip);
+                            bannedIPs.add(ip);
 
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", banEnds);
-                            SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                            SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                         }
 
                         for (String key : msgBannedTemporary) {
@@ -973,15 +972,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             "'" + System.currentTimeMillis() + "'," +
                             "'" + banEnds + "')");
                 }else {
-                    List<String> bannedPlayers = getBannedIPs();
-                    bannedPlayers.add(ip);
+                    bannedIPs.add(ip);
 
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", banEnds);
-                    SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                    SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                 }
 
                 for (String key : msgBannedTemporary) {
@@ -1057,15 +1055,14 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             "'" + System.currentTimeMillis() + "'," +
                             "'" + banEnds + "')");
                 }else {
-                    List<String> bannedPlayers = getBannedIPs();
-                    bannedPlayers.add(ip);
+                    bannedIPs.add(ip);
 
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban", System.currentTimeMillis());
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Date-Of-Ban-Ends", banEnds);
-                    SavingsFile.setPath("BanIP.BannedIPs", bannedPlayers);
+                    SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                 }
 
                 for (String key : msgBannedTemporary) {
@@ -1122,8 +1119,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
     }
 
     public static void sendList(Player p) {
-        List<String> bannedIPs = getBannedIPs();
-
         for (String msg : listMessage) {
             if (msg.contains("{Banned-IPs}")) {
                 if (bannedIPs.size() == 0) {
@@ -1212,8 +1207,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
     }
 
     public static void sendList(CommandSender p) {
-        List<String> bannedIPs = getBannedIPs();
-
         for (String msg : listMessage) {
             if (msg.contains("{Banned-IPs}")) {
                 if (bannedIPs.size() == 0) {

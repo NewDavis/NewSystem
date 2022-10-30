@@ -159,7 +159,7 @@ public class Listeners implements Listener {
                 if (page != 1) {
                     new CommandFileInventory().openInventoryPage(p, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -182,7 +182,7 @@ public class Listeners implements Listener {
                     String listener = ListenerChoosedInventory.listener.get(p);
                     new ListenerChoosedInventory().openInventoryPage(p, listener, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -214,7 +214,7 @@ public class Listeners implements Listener {
                 if (page != 1) {
                     new ListenerFileInventory().openInventoryPage(p, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -237,7 +237,7 @@ public class Listeners implements Listener {
                     String kit = KitChoosedInventory.kit.get(p);
                     new KitChoosedInventory().openInventoryPage(p, kit, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -269,7 +269,7 @@ public class Listeners implements Listener {
                 if (page != 1) {
                     new KitFileInventory().openInventoryPage(p, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -292,7 +292,7 @@ public class Listeners implements Listener {
                     String other = OtherChoosedInventory.other.get(p);
                     new OtherChoosedInventory().openInventoryPage(p, other, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -324,7 +324,7 @@ public class Listeners implements Listener {
                 if (page != 1) {
                     new OtherFileInventory().openInventoryPage(p, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -347,7 +347,7 @@ public class Listeners implements Listener {
                     String tablist = TabListChoosedInventory.tablist.get(p);
                     new TabListChoosedInventory().openInventoryPage(p, tablist, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -374,7 +374,7 @@ public class Listeners implements Listener {
                 if (page != 1) {
                     new TabListFileInventory().openInventoryPage(p, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -405,7 +405,7 @@ public class Listeners implements Listener {
                     String setting = SettingChoosedInventory.setting.get(p);
                     new SettingChoosedInventory().openInventoryPage(p, setting, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;
@@ -432,7 +432,7 @@ public class Listeners implements Listener {
                 if (page != 1) {
                     new SettingsFileInventory().openInventoryPage(p, page - 1);
                 } else {
-                    p.sendMessage(SettingsFile.getPrefix() + " §cDiese Seite existiert nicht!");
+                    p.sendMessage(SettingsFile.getPrefix() + " §cThis page does not exist!");
                 }
             } else if (clickedSlot == 49) {
                 return;

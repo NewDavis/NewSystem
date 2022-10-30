@@ -23,7 +23,7 @@ public class GameModeShortCmd implements CommandExecutor {
     private static String adventure;
     private static String spectator;
 
-    public void init() {
+    public GameModeShortCmd() {
         usage = CommandFile.getStringListPath("Command.GameMode.Usage");
         perm = CommandFile.getStringPath("Command.GameMode.Permission.Use");
         permGM = CommandFile.getStringPath("Command.GameMode.Permission.GameMode");
@@ -32,10 +32,13 @@ public class GameModeShortCmd implements CommandExecutor {
         creative = CommandFile.getStringPath("Command.GameMode.Creative");
         adventure = CommandFile.getStringPath("Command.GameMode.Adventure");
         spectator = CommandFile.getStringPath("Command.GameMode.Spectator");
-        NewSystem.getInstance().getCommand("gms").setExecutor(this);
-        NewSystem.getInstance().getCommand("gmc").setExecutor(this);
-        NewSystem.getInstance().getCommand("gma").setExecutor(this);
-        NewSystem.getInstance().getCommand("gmsp").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("gms").setExecutor(this);
+            NewSystem.getInstance().getCommand("gmc").setExecutor(this);
+            NewSystem.getInstance().getCommand("gma").setExecutor(this);
+            NewSystem.getInstance().getCommand("gmsp").setExecutor(this);
+        }
     }
 
     @Override

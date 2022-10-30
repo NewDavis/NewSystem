@@ -1,7 +1,6 @@
 package me.newdavis.spigot.plugin.newsystem.command;
 
 import me.newdavis.spigot.api.HologramAPI;
-import me.newdavis.spigot.api.ReflectionAPI;
 import me.newdavis.spigot.file.*;
 import me.newdavis.spigot.listener.OtherListeners;
 import me.newdavis.spigot.plugin.NewSystem;
@@ -25,15 +24,12 @@ import me.newdavis.spigot.plugin.newsystem.inventory.tablist.ChangeValueTabList;
 import me.newdavis.spigot.plugin.newsystem.inventory.tablist.TabListChoosedInventory;
 import me.newdavis.spigot.plugin.newsystem.inventory.tablist.TabListFileInventory;
 import me.newdavis.spigot.util.*;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -528,71 +524,8 @@ public class NewSystemCmd implements CommandExecutor {
         return tps;
     }
 
-    public static void reload(Player p) {
-        SettingsFile.loadConfig();
-        p.sendMessage(SettingsFile.getPrefix() + " §7Settings File has been reloaded!");
-        CommandFile.loadConfig();
-        p.sendMessage(SettingsFile.getPrefix() + " §7Command File has been reloaded!");
-        ListenerFile.loadConfig();
-        p.sendMessage(SettingsFile.getPrefix() + " §7Event File has been reloaded!");
-        OtherFile.loadConfig();
-        p.sendMessage(SettingsFile.getPrefix() + " §7Other File has been reloaded!");
-        SavingsFile.loadConfig();
-        p.sendMessage(SettingsFile.getPrefix() + " §7Savings File has been reloaded!");
-        if (CommandFile.getBooleanPath("Command.Kit.Enabled")) {
-            KitFile.loadConfig();
-            p.sendMessage(SettingsFile.getPrefix() + " §7Kit System has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7Kit System is not activated!");
-        }
-        if (CommandFile.getBooleanPath("Command.Hologram.Enabled")) {
-            for (String hologram : HologramAPI.getHolograms()) {
-                HologramAPI.reloadHologram(hologram);
-            }
-            p.sendMessage(SettingsFile.getPrefix() + " §7Hologram System has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7Hologram System is not activated!");
-        }
-        if (TabListFile.getBooleanPath("TabList.Enabled")) {
-            TabListFile.loadConfig();
-            TabListPrefix.setTabListForAll();
-            p.sendMessage(SettingsFile.getPrefix() + " §7TabList Prefix System has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7TabList Prefix System is not activated!");
-        }
-        if (OtherFile.getBooleanPath("Other.ScoreBoard.Enabled")) {
-            ScoreboardManager.scoreboardTitle = OtherFile.getStringListPath("Other.ScoreBoard.Title");
-            ScoreboardManager.scoreboardScores = OtherFile.getStringListPath("Other.ScoreBoard.Scores");
-            ScoreboardManager.speed = OtherFile.getIntegerPath("Other.ScoreBoard.UpdateSpeed");
-            ScoreboardManager.updateEveryScoreboard();
-            p.sendMessage(SettingsFile.getPrefix() + " §7Scoreboard System has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7Scoreboard System is not activated!");
-        }
-        if (OtherFile.getBooleanPath("Other.ChatFilter.Enabled")) {
-            new ChatFilter().init();
-            p.sendMessage(SettingsFile.getPrefix() + " §7ChatFilter System has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7ChatFilter System is not activated!");
-        }
-        if (OtherFile.getBooleanPath("Other.Portal.Enabled")) {
-            new Portal().init();
-            p.sendMessage(SettingsFile.getPrefix() + " §7Portal System has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7Portal System is not activated!");
-        }
-        OtherListeners.commandAliases = CommandFile.getCommandAliases();
-        p.sendMessage(SettingsFile.getPrefix() + " §7Command Aliases has been reloaded!");
-        if (CommandFile.getBooleanPath("Command.CustomCommands.Enabled")) {
-            OtherListeners.customCommandAliases = CommandFile.getCustomCommandAliases();
-            p.sendMessage(SettingsFile.getPrefix() + " §7Custom Command Aliases has been reloaded!");
-        } else {
-            p.sendMessage(SettingsFile.getPrefix() + " §7Custom Command Aliases is not activated!");
-        }
-        p.sendMessage(SettingsFile.getPrefix() + " §aThe NewSystem reload was completed successfully!");
-    }
-
     public static void reload(CommandSender p) {
+        NewSystem.stopAllScheduler();
         SettingsFile.loadConfig();
         p.sendMessage(SettingsFile.getPrefix() + " §7Settings File has been reloaded!");
         CommandFile.loadConfig();
@@ -634,13 +567,13 @@ public class NewSystemCmd implements CommandExecutor {
             p.sendMessage(SettingsFile.getPrefix() + " §7Scoreboard System is not activated!");
         }
         if (OtherFile.getBooleanPath("Other.ChatFilter.Enabled")) {
-            new ChatFilter().init();
+            new ChatFilter();
             p.sendMessage(SettingsFile.getPrefix() + " §7ChatFilter System has been reloaded!");
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7ChatFilter System is not activated!");
         }
         if (OtherFile.getBooleanPath("Other.Portal.Enabled")) {
-            new Portal().init();
+            new Portal();
             p.sendMessage(SettingsFile.getPrefix() + " §7Portal System has been reloaded!");
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7Portal System is not activated!");
@@ -654,5 +587,6 @@ public class NewSystemCmd implements CommandExecutor {
             p.sendMessage(SettingsFile.getPrefix() + " §7Custom Command Aliases is not activated!");
         }
         p.sendMessage(SettingsFile.getPrefix() + " §aThe NewSystem reload was completed successfully!");
+        NewSystem.loadAll();
     }
 }

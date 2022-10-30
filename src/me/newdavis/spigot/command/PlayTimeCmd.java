@@ -31,13 +31,16 @@ public class PlayTimeCmd implements CommandExecutor {
     private static List<String> msgP;
     private static String format;
 
-    public void init() {
+    public PlayTimeCmd() {
         usage = CommandFile.getStringListPath("Command.PlayTime.Usage");
         perm = CommandFile.getStringPath("Command.PlayTime.Permission.Use");
         msg = CommandFile.getStringListPath("Command.PlayTime.Message");
         msgP = CommandFile.getStringListPath("Command.PlayTime.MessagePlayer");
         format = CommandFile.getStringPath("Command.PlayTime.PlayTimeFormat");
-        NewSystem.getInstance().getCommand("playtime").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("playtime").setExecutor(this);
+        }
     }
 
     @Override

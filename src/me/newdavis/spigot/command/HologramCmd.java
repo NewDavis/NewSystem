@@ -42,7 +42,7 @@ public class HologramCmd implements CommandExecutor, TabCompleter {
     private static String hologramFormat;
     private static String hoverMessage;
 
-    public void init() {
+    public HologramCmd() {
         usage = CommandFile.getStringListPath("Command.Hologram.Usage");
         perm = CommandFile.getStringPath("Command.Hologram.Permission.Use");
         permTitle = CommandFile.getStringPath("Command.Hologram.Permission.Title");
@@ -66,7 +66,10 @@ public class HologramCmd implements CommandExecutor, TabCompleter {
         noHologramsCreated = CommandFile.getStringListPath("Command.Hologram.Message.NoHologramsCreated");
         hologramFormat = CommandFile.getStringPath("Command.Hologram.Message.HologramFormat");
         hoverMessage = CommandFile.getStringPath("Command.Hologram.Message.HoverMessage").replace("{Prefix}", SettingsFile.getPrefix());
-        NewSystem.getInstance().getCommand("hologram").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("hologram").setExecutor(this);
+        }
     }
 
     @Override

@@ -27,11 +27,14 @@ public class WarnCmd implements CommandExecutor {
     private static List<String> usage;
     private static List<String> msg;
 
-    public void init() {
+    public WarnCmd() {
         perm = CommandFile.getStringPath("Command.Warn.Permission");
         usage = CommandFile.getStringListPath("Command.Warn.Usage");
         msg = CommandFile.getStringListPath("Command.Warn.Message");
-        NewSystem.getInstance().getCommand("warn").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("warn").setExecutor(this);
+        }
     }
 
     @Override

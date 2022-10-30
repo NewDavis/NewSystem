@@ -23,13 +23,16 @@ public class GiveAllCmd implements CommandExecutor {
     private static List<String> msgP;
     private static List<String> msgAir;
 
-    public void init() {
+    public GiveAllCmd() {
         usage = CommandFile.getStringListPath("Command.GiveAll.Usage");
         perm = CommandFile.getStringPath("Command.GiveAll.Permission");
         msg = CommandFile.getStringListPath("Command.GiveAll.Message");
         msgP = CommandFile.getStringListPath("Command.GiveAll.MessagePlayer");
         msgAir = CommandFile.getStringListPath("Command.GiveAll.MessageItemIsAir");
-        NewSystem.getInstance().getCommand("giveall").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("giveall").setExecutor(this);
+        }
     }
 
     @Override

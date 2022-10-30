@@ -20,12 +20,15 @@ public class DayCmd implements CommandExecutor {
     private static List<String> msgAll;
     private static boolean globalMessage;
 
-    public void init() {
+    public DayCmd() {
         perm = CommandFile.getStringPath("Command.Day.Permission");
         msgP = CommandFile.getStringListPath("Command.Day.Message");
         msgAll = CommandFile.getStringListPath("Command.Day.GlobalMessage");
         globalMessage = CommandFile.getBooleanPath("Command.Day.GlobalMessageEnabled");
-        NewSystem.getInstance().getCommand("day").setExecutor(this);
+        if(!NewSystem.loadedCommands.contains(this)) {
+            NewSystem.loadedCommands.add(this);
+            NewSystem.getInstance().getCommand("day").setExecutor(this);
+        }
     }
 
     @Override
