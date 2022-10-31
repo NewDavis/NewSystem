@@ -1,5 +1,6 @@
 package me.newdavis.spigot.listener;
 
+import me.newdavis.manager.NewPermManager;
 import me.newdavis.other.EnterValue;
 import me.newdavis.spigot.api.ReflectionAPI;
 import me.newdavis.spigot.command.MuteIPCmd;
@@ -235,15 +236,20 @@ public class ChatListener implements Listener {
                 msg = NewSystem.replace(msg);
             }
             e.setCancelled(true);
+
+            Bukkit.broadcastMessage(NewPermManager.getRolePrefix(NewPermManager.getPlayerRole(p)) + p.getName());
+
             if (NewSystem.hasPermission(p, chatColorPerm)) {
                 Bukkit.broadcastMessage(format.replace("{Prefix}", SettingsFile.getPrefix())
-                        .replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
+                        .replace("{Player}", NewSystem.getName(p, false))
+                        .replace("{DisplayName}", NewSystem.getName(p, true))
                         .replace("{Time}", SettingsFile.TimeFormat(System.currentTimeMillis()))
                         .replace("{Date}", SettingsFile.DateFormat(System.currentTimeMillis()))
                         .replace("{Message}", msg.replace('&', '§')));
             } else {
                 Bukkit.broadcastMessage(format.replace("{Prefix}", SettingsFile.getPrefix())
-                        .replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true))
+                        .replace("{Player}", NewSystem.getName(p, false))
+                        .replace("{DisplayName}", NewSystem.getName(p, true))
                         .replace("{Time}", SettingsFile.TimeFormat(System.currentTimeMillis()))
                         .replace("{Date}", SettingsFile.DateFormat(System.currentTimeMillis()))
                         .replace("{Message}", msg));

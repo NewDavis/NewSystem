@@ -1145,7 +1145,7 @@ public class NewSystem extends JavaPlugin {
         }
 
         if (newPerm && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
-            return NewPermManager.getPlayerPrefix(p) + p.getName();
+            return NewPermManager.getRolePrefix(NewPermManager.getPlayerRole(p)) + p.getName();
         } else {
             return (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName") ? p.getPlayer().getDisplayName() : p.getName());
         }
@@ -1164,7 +1164,7 @@ public class NewSystem extends JavaPlugin {
             }
 
             if (newPerm && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
-                return NewPermManager.getPlayerPrefix(p) + p.getName();
+                return NewPermManager.getRolePrefix(NewPermManager.getPlayerRole(p)) + p.getName();
             } else {
                 return (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName") ? p.getPlayer().getDisplayName() : p.getName());
             }
