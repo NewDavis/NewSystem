@@ -1458,21 +1458,7 @@ public class CommandFile {
     }
 
     private static boolean checkForNewPaths() {
-        boolean updated = false;
-
-        //GlobalMute
-        if(yaml.contains("Command.GlobalMute.Permission.Ignore")) {
-            yaml.set("Command.GlobalMute.Permission.ByPass", yaml.getString("Command.GlobalMute.Permission.Ignore"));
-            yaml.set("Command.GlobalMute.Permission.Ignore", null);
-            updated = true;
-        }
-
-        //CommandSpy
-        if(!yaml.contains("Command.CommandSpy.ShowConsoleExecutingCommands")) {
-            yaml.set("Command.CommandSpy.ShowConsoleExecutingCommands", true);
-        }
-
-        return updated;
+        return false;
     }
 
     public static HashMap<String, String[]> getCommandAliases() {

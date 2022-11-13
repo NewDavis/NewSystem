@@ -13,6 +13,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -265,7 +267,16 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
 
     public int maxHomes(Player p) {
         String permMaxHomes = CommandFile.getStringPath("Command.Home.Permission.MaxHomes").replace("{MaxHomes}", "");
-        for (String perm : NewPermManager.getAllPlayerPermissions(p)) {
+        List<String> permissions = new ArrayList<>();
+        for(PermissionAttachmentInfo info : p.getEffectivePermissions()) {
+            for(String perm : info.getAttachment().getPermissions().keySet()) {
+                if(info.getAttachment().getPermissions().get(perm)) {
+                    permissions.add(perm);
+                }
+            }
+        }
+
+        for (String perm : permissions) {
             if(NewSystem.hasPermission(p, "*")) {
                 return Integer.MAX_VALUE;
             }else if(perm.contains(permMaxHomes) && perm.replace(permMaxHomes, "").equalsIgnoreCase("*")) {

@@ -237,8 +237,6 @@ public class ChatListener implements Listener {
             }
             e.setCancelled(true);
 
-            Bukkit.broadcastMessage(NewPermManager.getRolePrefix(NewPermManager.getPlayerRole(p)) + p.getName());
-
             if (NewSystem.hasPermission(p, chatColorPerm)) {
                 Bukkit.broadcastMessage(format.replace("{Prefix}", SettingsFile.getPrefix())
                         .replace("{Player}", NewSystem.getName(p, false))

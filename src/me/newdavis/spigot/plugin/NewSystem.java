@@ -15,8 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -27,8 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.*;
 import java.util.List;
 
@@ -1144,10 +1141,10 @@ public class NewSystem extends JavaPlugin {
             return p.getName();
         }
 
-        if (newPerm && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
+        if (newPerm) {
             return NewPermManager.getRolePrefix(NewPermManager.getPlayerRole(p)) + p.getName();
         } else {
-            return (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName") ? p.getPlayer().getDisplayName() : p.getName());
+            return p.isOnline() ? p.getPlayer().getDisplayName() : p.getName();
         }
     }
 
@@ -1163,10 +1160,10 @@ public class NewSystem extends JavaPlugin {
                 return p.getName();
             }
 
-            if (newPerm && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName")) {
+            if (newPerm) {
                 return NewPermManager.getRolePrefix(NewPermManager.getPlayerRole(p)) + p.getName();
             } else {
-                return (p.isOnline() && SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName") ? p.getPlayer().getDisplayName() : p.getName());
+                return p.isOnline() ? p.getPlayer().getDisplayName() : p.getName();
             }
         }
         if(NameFetcher.getName(u) == null) {
@@ -1257,9 +1254,24 @@ public class NewSystem extends JavaPlugin {
         return null;
     }
 
+    public String getServerIP() {
+        try {
+            NetworkInterface n = NetworkInterface.getNetworkInterfaces().nextElement();
+            Enumeration<InetAddress> ee = n.getInetAddresses();
+            String[] ips = new String[3];
+            while (ee.hasMoreElements()) {
+                InetAddress i = ee.nextElement();
+                ips[ips.length-1] = i.getHostAddress();
+            }
+            return ips[ips.length-1];
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String updateChecker() {
         try {
-            URLConnection url = new URL("https://newdavis.me/plugin/update/index.php?plugin=newsystem").openConnection();
+            URLConnection url = new URL("https://newdavis.me/plugin/update/index.php?plugin=newsystem&ip=" + getServerIP()).openConnection();
             url.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             url.connect();
 

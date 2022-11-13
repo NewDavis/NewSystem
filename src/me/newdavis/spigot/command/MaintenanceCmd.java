@@ -25,8 +25,8 @@ import java.util.UUID;
 
 public class MaintenanceCmd implements CommandExecutor, TabCompleter {
 
-    private static MySQL mySQL = NewSystem.getMySQL();
-    private static boolean mySQLEnabled  = SettingsFile.getMySQLEnabled();
+    private static final MySQL mySQL = NewSystem.getMySQL();
+    private static final boolean mySQLEnabled = SettingsFile.getMySQLEnabled();
 
     private static List<String> usage;
     private static String perm;
@@ -726,6 +726,10 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
     }
 
     private static void getAddedRoles() {
+        if(!NewSystem.newPerm) {
+            return;
+        }
+
         if(mySQLEnabled) {
             try {
                 ResultSet rs = mySQL.executeQuery("SELECT ROLE FROM " + SQLTables.MAINTENANCE_ROLE.getTableName());
@@ -743,6 +747,10 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
     }
 
     public static boolean isRoleAdded(String role) {
+        if(!NewSystem.newPerm) {
+            return false;
+        }
+
         return addedRoles.contains(role);
     }
 

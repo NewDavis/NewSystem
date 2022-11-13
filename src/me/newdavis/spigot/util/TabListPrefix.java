@@ -72,14 +72,12 @@ public class TabListPrefix {
         int versionId = Integer.parseInt(ref.getServerVersion().split("_")[1]);
 
         if(versionId >= 16) {
-            if (!SettingsFile.getRGBActivated()) {
-                ChatColor chatColor = getColorByColorCodes(getColorCodesFromPrefix(team.getPrefix()));
-                try {
-                    Class.forName("org.bukkit.scoreboard.Team").getMethod("setColor", ChatColor.class).invoke(team, chatColor);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
-                         ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+            ChatColor chatColor = getColorByColorCodes(getColorCodesFromPrefix(team.getPrefix()));
+            try {
+                Class.forName("org.bukkit.scoreboard.Team").getMethod("setColor", ChatColor.class).invoke(team, chatColor);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                     ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }

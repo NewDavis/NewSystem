@@ -74,7 +74,7 @@ public class FreeItemSignListener implements Listener {
                         }catch (NumberFormatException exception) {
                             material = ItemBuilder.getMaterial(itemLine);
                         }
-                        e.setLine(1, colorItem + material.name());
+                        e.setLine(1, colorItem + ItemBuilder.getNameOfMaterial(material));
                         try{
                             defaultAmount = Integer.parseInt(amountLine);
                         }catch (NumberFormatException ignored){}
@@ -88,7 +88,7 @@ public class FreeItemSignListener implements Listener {
                         }catch (NumberFormatException exception) {
                             material = ItemBuilder.getMaterial(itemLine);
                         }
-                        e.setLine(1, colorItem + material.name());
+                        e.setLine(1, colorItem + ItemBuilder.getNameOfMaterial(material));
                         e.setLine(2, colorAmount + defaultAmount);
 
                         createSign(e.getBlock().getLocation(), new ItemStack(material));
