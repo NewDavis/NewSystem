@@ -86,7 +86,7 @@ public class SpeedCmd implements CommandExecutor {
 
                                 if(p != t) {
                                     t.setFlySpeed(speed);
-                                    t.setWalkSpeed(speed);
+                                    t.setWalkSpeed(speed+1);
                                     for(String key : msgP) {
                                         t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg));
                                     }
@@ -95,7 +95,7 @@ public class SpeedCmd implements CommandExecutor {
                                     }
                                 }else{
                                     p.setFlySpeed(speed);
-                                    p.setWalkSpeed(speed);
+                                    p.setWalkSpeed(speed+1);
                                     for(String key : msgP) {
                                         p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Speed}", speedMsg));
                                     }
@@ -186,8 +186,6 @@ public class SpeedCmd implements CommandExecutor {
                 speedFloat = 0.0F;
             }else if(speed.equalsIgnoreCase("1")) {
                 speedFloat = 0.1F;
-            }else if(speed.equalsIgnoreCase("2")) {
-                speedFloat = 0.2F;
             }else if(speed.equalsIgnoreCase("3")) {
                 speedFloat = 0.3F;
             }else if(speed.equalsIgnoreCase("4")) {
@@ -218,8 +216,6 @@ public class SpeedCmd implements CommandExecutor {
             msg = "0";
         }else if(speed == 0.1F) {
             msg = "1";
-        }else if(speed == 0.2F) {
-            msg = "2";
         }else if(speed == 0.3F) {
             msg = "3";
         }else if(speed == 0.4F) {

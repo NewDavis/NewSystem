@@ -2,6 +2,9 @@ package me.newdavis.spigot.plugin.newsystem.inventory.tablist;
 
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.TabListFile;
+import me.newdavis.spigot.plugin.NewSystem;
+import me.newdavis.spigot.plugin.newsystem.inventory.other.OtherChoosedInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -54,9 +57,19 @@ public class ChangeValueTabList {
                 pathHM.remove(p);
                 p.sendMessage(SettingsFile.getPrefix() + " §7The value of the path got §cdeleted§7!");
                 if(TabListChoosedInventory.tablist.containsKey(p)) {
-                    new TabListChoosedInventory().openInventoryPage(p, TabListChoosedInventory.tablist.get(p), TabListChoosedInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new TabListChoosedInventory().openInventoryPage(p, TabListChoosedInventory.tablist.get(p), TabListChoosedInventory.page.get(p));
+                        }
+                    });
                 }else{
-                    new TabListFileInventory().openInventoryPage(p, TabListFileInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new TabListFileInventory().openInventoryPage(p, TabListFileInventory.page.get(p));
+                        }
+                    });
                 }
             }else if(!msg.equalsIgnoreCase("cancel")) {
                 String value = msg.replace("&", "§");
@@ -64,9 +77,19 @@ public class ChangeValueTabList {
                 pathHM.remove(p);
                 p.sendMessage(SettingsFile.getPrefix() + " §7The path was changed §asuccessfully§7.");
                 if(TabListChoosedInventory.tablist.containsKey(p)) {
-                    new TabListChoosedInventory().openInventoryPage(p, TabListChoosedInventory.tablist.get(p), TabListChoosedInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new TabListChoosedInventory().openInventoryPage(p, TabListChoosedInventory.tablist.get(p), TabListChoosedInventory.page.get(p));
+                        }
+                    });
                 }else{
-                    new TabListFileInventory().openInventoryPage(p, TabListFileInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new TabListFileInventory().openInventoryPage(p, TabListFileInventory.page.get(p));
+                        }
+                    });
                 }
             }else{
                 pathHM.remove(p);

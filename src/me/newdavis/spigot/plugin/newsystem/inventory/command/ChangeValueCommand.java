@@ -2,6 +2,9 @@ package me.newdavis.spigot.plugin.newsystem.inventory.command;
 
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
+import me.newdavis.spigot.plugin.NewSystem;
+import me.newdavis.spigot.plugin.newsystem.inventory.other.OtherChoosedInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -61,7 +64,7 @@ public class ChangeValueCommand {
 
         if(CommandFile.isPathSet(path)) {
             List<String> list = CommandFile.getStringListPath(path);
-            if (list.size() > index) {
+            if (list.size() > index && index >= 0) {
                 list.set(index, value);
             } else {
                 list.add(value);
@@ -110,14 +113,24 @@ public class ChangeValueCommand {
                             pathHM.remove(p);
                             indexHM.remove(p);
                             p.sendMessage(SettingsFile.getPrefix() + " §7The index got §cremoved §7of the list.");
-                            new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                            Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                                @Override
+                                public void run() {
+                                    new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                                }
+                            });
                         }else{
                             String value = msg.replace("&", "§");
                             setList(p, value);
                             pathHM.remove(p);
                             indexHM.remove(p);
                             p.sendMessage(SettingsFile.getPrefix() + " §7The index of the list was changed §asuccessfully§7!");
-                            new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                            Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                                @Override
+                                public void run() {
+                                    new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                                }
+                            });
                         }
                     }else{
                         try{
@@ -127,7 +140,9 @@ public class ChangeValueCommand {
                             p.sendMessage(SettingsFile.getPrefix() + " §7Please insert a new value for the index §a" + index + "§7!");
                             p.sendMessage(SettingsFile.getPrefix() + " §7To delete the index, write §cdelete§7!");
                             p.sendMessage(SettingsFile.getPrefix() + " §7To cancel this process, write §ccancel§7!");
-                        }catch (NumberFormatException ignored) {}
+                        }catch (NumberFormatException ignored) {
+                            p.sendMessage(SettingsFile.getPrefix() + " §cPlease insert a number to choose the index!");
+                        }
                     }
                 }else if(msg.equalsIgnoreCase("delete")) {
                     String value = "";
@@ -135,9 +150,19 @@ public class ChangeValueCommand {
                     pathHM.remove(p);
                     p.sendMessage(SettingsFile.getPrefix() + " §7The value of the path got §cdeleted§7!");
                     if(CommandChoosedInventory.command.containsKey(p)) {
-                        new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                        Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                            @Override
+                            public void run() {
+                                new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                            }
+                        });
                     }else{
-                        new CommandFileInventory().openInventoryPage(p, CommandFileInventory.page.get(p));
+                        Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                            @Override
+                            public void run() {
+                                new CommandFileInventory().openInventoryPage(p, CommandFileInventory.page.get(p));
+                            }
+                        });
                     }
                 }else{
                     String value = msg.replace("&", "§");
@@ -145,7 +170,12 @@ public class ChangeValueCommand {
                     pathHM.remove(p);
                     indexHM.remove(p);
                     p.sendMessage(SettingsFile.getPrefix() + " §7The path was changed §asuccessfully§7.");
-                    new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new CommandChoosedInventory().openInventoryPage(p, CommandChoosedInventory.command.get(p), CommandChoosedInventory.page.get(p));
+                        }
+                    });
                 }
             }else{
                 pathHM.remove(p);

@@ -2,6 +2,9 @@ package me.newdavis.spigot.plugin.newsystem.inventory.listener;
 
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.ListenerFile;
+import me.newdavis.spigot.plugin.NewSystem;
+import me.newdavis.spigot.plugin.newsystem.inventory.other.OtherChoosedInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -61,7 +64,7 @@ public class ChangeValueListener {
 
         if(ListenerFile.isPathSet(path)) {
             List<String> list = ListenerFile.getStringListPath(path);
-            if (list.size() > index) {
+            if (list.size() > index && index >= 0) {
                 list.set(index, value);
             } else {
                 list.add(value);
@@ -110,14 +113,24 @@ public class ChangeValueListener {
                             pathHM.remove(p);
                             indexHM.remove(p);
                             p.sendMessage(SettingsFile.getPrefix() + " §7The index got §cremoved §7of the list.");
-                            new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                            Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                                @Override
+                                public void run() {
+                                    new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                                }
+                            });
                         }else{
                             String value = msg.replace("&", "§");
                             setList(p, value);
                             pathHM.remove(p);
                             indexHM.remove(p);
                             p.sendMessage(SettingsFile.getPrefix() + " §7The index of the list was changed §asuccessfully§7!");
-                            new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                            Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                                @Override
+                                public void run() {
+                                    new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                                }
+                            });
                         }
                     }else{
                         try{
@@ -127,7 +140,9 @@ public class ChangeValueListener {
                             p.sendMessage(SettingsFile.getPrefix() + " §7Please insert a new value for the index §a" + index + "§7!");
                             p.sendMessage(SettingsFile.getPrefix() + " §7To delete the index, write §cdelete§7!");
                             p.sendMessage(SettingsFile.getPrefix() + " §7To cancel this process, write §ccancel§7!");
-                        }catch (NumberFormatException ignored) {}
+                        }catch (NumberFormatException ignored) {
+                            p.sendMessage(SettingsFile.getPrefix() + " §cPlease insert a number to choose the index!");
+                        }
                     }
                 }else if(msg.equalsIgnoreCase("delete")) {
                     String value = "";
@@ -135,16 +150,31 @@ public class ChangeValueListener {
                     pathHM.remove(p);
                     p.sendMessage(SettingsFile.getPrefix() + " §7The value of the path got §cdeleted§7!");
                     if(ListenerChoosedInventory.listener.containsKey(p)) {
-                        new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                        Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                            @Override
+                            public void run() {
+                                new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                            }
+                        });
                     }else{
-                        new ListenerFileInventory().openInventoryPage(p, ListenerFileInventory.page.get(p));
+                        Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                            @Override
+                            public void run() {
+                                new ListenerFileInventory().openInventoryPage(p, ListenerFileInventory.page.get(p));
+                            }
+                        });
                     }
                 }else{
                     String value = msg.replace("&", "§");
                     setPath(p, value);
                     pathHM.remove(p);
                     p.sendMessage(SettingsFile.getPrefix() + " §7The path was changed §asuccessfully§7.");
-                    new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new ListenerChoosedInventory().openInventoryPage(p, ListenerChoosedInventory.listener.get(p), ListenerChoosedInventory.page.get(p));
+                        }
+                    });
                 }
             }else{
                 pathHM.remove(p);

@@ -1,6 +1,9 @@
 package me.newdavis.spigot.plugin.newsystem.inventory.settings;
 
 import me.newdavis.spigot.file.SettingsFile;
+import me.newdavis.spigot.plugin.NewSystem;
+import me.newdavis.spigot.plugin.newsystem.inventory.other.OtherChoosedInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -49,9 +52,19 @@ public class ChangeValueSettings {
                 pathHM.remove(p);
                 p.sendMessage(SettingsFile.getPrefix() + " §7The value of the path got §cdeleted§7!");
                 if(SettingChoosedInventory.setting.containsKey(p)) {
-                    new SettingChoosedInventory().openInventoryPage(p, SettingChoosedInventory.setting.get(p), SettingChoosedInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new SettingChoosedInventory().openInventoryPage(p, SettingChoosedInventory.setting.get(p), SettingChoosedInventory.page.get(p));
+                        }
+                    });
                 }else{
-                    new SettingsFileInventory().openInventoryPage(p, SettingsFileInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new SettingsFileInventory().openInventoryPage(p, SettingsFileInventory.page.get(p));
+                        }
+                    });
                 }
             }else if(!msg.equalsIgnoreCase("cancel")) {
                 String value = msg.replace("&", "§");
@@ -59,9 +72,19 @@ public class ChangeValueSettings {
                 pathHM.remove(p);
                 p.sendMessage(SettingsFile.getPrefix() + " §7The path was changed §asuccessfully§7.");
                 if(SettingChoosedInventory.setting.containsKey(p)) {
-                    new SettingChoosedInventory().openInventoryPage(p, SettingChoosedInventory.setting.get(p), SettingChoosedInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new SettingChoosedInventory().openInventoryPage(p, SettingChoosedInventory.setting.get(p), SettingChoosedInventory.page.get(p));
+                        }
+                    });
                 }else{
-                    new SettingsFileInventory().openInventoryPage(p, SettingsFileInventory.page.get(p));
+                    Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                        @Override
+                        public void run() {
+                            new SettingsFileInventory().openInventoryPage(p, SettingsFileInventory.page.get(p));
+                        }
+                    });
                 }
             }else{
                 pathHM.remove(p);

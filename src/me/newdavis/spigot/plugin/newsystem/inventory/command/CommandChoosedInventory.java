@@ -2,6 +2,7 @@ package me.newdavis.spigot.plugin.newsystem.inventory.command;
 
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
+import me.newdavis.spigot.plugin.NewSystem;
 import me.newdavis.spigot.util.ItemBuilder;
 import me.newdavis.spigot.plugin.newsystem.listener.Listeners;
 import org.bukkit.Bukkit;
@@ -118,7 +119,12 @@ public class CommandChoosedInventory {
             }
 
             p.closeInventory();
-            p.openInventory(inventory);
+            Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                @Override
+                public void run() {
+                    p.openInventory(inventory);
+                }
+            });
             page.put(p, inventoryPage);
             command.put(p, inventoryCommand);
         }else{

@@ -2,6 +2,7 @@ package me.newdavis.spigot.plugin.newsystem.inventory.listener;
 
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.ListenerFile;
+import me.newdavis.spigot.plugin.NewSystem;
 import me.newdavis.spigot.util.ItemBuilder;
 import me.newdavis.spigot.plugin.newsystem.listener.Listeners;
 import org.bukkit.Bukkit;
@@ -116,7 +117,12 @@ public class ListenerChoosedInventory {
                 return;
             }
 
-            p.openInventory(inventory);
+            Bukkit.getScheduler().runTask(NewSystem.getInstance(), new Runnable() {
+                @Override
+                public void run() {
+                    p.openInventory(inventory);
+                }
+            });
             page.put(p, inventoryPage);
             listener.put(p, inventoryEvent);
         } else {
