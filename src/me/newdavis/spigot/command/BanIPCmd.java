@@ -430,6 +430,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         int punishmentCount = getIPPunishmentCount(ip);
                         String dateOfBan = SettingsFile.DateFormat(System.currentTimeMillis());
 
+                        bannedIPs.add(ip);
                         if(mySQLEnabled) {
                             mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -441,8 +442,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'Permanent')");
                         }else{
-                            bannedIPs.add(ip);
-
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
@@ -512,6 +511,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         int punishmentCount = getIPPunishmentCount(ip);
                         String dateOfBan = SettingsFile.DateFormat(System.currentTimeMillis());
 
+                        bannedIPs.add(ip);
                         if(mySQLEnabled) {
                             mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -524,8 +524,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'Permanent')");
                         }else {
-                            bannedIPs.add(ip);
-
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
@@ -601,6 +599,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                     int punishmentCount = getIPPunishmentCount(ip);
                     String dateOfBan = SettingsFile.DateFormat(System.currentTimeMillis());
 
+                    bannedIPs.add(ip);
                     if(mySQLEnabled) {
                         mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -613,8 +612,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 "'" + System.currentTimeMillis() + "'," +
                                 "'Permanent')");
                     }else {
-                        bannedIPs.add(ip);
-
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
@@ -680,6 +677,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                     int punishmentCount = getIPPunishmentCount(ip);
                     String dateOfBan = SettingsFile.DateFormat(System.currentTimeMillis());
 
+                    bannedIPs.add(ip);
                     if(mySQLEnabled) {
                         mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -692,8 +690,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                 "'" + System.currentTimeMillis() + "'," +
                                 "'Permanent')");
                     }else {
-                        bannedIPs.add(ip);
-
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                         SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", "Permanent");
@@ -769,6 +765,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         String dateOfBanEnds = SettingsFile.DateFormat(banEnds);
                         String durate = number + " " + word;
 
+                        bannedIPs.add(ip);
                         if(mySQLEnabled) {
                             mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -781,8 +778,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'" + banEnds + "')");
                         }else {
-                            bannedIPs.add(ip);
-
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
@@ -862,6 +857,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                         String dateOfBanEnds = SettingsFile.DateFormat(banEnds);
                         String durate = number + " " + word;
 
+                        bannedIPs.add(ip);
                         if(mySQLEnabled) {
                             mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -874,8 +870,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                                     "'" + System.currentTimeMillis() + "'," +
                                     "'" + banEnds + "')");
                         }else {
-                            bannedIPs.add(ip);
-
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                             SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
@@ -960,6 +954,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 String dateOfBanEnds = SettingsFile.DateFormat(banEnds);
                 String durate = number + " " + word;
 
+                bannedIPs.add(ip);
                 if(mySQLEnabled) {
                     mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -972,8 +967,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             "'" + System.currentTimeMillis() + "'," +
                             "'" + banEnds + "')");
                 }else {
-                    bannedIPs.add(ip);
-
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);
@@ -1043,6 +1036,7 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                 String dateOfBanEnds = SettingsFile.DateFormat(banEnds);
                 String durate = number + " " + word;
 
+                bannedIPs.add(ip);
                 if(mySQLEnabled) {
                     mySQL.executeUpdate("INSERT INTO " + SQLTables.BANNED_IPS.getTableName() + " (IP) VALUES ('" + ip + "')");
 
@@ -1055,8 +1049,6 @@ public class BanIPCmd implements CommandExecutor, TabCompleter {
                             "'" + System.currentTimeMillis() + "'," +
                             "'" + banEnds + "')");
                 }else {
-                    bannedIPs.add(ip);
-
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".BannedOf", "Console");
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Reason", reason);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".Durate", durate);

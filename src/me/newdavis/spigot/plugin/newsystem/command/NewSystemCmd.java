@@ -24,6 +24,7 @@ import me.newdavis.spigot.plugin.newsystem.inventory.tablist.ChangeValueTabList;
 import me.newdavis.spigot.plugin.newsystem.inventory.tablist.TabListChoosedInventory;
 import me.newdavis.spigot.plugin.newsystem.inventory.tablist.TabListFileInventory;
 import me.newdavis.spigot.util.*;
+import me.newdavis.spigot.util.placeholder.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -536,12 +537,21 @@ public class NewSystemCmd implements CommandExecutor {
         p.sendMessage(SettingsFile.getPrefix() + " §7Other File has been reloaded!");
         SavingsFile.loadConfig();
         p.sendMessage(SettingsFile.getPrefix() + " §7Savings File has been reloaded!");
+
+        //Update Placeholder
+        for(Player all : Bukkit.getOnlinePlayers()) {
+            new PlaceholderManager(all).init();
+        }
+
+        //Kit
         if (CommandFile.getBooleanPath("Command.Kit.Enabled")) {
             KitFile.loadConfig();
             p.sendMessage(SettingsFile.getPrefix() + " §7Kit System has been reloaded!");
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7Kit System is not activated!");
         }
+
+        //Hologram
         if (CommandFile.getBooleanPath("Command.Hologram.Enabled")) {
             for (String hologram : HologramAPI.getHolograms()) {
                 HologramAPI.reloadHologram(hologram);
@@ -550,6 +560,8 @@ public class NewSystemCmd implements CommandExecutor {
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7Hologram System is not activated!");
         }
+
+        //TabList Prefix
         if (TabListFile.getBooleanPath("TabList.Enabled")) {
             TabListFile.loadConfig();
             TabListPrefix.setTabListForAll();
@@ -557,6 +569,8 @@ public class NewSystemCmd implements CommandExecutor {
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7TabList Prefix System is not activated!");
         }
+
+        //Scoreboard
         if (OtherFile.getBooleanPath("Other.ScoreBoard.Enabled")) {
             ScoreboardManager.scoreboardTitle = OtherFile.getStringListPath("Other.ScoreBoard.Title");
             ScoreboardManager.scoreboardScores = OtherFile.getStringListPath("Other.ScoreBoard.Scores");
@@ -566,18 +580,24 @@ public class NewSystemCmd implements CommandExecutor {
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7Scoreboard System is not activated!");
         }
+
+        //ChatFilter
         if (OtherFile.getBooleanPath("Other.ChatFilter.Enabled")) {
             new ChatFilter();
             p.sendMessage(SettingsFile.getPrefix() + " §7ChatFilter System has been reloaded!");
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7ChatFilter System is not activated!");
         }
+
+        //Portal
         if (OtherFile.getBooleanPath("Other.Portal.Enabled")) {
             new Portal();
             p.sendMessage(SettingsFile.getPrefix() + " §7Portal System has been reloaded!");
         } else {
             p.sendMessage(SettingsFile.getPrefix() + " §7Portal System is not activated!");
         }
+
+        //Command Aliases
         OtherListeners.commandAliases = CommandFile.getCommandAliases();
         p.sendMessage(SettingsFile.getPrefix() + " §7Command Aliases has been reloaded!");
         if (CommandFile.getBooleanPath("Command.CustomCommands.Enabled")) {
@@ -587,6 +607,8 @@ public class NewSystemCmd implements CommandExecutor {
             p.sendMessage(SettingsFile.getPrefix() + " §7Custom Command Aliases is not activated!");
         }
         p.sendMessage(SettingsFile.getPrefix() + " §aThe NewSystem reload was completed successfully!");
+
+        //Load All
         NewSystem.loadAll();
     }
 }

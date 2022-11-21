@@ -18,6 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.io.BufferedReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -373,6 +374,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                     int punishmentCount = getPlayerPunishmentCount(t);
                     String dateOfBan = SettingsFile.DateFormat(System.currentTimeMillis());
 
+                    bannedPlayers.add(t.getUniqueId().toString());
                     if(mySQLEnabled) {
                         String sql = "INSERT INTO " + SQLTables.BANNED_PLAYERS.getTableName() + " (UUID) VALUES ('" + t.getUniqueId().toString() + "')";
                         mySQL.executeUpdate(sql);
@@ -386,8 +388,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                 "'Permanent')";
                         mySQL.executeUpdate(sql);
                     }else{
-                        bannedPlayers.add(t.getUniqueId().toString());
-
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Reason", reason);
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Durate", "Permanent");
@@ -435,6 +435,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
             int punishmentCount = getPlayerPunishmentCount(t);
             String dateOfBan = SettingsFile.DateFormat(System.currentTimeMillis());
 
+            bannedPlayers.add(t.getUniqueId().toString());
             if(mySQLEnabled) {
                 String sql = "INSERT INTO " + SQLTables.BANNED_PLAYERS.getTableName() + " (UUID) VALUES ('" + t.getUniqueId().toString() + "')";
                 mySQL.executeUpdate(sql);
@@ -448,8 +449,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                         "'Permanent')";
                 mySQL.executeUpdate(sql);
             }else {
-                bannedPlayers.add(t.getUniqueId().toString());
-
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", "Console");
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Reason", reason);
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Durate", "Permanent");
@@ -493,6 +492,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                     String dateOfBanEnds = SettingsFile.DateFormat(banEnds);
                     String durate = number + " " + word;
 
+                    bannedPlayers.add(t.getUniqueId().toString());
                     if(mySQLEnabled) {
                         String sql = "INSERT INTO " + SQLTables.BANNED_PLAYERS.getTableName() + " (UUID) VALUES ('" + t.getUniqueId().toString() + "')";
                         mySQL.executeUpdate(sql);
@@ -506,8 +506,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                                 "'" + banEnds + "')";
                         mySQL.executeUpdate(sql);
                     }else {
-                        bannedPlayers.add(t.getUniqueId().toString());
-
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", p.getUniqueId().toString());
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Reason", reason);
                         SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Durate", durate);
@@ -560,6 +558,7 @@ public class BanCmd implements CommandExecutor, TabCompleter {
             String dateOfBanEnds = SettingsFile.DateFormat(banEnds);
             String durate = number + " " + word;
 
+            bannedPlayers.add(t.getUniqueId().toString());
             if(mySQLEnabled) {
                 String sql = "INSERT INTO " + SQLTables.BANNED_PLAYERS.getTableName() + " (UUID) VALUES ('" + t.getUniqueId().toString() + "')";
                 mySQL.executeUpdate(sql);
@@ -573,8 +572,6 @@ public class BanCmd implements CommandExecutor, TabCompleter {
                         "'" + banEnds + "')";
                 mySQL.executeUpdate(sql);
             }else {
-                bannedPlayers.add(t.getUniqueId().toString());
-
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".BannedOf", "Console");
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Reason", reason);
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".Durate", durate);

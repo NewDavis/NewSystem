@@ -18,15 +18,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -36,6 +34,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -163,11 +162,11 @@ public class OtherListeners implements Listener {
                             .replace("||", "\n");
                     e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, kickMessage);
                     if (CommandFile.getBooleanPath("Command.Maintenance.MessageIfPlayerTryJoin")) {
-                        String prefix = NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"));
                         for (String key : tryJoinMessage) {
                             Bukkit.broadcastMessage(key
                                     .replace("{Prefix}", SettingsFile.getPrefix())
-                                    .replace("{Player}", prefix));
+                                    .replace("{Player}", p.getName())
+                                    .replace("{DisplayName}", NewSystem.getName(p, SettingsFile.getPlayerReplace().equalsIgnoreCase("DisplayName"))));
                         }
                     }
                 }
@@ -313,20 +312,22 @@ public class OtherListeners implements Listener {
 
     @EventHandler
     public void onDamageOfEntity(EntityDamageByEntityEvent e) {
-        if(e.getEntity() instanceof Player) {
+        if((e.getDamager() instanceof Player || e.getDamager() instanceof Projectile) && e.getEntity() instanceof Player) {
             //Peace
             if(CommandFile.getBooleanPath("Command.Peace.Enabled")) {
                 List<String> tryToDamage = CommandFile.getStringListPath("Command.Peace.MessageTryToDamage");
                 Player p = (Player) e.getEntity();
-                if(e.getDamager() instanceof Player) {
-                    Player t = (Player) e.getDamager();
-                    if (t != null) {
-                        if (new PeaceCmd().inPeace(p, t)) {
-                            e.setCancelled(true);
-                            for (String msg : tryToDamage) {
-                                t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
-                            }
-                        }
+                Player t;
+                if (e.getDamager() instanceof Player) {
+                    t = (Player) e.getDamager();
+                } else {
+                    t = (Player) ((Projectile) e.getDamager()).getShooter();
+                }
+
+                if (new PeaceCmd().inPeace(p, t)) {
+                    e.setCancelled(true);
+                    for (String msg : tryToDamage) {
+                        t.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                     }
                 }
             }
@@ -602,6 +603,12 @@ public class OtherListeners implements Listener {
         }
     }
 
+    public static List<Player> back = new ArrayList<>();
+    public static List<Player> home = new ArrayList<>();
+    public static List<Player> spawn = new ArrayList<>();
+    public static List<Player> teleport = new ArrayList<>();
+    public static List<Player> warp = new ArrayList<>();
+
     //Move
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
@@ -626,7 +633,7 @@ public class OtherListeners implements Listener {
         }
 
         //Portal
-        if(e.getFrom().getBlockX() != e.getTo().getBlockX()
+        if (e.getFrom().getBlockX() != e.getTo().getBlockX()
                 || e.getFrom().getBlockY() != e.getTo().getBlockY()
                 || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
             if (OtherFile.getBooleanPath("Other.Portal.Enabled")) {
@@ -639,6 +646,67 @@ public class OtherListeners implements Listener {
                         portal.sendToServer();
                     }
                 }
+            }
+        }
+
+        if (e.getFrom().getBlockX() != e.getTo().getBlockX()
+                || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
+            //Back
+            if (back.contains(p)) {
+                for (String msg : BackCmd.messageMovedWhileTeleportation) {
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
+                }
+                int taskID = BackCmd.taskIDs.get(p);
+                BackCmd.taskIDs.remove(p);
+                Bukkit.getScheduler().cancelTask(taskID);
+                back.remove(p);
+            }
+
+            //Home
+            if (home.contains(p)) {
+                for (String msg : HomeCmd.msgMovedWhileTeleport) {
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
+                }
+                int taskID = HomeCmd.taskIDs.get(p);
+                HomeCmd.taskIDs.remove(p);
+                Bukkit.getScheduler().cancelTask(taskID);
+                home.remove(p);
+            }
+
+            //Spawn
+            if (spawn.contains(p)) {
+                for (String msg : SpawnCmd.msgMovedWhileTeleport) {
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
+                }
+                int taskID = SpawnCmd.taskIDs.get(p);
+                SpawnCmd.taskIDs.remove(p);
+                Bukkit.getScheduler().cancelTask(taskID);
+                spawn.remove(p);
+            }
+
+            //Teleport
+            if (teleport.contains(p)) {
+                for (String msg : TeleportCmd.teleportAcceptMsgMovedWhileTeleport) {
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
+                }
+                TeleportCmd.teleportAskAll.remove(p);
+                TeleportCmd.teleportAskHere.remove(p);
+                TeleportCmd.teleportAsk.remove(p);
+                int taskID = TeleportCmd.taskIDs.get(p);
+                TeleportCmd.taskIDs.remove(p);
+                Bukkit.getScheduler().cancelTask(taskID);
+                teleport.remove(p);
+            }
+
+            //Warp
+            if (warp.contains(p)) {
+                for (String msg : WarpCmd.msgMoved) {
+                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
+                }
+                int taskID = WarpCmd.taskIDs.get(p);
+                WarpCmd.taskIDs.remove(p);
+                Bukkit.getScheduler().cancelTask(taskID);
+                warp.remove(p);
             }
         }
     }

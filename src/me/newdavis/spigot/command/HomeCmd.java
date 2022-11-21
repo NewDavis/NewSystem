@@ -4,6 +4,7 @@ import me.newdavis.manager.NewPermManager;
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.SavingsFile;
+import me.newdavis.spigot.listener.OtherListeners;
 import me.newdavis.spigot.plugin.NewSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,7 +35,7 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
     private static String countIsOne;
     private static List<String> msgCooldown;
     private static List<String> msgHomeNotExist;
-    private static List<String> msgMovedWhileTeleport;
+    public static List<String> msgMovedWhileTeleport;
     private static List<String> messageHomeCreated;
     private static List<String> messageAlreadyCreated;
     private static List<String> messageCanNotCreateMoreHomes;
@@ -47,6 +48,8 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
         msgNoHomes = CommandFile.getStringListPath("Command.Home.MessageNoHomes");
         listFormat = CommandFile.getStringPath("Command.Home.MessageHomesFormat");
         msgList = CommandFile.getStringListPath("Command.Home.MessageHomeList");
+        msgTp = CommandFile.getStringListPath("Command.Home.MessageHomeTeleport");
+        delay = CommandFile.getIntegerPath("Command.Home.TeleportDelayInSeconds");
         msgAlreadyInTelport = CommandFile.getStringListPath("Command.Home.MessageHomeAlreadyInTeleport");
         countIsOne = CommandFile.getStringPath("Command.Home.HomeTeleportCountIsOne");
         msgCooldown = CommandFile.getStringListPath("Command.Home.MessageHomeTeleportDelay");
@@ -127,7 +130,7 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
         }
     }
 
-    private static final HashMap<Player, Integer> coolDown = new HashMap<>();
+    public static HashMap<Player, Integer> taskIDs = new HashMap<>();
 
     public void teleportToHome(Player p, String home) {
         List<String> homes = getHomes(p);
@@ -138,76 +141,55 @@ public class HomeCmd implements CommandExecutor, TabCompleter {
         int homeZ = SavingsFile.getIntegerPath("Home." + p.getUniqueId() + "." + home + ".Z");
         Location loc = new Location(homeWorld, homeX, homeY, homeZ);
 
-        if(homes.contains(home)) {
-            if(NewSystem.hasPermission(p, permNoDelay)) {
-                p.teleport(loc);
-                for(String msg : msgTp) {
-                    p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Home}", home));
-                }
-            }else{
-                if(coolDown.containsKey(p)) {
-                    for(String value : msgAlreadyInTelport) {
-                        p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                    }
-                }else{
-                    final Integer[] seconds = new Integer[]{delay};
-                    int x = p.getLocation().getBlockX();
-                    int z = p.getLocation().getBlockZ();
-
-                    coolDown.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
-                        @Override
-                        public void run() {
-                            if (checkLocation(p, x, z)) {
-                                if (seconds[0] == 1) {
-                                    for(String key : msgCooldown) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", countIsOne));
-                                    }
-                                    seconds[0]--;
-                                } else if (seconds[0] >= 1) {
-                                    for(String key : msgCooldown) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", String.valueOf(seconds[0])));
-                                    }
-                                    seconds[0]--;
-                                } else if (seconds[0] == 0) {
-                                    p.teleport(loc);
-                                    for(String msg : msgTp) {
-                                        p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Home}", home));
-                                    }
-
-                                    int taskID = coolDown.get(p);
-                                    coolDown.remove(p);
-                                    Bukkit.getScheduler().cancelTask(taskID);
-                                }
-                            }
-                        }
-                    }, 0, 20));
-                }
-            }
-        }else{
-            for(String value : msgHomeNotExist) {
+        if (!homes.contains(home)) {
+            for (String value : msgHomeNotExist) {
                 p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
             }
+            return;
         }
-    }
 
-    public static boolean checkLocation(Player p, int x, int z) {
-        if(p.getLocation().getBlockX() == x) {
-            if(p.getLocation().getBlockZ() == z) {
-                return true;
-            }else{
-                for(String value : msgMovedWhileTeleport) {
+        if (NewSystem.hasPermission(p, permNoDelay)) {
+            p.teleport(loc);
+            for (String msg : msgTp) {
+                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Home}", home));
+            }
+        } else {
+            if (OtherListeners.home.contains(p)) {
+                for (String value : msgAlreadyInTelport) {
                     p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
                 }
-            }
-        }else{
-            for(String value : msgMovedWhileTeleport) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+            } else {
+                OtherListeners.home.add(p);
+                final Integer[] seconds = new Integer[]{delay};
+
+                taskIDs.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
+                    @Override
+                    public void run() {
+                        if (seconds[0] == 1) {
+                            for (String key : msgCooldown) {
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", countIsOne));
+                            }
+                            seconds[0]--;
+                        } else if (seconds[0] >= 1) {
+                            for (String key : msgCooldown) {
+                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", String.valueOf(seconds[0])));
+                            }
+                            seconds[0]--;
+                        } else if (seconds[0] == 0) {
+                            p.teleport(loc);
+                            for (String msg : msgTp) {
+                                p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Home}", home));
+                            }
+                            OtherListeners.home.remove(p);
+
+                            int taskID = taskIDs.get(p);
+                            taskIDs.clear();
+                            Bukkit.getScheduler().cancelTask(taskID);
+                        }
+                    }
+                }, 0, 20));
             }
         }
-        int taskID = coolDown.get(p);
-        coolDown.remove(p);
-        Bukkit.getScheduler().cancelTask(taskID);
-        return false;
     }
 
     public void setHome(Player p, String home) {

@@ -88,13 +88,13 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
     public static void unMutePlayer(Player p, OfflinePlayer t) {
         if(MuteCmd.isPlayerMuted(t)) {
             int punishmentCount = MuteCmd.getPlayerPunishmentCount(t)-1;
+            MuteCmd.mutedPlayers.remove(t.getUniqueId().toString());
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.MUTED_PLAYERS.getTableName() + " WHERE UUID='" + t.getUniqueId() + "'");
                 mySQL.executeUpdate("UPDATE " + SQLTables.MUTE.getTableName() + " SET UUID_UNMUTE_OF='" + p.getUniqueId().toString() + "' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else{
                 List<String> mutedPlayers = MuteCmd.mutedPlayers;
-                mutedPlayers.remove(t.getUniqueId().toString());
                 SavingsFile.setPath("Mute.MutedPlayers", mutedPlayers);
                 SavingsFile.setPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".UnMuteOf", p.getUniqueId().toString());
             }
@@ -119,13 +119,13 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
     public static void unMutePlayer(CommandSender p, OfflinePlayer t) {
         if(MuteCmd.isPlayerMuted(t)) {
             int punishmentCount = MuteCmd.getPlayerPunishmentCount(t) - 1;
+            MuteCmd.mutedPlayers.remove(t.getUniqueId().toString());
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.MUTED_PLAYERS.getTableName() + " WHERE UUID='" + t.getUniqueId() + "'");
                 mySQL.executeUpdate("UPDATE " + SQLTables.MUTE.getTableName() + " SET UUID_UNMUTE_OF='Console' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> mutedPlayers = MuteCmd.mutedPlayers;
-                mutedPlayers.remove(t.getUniqueId().toString());
                 SavingsFile.setPath("Mute.MutedPlayers", mutedPlayers);
                 SavingsFile.setPath("Punishment.Mute." + t.getUniqueId() + "." + punishmentCount + ".UnMuteOf", "Console");
             }
@@ -158,7 +158,6 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
                             "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
                 }else {
                     List<String> mutedIPs = MuteIPCmd.mutedIPs;
-                    mutedIPs.remove(ip);
                     SavingsFile.setPath("MuteIP.MutedIPs", mutedIPs);
                     SavingsFile.setPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".UnMuteOf", p.getUniqueId().toString());
                 }
@@ -193,7 +192,6 @@ public class UnMuteCmd implements CommandExecutor, TabCompleter {
                         "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> mutedIPs = MuteIPCmd.mutedIPs;
-                mutedIPs.remove(ip);
                 SavingsFile.setPath("MuteIP.MutedIPs", mutedIPs);
                 SavingsFile.setPath("Punishment.MuteIP." + ip + "." + punishmentCount + ".UnMuteOf", "Console");
             }

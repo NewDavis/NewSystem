@@ -4,6 +4,7 @@ package me.newdavis.spigot.command;
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.SavingsFile;
+import me.newdavis.spigot.listener.OtherListeners;
 import me.newdavis.spigot.plugin.NewSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,11 +16,11 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class TeleportCmd implements CommandExecutor {
 
     //TELEPORTASK
+    public static HashMap<Player, Player> teleportAsk;
     private static boolean teleportAskEnabled = false;
     private static List<String> teleportAskUsage;
     private static String teleportAskPerm;
@@ -27,6 +28,7 @@ public class TeleportCmd implements CommandExecutor {
     private static List<String> teleportAskMsgP;
 
     //TELEPORTASKHERE
+    public static HashMap<Player, Player> teleportAskHere;
     private static boolean teleportAskHereEnabled = false;
     private static List<String> teleportAskHereUsage;
     private static String teleportAskHerePerm;
@@ -42,7 +44,7 @@ public class TeleportCmd implements CommandExecutor {
     private static List<String> teleportAcceptMsgAccepted;
     private static List<String> teleportAcceptMsgAcceptedP;
     private static List<String> teleportAcceptMsgNoRequests;
-    private static List<String> teleportAcceptMsgMovedWhileTeleport;
+    public static List<String> teleportAcceptMsgMovedWhileTeleport;
     private static List<String> teleportAcceptMsgTpWithDelay;
     private static List<String> teleportAcceptMsgAlreadyInTp;
     private static List<String> teleportAcceptMsgTeleport;
@@ -73,6 +75,7 @@ public class TeleportCmd implements CommandExecutor {
     private static List<String> teleportAllMsgP;
 
     //TELEPORTASKALL
+    public static HashMap<Player, Player> teleportAskAll;
     private static boolean teleportAskAllEnabled = false;
     private static List<String> teleportAskAllUsage;
     private static String teleportAskAllPerm;
@@ -82,6 +85,7 @@ public class TeleportCmd implements CommandExecutor {
     public boolean[] init() {
         boolean[] registered = new boolean[7];
         NewSystem.status.put("TeleportAsk CMD", CommandFile.getBooleanPath("Command.TeleportAsk.Enabled"));
+        teleportAsk = new HashMap<>();
         if (CommandFile.getBooleanPath("Command.TeleportAsk.Enabled")) {
             teleportAskEnabled = true;
             teleportAskUsage = CommandFile.getStringListPath("Command.TeleportAsk.Usage");
@@ -91,6 +95,7 @@ public class TeleportCmd implements CommandExecutor {
             registered[0] = true;
         }
         NewSystem.status.put("TeleportAskHere CMD", CommandFile.getBooleanPath("Command.TeleportAskHere.Enabled"));
+        teleportAskHere = new HashMap<>();
         if(CommandFile.getBooleanPath("Command.TeleportAskHere.Enabled")) {
             teleportAskHereEnabled = true;
             teleportAskHereUsage = CommandFile.getStringListPath("Command.TeleportAskHere.Usage");
@@ -103,7 +108,7 @@ public class TeleportCmd implements CommandExecutor {
         if(CommandFile.getBooleanPath("Command.TeleportAccept.Enabled")) {
             teleportAcceptEnabled = true;
             teleportAcceptUsage = CommandFile.getStringListPath("Command.TeleportAccept.Usage");
-            teleportAcceptPerm = CommandFile.getStringPath("Command.TeleportAccept.Permission");
+            teleportAcceptPerm = CommandFile.getStringPath("Command.TeleportAccept.Permission.Use");
             teleportAcceptPermNoDelay = CommandFile.getStringPath("Command.TeleportAccept.Permission.NoDelay");
             msgTpSendSelf = CommandFile.getStringListPath("Command.TeleportAccept.MessageTeleportSendYourSelf");
             teleportAcceptMsgAccepted = CommandFile.getStringListPath("Command.TeleportAccept.MessageAccepted");
@@ -117,6 +122,7 @@ public class TeleportCmd implements CommandExecutor {
             registered[2] = true;
         }
         NewSystem.status.put("TeleportAskAll CMD", CommandFile.getBooleanPath("Command.TeleportAskAll.Enabled"));
+        teleportAskAll = new HashMap<>();
         if(CommandFile.getBooleanPath("Command.TeleportAskAll.Enabled")) {
             teleportAskAllEnabled = true;
             teleportAskAllUsage = CommandFile.getStringListPath("Command.TeleportAskAll.Usage");
@@ -480,7 +486,9 @@ public class TeleportCmd implements CommandExecutor {
         for (String key : teleportAskMsgP) {
             t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
         }
-        SavingsFile.setPath("Teleport." + t.getUniqueId() + ".AskFrom", "TPA#" + p.getUniqueId().toString());
+        teleportAsk.put(t, p);
+        teleportAskAll.remove(t);
+        teleportAskHere.remove(t);
     }
 
     public static void teleportAskHerePlayer(Player p, Player t) {
@@ -490,165 +498,122 @@ public class TeleportCmd implements CommandExecutor {
         for (String key : teleportAskHereMsgP) {
             t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
         }
-        SavingsFile.setPath("Teleport." + t.getUniqueId() + ".AskFrom", "TPAHERE#" + p.getUniqueId().toString());
+        teleportAskHere.put(t, p);
+        teleportAskAll.remove(t);
+        teleportAsk.remove(t);
     }
 
-    public static void teleportAccept(Player p) {
-        if(SavingsFile.isPathSet("Teleport." + p.getUniqueId() + ".AskFrom")) {
-            String[] uuid = SavingsFile.getStringPath("Teleport." + p.getUniqueId() + ".AskFrom").split("#");
-            Player t = Bukkit.getPlayer(UUID.fromString(uuid[1]));
-            if(t != null) {
-                for(String key : teleportAcceptMsgAccepted) {
-                    p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
-                }
-                for(String key : teleportAcceptMsgAcceptedP) {
-                    t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
-                }
-                if(NewSystem.hasPermission(p, teleportAcceptPermNoDelay)) {
-                    teleportAcceptTeleport(p, t);
-                }else{
-                    teleportCoolDown(p, t);
-                }
-            }else{
-                for(String value : teleportAcceptMsgNoRequests) {
-                    p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+    private static Player getSender(Player target) {
+        Player sender = null;
+
+        if(teleportAskAll.containsKey(target)) {
+            sender = teleportAskAll.get(target);
+        }else if(teleportAsk.containsKey(target)) {
+            sender = teleportAsk.get(target);
+        }else{
+            sender = teleportAskHere.get(target);
+        }
+
+        return sender;
+    }
+
+    public static void teleportAccept(Player target) {
+        if (!(teleportAskAll.containsKey(target) || teleportAskHere.containsKey(target) || teleportAsk.containsKey(target))) {
+            for (String value : teleportAcceptMsgNoRequests) {
+                target.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+            }
+            return;
+        }
+
+        Player sender = getSender(target);
+        if (sender != null) {
+            if(!teleportAskAll.containsKey(target)) {
+                for (String key : teleportAcceptMsgAccepted) {
+                    sender.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(target, false)).replace("{DisplayName}", NewSystem.getName(target, true)));
                 }
             }
-        }else{
-            for(String value : teleportAcceptMsgNoRequests) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+            for (String key : teleportAcceptMsgAcceptedP) {
+                target.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(sender, false)).replace("{DisplayName}", NewSystem.getName(sender, true)));
+            }
+
+            teleport(sender, target);
+        } else {
+            for (String value : teleportAcceptMsgNoRequests) {
+                target.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
             }
         }
     }
 
-    public static boolean checkLocation(Player p, int x, int z) {
-        if(p.getLocation().getBlockX() == x) {
-            if(p.getLocation().getBlockZ() == z) {
-                return true;
-            }else{
-                for(String value : teleportAcceptMsgMovedWhileTeleport) {
-                    p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                }
+    public static HashMap<Player, Integer> taskIDs = new HashMap<>();
+
+    public static void teleportCoolDown(Player playerScheduler, Player player) {
+        if (OtherListeners.teleport.contains(playerScheduler)) {
+            for (String value : teleportAcceptMsgAlreadyInTp) {
+                playerScheduler.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
             }
-        }else{
-            for(String value : teleportAcceptMsgMovedWhileTeleport) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-            }
+            return;
         }
-        int taskID = coolDown.get(p);
-        coolDown.remove(p);
-        Bukkit.getScheduler().cancelTask(taskID);
-        return false;
-    }
 
-    public static HashMap<Player, Integer> coolDown = new HashMap<>();
+        OtherListeners.teleport.add(playerScheduler);
+        final Integer[] seconds = new Integer[]{teleportAcceptDelay};
 
-    public static void teleportCoolDown(Player p, Player t) {
-        if(!coolDown.containsKey(p)) {
-            final Integer[] seconds = new Integer[]{teleportAcceptDelay};
-            int x = p.getLocation().getBlockX();
-            int z = p.getLocation().getBlockZ();
-
-            if(seconds[0] != 0) {
-                coolDown.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
-                    @Override
-                    public void run() {
-                        if (checkLocation(p, x, z)) {
-                            String[] uuid = SavingsFile.getStringPath("Teleport." + p.getUniqueId() + ".AskFrom").split("#");
-                            if (seconds[0] == 1) {
-                                if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
-                                    for(String key : teleportAcceptMsgTpWithDelay) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
-                                    }
-                                }else{
-                                    for(String key : teleportAcceptMsgTpWithDelay) {
-                                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
-                                    }
-                                }
-                                seconds[0]--;
-                            } else if (seconds[0] >= 1) {
-                                if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
-                                    for(String key : teleportAcceptMsgTpWithDelay) {
-                                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)).replace("{Seconds}", String.valueOf(seconds[0])));
-                                    }
-                                }else{
-                                    for(String key : teleportAcceptMsgTpWithDelay) {
-                                        t.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)).replace("{Seconds}", String.valueOf(seconds[0])));
-                                    }
-                                }
-                                seconds[0]--;
-                            } else if (seconds[0] == 0) {
-                                if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
-                                    Location loc = t.getLocation();
-                                    p.teleport(loc);
-                                    for(String value : teleportAcceptMsgTeleport) {
-                                        p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                                    }
-                                    SavingsFile.setPath("Teleport." + p.getUniqueId(), null);
-                                }else {
-                                    Location loc = p.getLocation();
-                                    t.teleport(loc);
-                                    for(String value : teleportAcceptMsgTeleport) {
-                                        t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                                    }
-                                    SavingsFile.setPath("Teleport." + p.getUniqueId(), null);
-                                }
-
-                                int taskID = coolDown.get(p);
-                                coolDown.remove(p);
-                                Bukkit.getScheduler().cancelTask(taskID);
-                            }
-                        }
+        taskIDs.put(playerScheduler, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                if (seconds[0] == 1) {
+                    for (String key : teleportAcceptMsgTpWithDelay) {
+                        playerScheduler.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(player, false)).replace("{DisplayName}", NewSystem.getName(player, true)).replace("{Seconds}", CommandFile.getStringPath("Command.TeleportAccept.CountIsOne")));
                     }
-                }, 0, 20));
-            }else{
-                teleportAcceptTeleport(p, t);
+                } else if (seconds[0] >= 1) {
+                    for (String key : teleportAcceptMsgTpWithDelay) {
+                        playerScheduler.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(player, false)).replace("{DisplayName}", NewSystem.getName(player, true)).replace("{Seconds}", String.valueOf(seconds[0])));
+                    }
+                } else if (seconds[0] == 0) {
+                    playerScheduler.teleport(player);
+                    for (String value : teleportAcceptMsgTeleport) {
+                        playerScheduler.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+                    }
+
+                    teleportAskAll.remove(playerScheduler);
+                    teleportAskHere.remove(playerScheduler);
+                    teleportAsk.remove(playerScheduler);
+                    OtherListeners.teleport.remove(playerScheduler);
+                    int taskID = taskIDs.get(playerScheduler);
+                    taskIDs.remove(playerScheduler);
+                    Bukkit.getScheduler().cancelTask(taskID);
+                }
+                seconds[0]--;
             }
-        }else{
-            for(String value : teleportAcceptMsgAlreadyInTp) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-            }
-        }
+        }, 0, 20));
     }
 
-    public static void teleportAcceptTeleport(Player p, Player t) {
-        if(NewSystem.hasPermission(p, teleportAcceptPermNoDelay)) {
-            String[] uuid = SavingsFile.getStringPath("Teleport." + p.getUniqueId() + ".AskFrom").split("#");
-            if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
-                Location loc = t.getLocation();
-                p.teleport(loc);
-                for(String value : teleportAcceptMsgTeleport) {
-                    p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                }
-            }else{
-                Location loc = p.getLocation();
-                t.teleport(loc);
-                for(String value : teleportAcceptMsgTeleport) {
-                    t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                }
+    public static void teleport(Player sender, Player target) {
+        if ((!NewSystem.hasPermission(target, teleportAcceptPermNoDelay)) && teleportAcceptDelay > 0) {
+            if (teleportAskAll.containsKey(target) || teleportAskHere.containsKey(target)) {
+                teleportCoolDown(target, sender);
+                return;
             }
-            SavingsFile.setPath("Teleport." + p.getUniqueId(), null);
-        }else{
-            if(teleportAcceptDelay != 0) {
-                teleportCoolDown(p, t);
-            }else{
-                String[] uuid = SavingsFile.getStringPath("Teleport." + p.getUniqueId() + ".AskFrom").split("#");
-                if(uuid[0].equalsIgnoreCase("TPAHERE") || uuid[0].equalsIgnoreCase("TPAALL")) {
-                    Location loc = t.getLocation();
-                    p.teleport(loc);
-                    for(String value : teleportAcceptMsgTeleport) {
-                        p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                    }
-                }else{
-                    Location loc = p.getLocation();
-                    t.teleport(loc);
-                    for(String value : teleportAcceptMsgTeleport) {
-                        t.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-                    }
-                }
-                SavingsFile.setPath("Teleport." + p.getUniqueId(), null);
+        } else if ((!NewSystem.hasPermission(sender, teleportAcceptPermNoDelay)) && teleportAcceptDelay > 0) {
+            teleportCoolDown(sender, target);
+            return;
+        }
+
+        if (teleportAskAll.containsKey(target) || teleportAskHere.containsKey(target)) {
+            //target to sender
+            target.teleport(sender);
+            for (String value : teleportAcceptMsgTeleport) {
+                target.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+            }
+        } else {
+            //sender to target
+            sender.teleport(target);
+            for (String value : teleportAcceptMsgTeleport) {
+                sender.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
             }
         }
+        teleportAskAll.remove(target);
+        teleportAskHere.remove(target);
+        teleportAsk.remove(target);
     }
 
     public static void teleportHerePlayer(Player p, Player t) {
@@ -769,7 +734,9 @@ public class TeleportCmd implements CommandExecutor {
                 for (String key : teleportAskAllMsg) {
                     all.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(p, false)).replace("{DisplayName}", NewSystem.getName(p, true)));
                 }
-                SavingsFile.setPath("Teleport." + all.getUniqueId() + ".AskFrom", "TPAALL#" + p.getUniqueId().toString());
+                teleportAskAll.put(all, p);
+                teleportAskHere.remove(all);
+                teleportAsk.remove(all);
             }
         }
     }

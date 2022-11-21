@@ -4,6 +4,7 @@ package me.newdavis.spigot.command;
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
 import me.newdavis.spigot.file.SavingsFile;
+import me.newdavis.spigot.listener.OtherListeners;
 import me.newdavis.spigot.plugin.NewSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,7 +35,7 @@ public class WarpCmd implements CommandExecutor, TabCompleter {
     private static int delay;
     private static String countIsOne;
     private static List<String> msgAlreadyInTp;
-    private static List<String> msgMoved;
+    public static List<String> msgMoved;
     private static List<String> listMessage;
     private static String noWarps;
 
@@ -195,67 +196,45 @@ public class WarpCmd implements CommandExecutor, TabCompleter {
         }
     }
 
-    public static HashMap<Player, Integer> coolDown = new HashMap<>();
+    public static HashMap<Player, Integer> taskIDs = new HashMap<>();
 
     public static void teleportCoolDown(Player p, Location loc, String warp) {
-        if(!coolDown.containsKey(p)) {
-            final Integer[] seconds = new Integer[]{delay};
-            int x = p.getLocation().getBlockX();
-            int z = p.getLocation().getBlockZ();
+        if (OtherListeners.warp.contains(p)) {
+            for (String value : msgAlreadyInTp) {
+                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+            }
+        }
 
-            coolDown.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
-                @Override
-                public void run() {
-                    if (checkLocation(p, x, z)) {
-                        if (seconds[0] == 1) {
-                            for(String key : msgDelay) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", countIsOne));
-                            }
-                            seconds[0]--;
-                        } else if (seconds[0] >= 1) {
-                            for(String key : msgDelay) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", String.valueOf(seconds[0])));
-                            }
-                            seconds[0]--;
-                        } else if (seconds[0] == 0) {
+        OtherListeners.warp.add(p);
+        final Integer[] seconds = new Integer[]{delay};
 
-                            p.teleport(loc);
-                            for(String key : msgP) {
-                                p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Warp}", warp));
-                            }
-
-                            int taskID = coolDown.get(p);
-                            coolDown.remove(p);
-                            Bukkit.getScheduler().cancelTask(taskID);
-                        }
+        taskIDs.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                if (seconds[0] == 1) {
+                    for (String key : msgDelay) {
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", countIsOne));
                     }
-                }
-            }, 0, 20));
-        }else{
-            for(String value : msgAlreadyInTp) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-            }
-        }
-    }
+                    seconds[0]--;
+                } else if (seconds[0] >= 1) {
+                    for (String key : msgDelay) {
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Seconds}", String.valueOf(seconds[0])));
+                    }
+                    seconds[0]--;
+                } else if (seconds[0] == 0) {
 
-    public static boolean checkLocation(Player p, int x, int z) {
-        if(p.getLocation().getBlockX() == x) {
-            if(p.getLocation().getBlockZ() == z) {
-                return true;
-            }else{
-                for(String value : msgMoved) {
-                    p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
+                    p.teleport(loc);
+                    for (String key : msgP) {
+                        p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Warp}", warp));
+                    }
+                    OtherListeners.warp.remove(p);
+
+                    int taskID = taskIDs.get(p);
+                    taskIDs.clear();
+                    Bukkit.getScheduler().cancelTask(taskID);
                 }
             }
-        }else{
-            for(String value : msgMoved) {
-                p.sendMessage(value.replace("{Prefix}", SettingsFile.getPrefix()));
-            }
-        }
-        int taskID = coolDown.get(p);
-        coolDown.remove(p);
-        Bukkit.getScheduler().cancelTask(taskID);
-        return false;
+        }, 0, 20));
     }
 
     public static Collection<String> getWarps() {

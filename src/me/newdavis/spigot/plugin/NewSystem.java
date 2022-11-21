@@ -48,6 +48,9 @@ public class NewSystem extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //bStats
+        new Metrics(this, 16901);
+
         //Start TPS Scheduler
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TPS(), 100L, 1L);
 
@@ -1254,24 +1257,9 @@ public class NewSystem extends JavaPlugin {
         return null;
     }
 
-    public String getServerIP() {
-        try {
-            NetworkInterface n = NetworkInterface.getNetworkInterfaces().nextElement();
-            Enumeration<InetAddress> ee = n.getInetAddresses();
-            String[] ips = new String[3];
-            while (ee.hasMoreElements()) {
-                InetAddress i = ee.nextElement();
-                ips[ips.length-1] = i.getHostAddress();
-            }
-            return ips[ips.length-1];
-        } catch (SocketException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public String updateChecker() {
         try {
-            URLConnection url = new URL("https://newdavis.me/plugin/update/index.php?plugin=newsystem&ip=" + getServerIP()).openConnection();
+            URLConnection url = new URL("https://newdavis.me/plugin/update/index.php?plugin=newsystem").openConnection();
             url.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             url.connect();
 

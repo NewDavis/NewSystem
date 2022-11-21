@@ -37,7 +37,13 @@ public class TabListPrefix {
 
         for(String role : roles) {
             String prefix = TabListFile.getPrefix(role);
+            if(prefix.length() > 16) {
+                prefix = prefix.substring(0, 16);
+            }
             String suffix = TabListFile.getSuffix(role);
+            if(suffix.length() > 16) {
+                suffix = suffix.substring(0, 16);
+            }
             String priority = TabListFile.getPriority(role);
             if(sb.getTeam(priority + role) == null) {
                 sb.registerNewTeam(priority + role).setPrefix(prefix);
@@ -53,6 +59,9 @@ public class TabListPrefix {
             if(!TabListFile.getVanishSuffix(role).equalsIgnoreCase("")) {
                 priority = TabListFile.getVanishPriority(role);
                 suffix = TabListFile.getVanishSuffix(role);
+                if(suffix.length() > 16) {
+                    suffix = suffix.substring(0, 16);
+                }
                 if(sb.getTeam(priority + role) == null) {
                     sb.registerNewTeam(priority + role).setPrefix(prefix);
                     sb.getTeam(priority + role).setSuffix(suffix);

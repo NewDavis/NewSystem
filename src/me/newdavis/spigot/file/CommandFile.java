@@ -656,7 +656,7 @@ public class CommandFile {
             yaml.set("Command.TeleportAccept.MessageTeleportWithDelay", Collections.singletonList("{Prefix} §7Du wirst in §a{Seconds} Sek §7teleportiert."));
             yaml.set("Command.TeleportAccept.MessageTeleport", Collections.singletonList("{Prefix} §7Du wirst teleportiert."));
             yaml.set("Command.TeleportAccept.MessageNoRequests", Collections.singletonList("{Prefix} §cDu hast keine Anfrage erhalten!"));
-            yaml.set("Command.TeleportAccept.MessageMovedWhileTeleportation", Arrays.asList("{Prefix} §cTeleport Vorgang wurde abgebrochen!", "Du hast dich während der Teleportation bewegt!"));
+            yaml.set("Command.TeleportAccept.MessageMovedWhileTeleportation", Arrays.asList("{Prefix} §cTeleport Vorgang wurde abgebrochen!", "{Prefix} §cDu hast dich während der Teleportation bewegt!"));
             yaml.set("Command.TeleportAccept.MessageAlreadyInTeleport", Collections.singletonList("{Prefix} §cDu wirst bereits teleportiert!"));
             pathsChanged = true;
         }

@@ -2,6 +2,7 @@ package me.newdavis.spigot.command;
 
 import me.newdavis.spigot.file.CommandFile;
 import me.newdavis.spigot.file.SettingsFile;
+import me.newdavis.spigot.listener.OtherListeners;
 import me.newdavis.spigot.plugin.NewSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,7 +35,7 @@ public class BackCmd implements CommandExecutor {
     private static String countIsOne;
     private static List<String> teleportedMessage;
     private static List<String> noDeathPointMessage;
-    private static List<String> messageMovedWhileTeleportation;
+    public static List<String> messageMovedWhileTeleportation;
     private static List<String> messageAlreadyInTeleport;
 
     public BackCmd() {
@@ -141,29 +142,23 @@ public class BackCmd implements CommandExecutor {
         deathLocation.remove(p);
     }
 
+    public static HashMap<Player, Integer> taskIDs = new HashMap<>();
+
     public void teleportToDeathLocation(Player p, boolean noDelay) {
         Location location = deathLocation.get(p);
 
         if(!noDelay) {
-            Location startedLocation = p.getLocation();
+            OtherListeners.back.add(p);
             final int[] count = {teleportCooldown};
-            List<Integer> scheduler = new ArrayList<>();
-            scheduler.add(Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
+
+            taskIDs.put(p, Bukkit.getScheduler().scheduleSyncRepeatingTask(NewSystem.getInstance(), new Runnable() {
                 @Override
                 public void run() {
-                    if(!compareLocations(startedLocation, p.getLocation())) {
-                        for(String msg : messageMovedWhileTeleportation) {
-                            p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
-                        }
-                        Bukkit.getScheduler().cancelTask(scheduler.get(0));
-                        return;
-                    }
-
                     if(count[0] > 0) {
                         String secondsLeft = "";
                         if (count[0] > 1) {
                             secondsLeft = String.valueOf(count[0]);
-                        } else if (count[0] == 1) {
+                        } else {
                             secondsLeft = countIsOne;
                         }
 
@@ -178,7 +173,11 @@ public class BackCmd implements CommandExecutor {
                             p.sendMessage(msg.replace("{Prefix}", SettingsFile.getPrefix()));
                         }
                         deathLocation.remove(p);
-                        Bukkit.getScheduler().cancelTask(scheduler.get(0));
+                        OtherListeners.back.remove(p);
+
+                        int taskID = taskIDs.get(p);
+                        taskIDs.remove(p);
+                        Bukkit.getScheduler().cancelTask(taskID);
                     }
                     count[0]--;
                 }

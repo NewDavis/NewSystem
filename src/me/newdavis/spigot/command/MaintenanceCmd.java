@@ -802,7 +802,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
                         }
                         if(NewSystem.newPerm) {
                             for(String role : NewPermManager.getRoleList()) {
-                                if(role.contains(args[1])) {
+                                if(addedRoles.contains(role) && role.contains(args[1])) {
                                     tabCompletions.add(role);
                                 }
                             }
@@ -828,7 +828,7 @@ public class MaintenanceCmd implements CommandExecutor, TabCompleter {
 
                     if(NewSystem.newPerm) {
                         for(String role : NewPermManager.getRoleList()) {
-                            if(role.contains(args[1])) {
+                            if(addedRoles.contains(role) && role.contains(args[1])) {
                                 tabCompletions.add(role);
                             }
                         }

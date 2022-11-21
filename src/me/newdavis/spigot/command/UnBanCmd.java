@@ -89,16 +89,17 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
     public static void unbanPlayer(Player p, OfflinePlayer t) {
         if(BanCmd.isPlayerBanned(t)) {
             int punishmentCount = BanCmd.getPlayerPunishmentCount(t) - 1;
+            BanCmd.bannedPlayers.remove(t.getUniqueId().toString());
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.BANNED_PLAYERS.getTableName() + " WHERE UUID='" + t.getUniqueId() + "'");
                 mySQL.executeUpdate("UPDATE " + SQLTables.BAN.getTableName() + " SET UUID_UNBAN_OF='" + p.getUniqueId().toString() + "' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> bannedPlayers = BanCmd.bannedPlayers;
-                bannedPlayers.remove(t.getUniqueId().toString());
                 SavingsFile.setPath("Ban.BannedPlayers", bannedPlayers);
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".UnbanOf", p.getUniqueId().toString());
             }
+            BanCmd.bannedPlayers.remove(t.getUniqueId().toString());
 
             for(String key : msgUnBannedPlayer) {
                 p.sendMessage(key.replace("{Prefix}", SettingsFile.getPrefix()).replace("{Player}", NewSystem.getName(t, false)).replace("{DisplayName}", NewSystem.getName(t, true)));
@@ -120,13 +121,13 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
     public static void unbanPlayer(CommandSender p, OfflinePlayer t) {
         if(BanCmd.isPlayerBanned(t)) {
             int punishmentCount = BanCmd.getPlayerPunishmentCount(t) - 1;
+            BanCmd.bannedPlayers.remove(t.getUniqueId().toString());
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.BANNED_PLAYERS.getTableName() + " WHERE UUID='" + t.getUniqueId() + "'");
                 mySQL.executeUpdate("UPDATE " + SQLTables.BAN.getTableName() + " SET UUID_UNBAN_OF='Console' WHERE " +
                         "(UUID='" + t.getUniqueId().toString() + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> bannedPlayers = BanCmd.bannedPlayers;
-                bannedPlayers.remove(t.getUniqueId().toString());
                 SavingsFile.setPath("Ban.BannedPlayers", bannedPlayers);
                 SavingsFile.setPath("Punishment.Ban." + t.getUniqueId() + "." + punishmentCount + ".UnbanOf", "Console");
             }
@@ -152,13 +153,13 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
         if(NewSystem.hasPermission(p, permIP)) {
             if (BanIPCmd.isIPBanned(ip)) {
                 int punishmentCount = BanIPCmd.getIPPunishmentCount(ip) - 1;
+                BanIPCmd.bannedIPs.remove(ip);
                 if(mySQLEnabled) {
                     mySQL.executeUpdate("DELETE FROM " + SQLTables.BANNED_IPS.getTableName() + " WHERE IP='" + ip + "'");
                     mySQL.executeUpdate("UPDATE " + SQLTables.BANIP.getTableName() + " SET UUID_UNBAN_OF='" + p.getUniqueId().toString() + "' WHERE " +
                             "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
                 }else {
                     List<String> bannedIPs = BanIPCmd.bannedIPs;
-                    bannedIPs.remove(ip);
                     SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                     SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".UnbanOf", p.getUniqueId().toString());
                 }
@@ -186,13 +187,13 @@ public class UnBanCmd implements CommandExecutor, TabCompleter {
     public static void unbanIP(CommandSender p, String ip) {
         if (BanIPCmd.isIPBanned(ip)) {
             int punishmentCount = BanIPCmd.getIPPunishmentCount(ip) - 1;
+            BanIPCmd.bannedIPs.remove(ip);
             if(mySQLEnabled) {
                 mySQL.executeUpdate("DELETE FROM " + SQLTables.BANNED_IPS.getTableName() + " WHERE IP='" + ip + "'");
                 mySQL.executeUpdate("UPDATE " + SQLTables.BANIP.getTableName() + " SET UUID_UNBAN_OF='Console' WHERE " +
                         "(IP='" + ip + "' AND PUNISHMENT_COUNT='" + punishmentCount + "')");
             }else {
                 List<String> bannedIPs = BanIPCmd.bannedIPs;
-                bannedIPs.remove(ip);
                 SavingsFile.setPath("BanIP.BannedIPs", bannedIPs);
                 SavingsFile.setPath("Punishment.BanIP." + ip + "." + punishmentCount + ".UnbanOf", "Console");
             }
